@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Cash Master</string>
+    <string name="app_title">Cash Master</string>
 </resources>
