@@ -58,11 +58,9 @@ public class AddLineItemDialog extends BaseDialog {
                     int amount = new BigInteger(E_AMOUNT.getTextString()).intValue();
                     boolean isIncome = Boolean.parseBoolean(E_ISINCOME.getTextString());
 
-                    YearLedger yearLedger = YearLedger.currentYearLedger;
-                    MonthLedger monthLedger = yearLedger.getMonthLedger(month);
+                    YearLedger yearLedger = YearLedger.getYearLedger(year);
 
-
-                    if (monthLedger.hasLineItem(name)) {
+                    if (yearLedger.hasLineItem(month, name)) {
                         // Line item already exists.
                         ToastUtil.showToast("line_item_name_used");
                     } else {

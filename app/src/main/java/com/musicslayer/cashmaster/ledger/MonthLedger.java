@@ -4,6 +4,8 @@ import com.musicslayer.cashmaster.data.bridge.DataBridge;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MonthLedger implements DataBridge.SerializableToJSON {
     public int year;
@@ -80,5 +82,39 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
             }
         }
         return total;
+    }
+
+    public ArrayList<LineItem> getSortedIncomes() {
+        ArrayList<LineItem> incomes = new ArrayList<>();
+        for(LineItem lineItem : lineItems) {
+            if(lineItem.isIncome) {
+                incomes.add(lineItem);
+            }
+        }
+        Collections.sort(incomes, new Comparator<LineItem>() {
+            @Override
+            public int compare(LineItem a, LineItem b) {
+                // Sort in descending order
+                return b.amount - a.amount;
+            }
+        });
+        return incomes;
+    }
+
+    public ArrayList<LineItem> getSortedExpenses() {
+        ArrayList<LineItem> expenses = new ArrayList<>();
+        for(LineItem lineItem : lineItems) {
+            if(!lineItem.isIncome) {
+                expenses.add(lineItem);
+            }
+        }
+        Collections.sort(expenses, new Comparator<LineItem>() {
+            @Override
+            public int compare(LineItem a, LineItem b) {
+                // Sort in descending order
+                return b.amount - a.amount;
+            }
+        });
+        return expenses;
     }
 }

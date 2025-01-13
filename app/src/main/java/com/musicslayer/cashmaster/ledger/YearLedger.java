@@ -110,37 +110,22 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         new YearLedgerList().saveAllData();
     }
 
-    public void addMonthNoSave(int year, String month) {
-        MonthLedger monthLedger = new MonthLedger();
-        monthLedger.year = year;
-        monthLedger.month = month;
-        monthLedgers.add(monthLedger);
-    }
-
-    public void addMonth(String month) {
-        addMonthNoSave(year, month);
+    public void addLineItem(String month, String name, int amount, boolean isIncome) {
+        MonthLedger monthLedger = getMonthLedger(month);
+        if(monthLedger == null) {
+            throw new IllegalStateException("Month does not exist. month = " + month);
+        }
+        monthLedger.addLineItem(name, amount, isIncome);
 
         new YearLedgerList().saveAllData();
     }
 
-    public void removeMonth(String month) {
-        for(MonthLedger monthLedger : monthLedgers) {
-            if(month.equals(monthLedger.month)) {
-                monthLedgers.remove(monthLedger);
-                break;
-            }
+    public boolean hasLineItem(String month, String name) {
+        MonthLedger monthLedger = getMonthLedger(month);
+        if(monthLedger == null) {
+            return false;
         }
-
-        new YearLedgerList().saveAllData();
-    }
-
-    public boolean hasMonth(String month) {
-        for(MonthLedger monthLedger : monthLedgers) {
-            if(month.equals(monthLedger.month)) {
-                return true;
-            }
-        }
-        return false;
+        return monthLedger.hasLineItem(name);
     }
 
     public MonthLedger getMonthLedger(String month) {
