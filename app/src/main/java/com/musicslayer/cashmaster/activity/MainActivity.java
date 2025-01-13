@@ -2,14 +2,12 @@ package com.musicslayer.cashmaster.activity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
-import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -17,18 +15,17 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.data.persistent.app.Theme;
-import com.musicslayer.cashmaster.dialog.AddMonthDialog;
-import com.musicslayer.cashmaster.dialog.AddIncomeDialog;
-import com.musicslayer.cashmaster.dialog.AddExpenseDialog;
+import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
+import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class MainActivity extends BaseActivity {
+    public ArrayList<YearLedger> yearLedgers = new ArrayList<>();
+
     @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
@@ -43,26 +40,32 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         // Add Button
-        BaseDialogFragment addItemDialogFragment = BaseDialogFragment.newInstance(AddMonthDialog.class);
-        addItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        BaseDialogFragment addLineItemDialogFragment = BaseDialogFragment.newInstance(AddLineItemDialog.class, -1);
+        addLineItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if(((AddMonthDialog)dialog).isComplete) {
-                    //String monthName = ((AddMonthDialog)dialog).user_MONTHNAME;
-                    //Category.currentCategory.addItem(itemName, false);
-                    // TODO
+                if(((AddLineItemDialog)dialog).isComplete) {
+                    String month = ((AddLineItemDialog)dialog).user_MONTH;
+                    String name = ((AddLineItemDialog)dialog).user_NAME;
+                    int amount = ((AddLineItemDialog)dialog).user_AMOUNT;
+                    boolean isIncome = ((AddLineItemDialog)dialog).user_ISINCOME;
+
+                    YearLedger yearLedger = YearLedger.currentYearLedger;
+                    MonthLedger monthLedger = yearLedger.getMonthLedger(month);
+                    monthLedger.addLineItem(name, amount, isIncome);
 
                     updateLayout();
                 }
             }
         });
-        addItemDialogFragment.restoreListeners(this, "add");
+        addLineItemDialogFragment.restoreListeners(this, "addMonth");
 
         AppCompatImageButton addButton = findViewById(R.id.main_addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addItemDialogFragment.show(MainActivity.this, "add");
+                addLineItemDialogFragment.updateArguments(AddLineItemDialog.class, YearLedger.currentYearLedger.year);
+                addLineItemDialogFragment.show(MainActivity.this, "add");
 
                 updateLayout();
             }
@@ -87,9 +90,9 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
 
         // Subtitle - Match current year
-        //String subtitle = Category.currentCategory.categoryName;
-        String subtitle = "2025";
-        toolbar.setSubtitle(subtitle);
+        String subtitle = "" + YearLedger.currentYearLedger.year;
+        int total = YearLedger.currentYearLedger.getTotal();
+        toolbar.setSubtitle(subtitle + " Total: $" + total);
 
         // Theme Button - Icon matches current theme setting
         AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
@@ -101,6 +104,71 @@ public class MainActivity extends BaseActivity {
         }
         else {
             themeButton.setImageResource(R.drawable.baseline_dark_mode_24);
+        }
+
+        updateLayoutInfo();
+    }
+
+    public void updateLayoutInfo() {
+        LinearLayoutCompat L = findViewById(R.id.main_todoLinearLayout);
+        L.removeAllViews();
+
+        //FlexboxLayout needFlexboxLayout = findViewById(R.id.main_needFlexboxLayout);
+        //FlexboxLayout haveFlexboxLayout = findViewById(R.id.main_haveFlexboxLayout);
+
+        //needFlexboxLayout.removeAllViews();
+        //haveFlexboxLayout.removeAllViews();
+
+        ArrayList<MonthLedger> monthLedgers = YearLedger.currentYearLedger.monthLedgers;
+
+        for(MonthLedger monthLedger : monthLedgers) {
+            AppCompatButton B_ITEM = new AppCompatButton(this);
+            //B_ITEM.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_forward_24, 0, 0, 0);
+            B_ITEM.setText("" + monthLedger.month);
+            B_ITEM.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    /*
+                    if(isEditMode) {
+                        currentRenameItemName = itemName;
+                        renameItemDialogFragment.updateArguments(RenameItemDialog.class, itemName);
+                        renameItemDialogFragment.show(MainActivity.this, "rename_item");
+                    }
+                    else if(isRemoveMode) {
+                        currentDeleteItemName = itemName;
+                        confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteItemDialog.class, itemName);
+                        confirmDeleteItemDialogFragment.show(MainActivity.this, "delete_item");
+                    }
+                    else {
+                        Category.currentCategory.toggleItem(itemName);
+                    }
+
+                    isEditMode = false;
+                    isRemoveMode = false;
+
+                     */
+
+                    updateLayout();
+                }
+            });
+
+            L.addView(B_ITEM);
+
+            // Line Items
+            for(LineItem lineItem : monthLedger.lineItems) {
+                AppCompatTextView T = new AppCompatTextView(this);
+                String str = lineItem.name + " $" + lineItem.amount;
+                if(!lineItem.isIncome) {
+                    str = "<font color=#ff0000>" + str + "</font>";
+                }
+                T.setText(Html.fromHtml(str));
+                L.addView(T);
+            }
+
+            // Total
+            AppCompatTextView T = new AppCompatTextView(this);
+            T.setText("Total: $" + monthLedger.getTotal());
+            L.addView(T);
         }
     }
 

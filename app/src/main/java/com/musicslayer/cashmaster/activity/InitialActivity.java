@@ -5,7 +5,11 @@ import android.os.Bundle;
 
 import com.musicslayer.cashmaster.app.App;
 import com.musicslayer.cashmaster.data.persistent.app.Theme;
+import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
+import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
+
+// TODO Edittext line color in the theme...
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
@@ -22,10 +26,15 @@ public class InitialActivity extends BaseActivity {
 
         // Load all the stored data into local memory.
         new Theme().loadAllData();
+        new YearLedgerList().loadAllData();
+
+        // If there are no years, create a default one so the user can get started easily.
+        YearLedger.createDefaultIfNeeded();
 
         // Save all the stored data right after loading it.
         // This makes sure the stored data is initialized and helps remove data with outdated versions.
         new Theme().saveAllData();
+        new YearLedgerList().saveAllData();
 
         App.isAppInitialized = true;
     }

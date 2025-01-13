@@ -1,38 +1,88 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id 'com.android.application'
+}
+
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+        maven { url 'https://raw.githubusercontent.com/ryuunoakaihitomi/maven-repository/master' }
+    }
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.compilerArgs << "-Xlint:deprecation"
+        }
+    }
 }
 
 android {
-    namespace 'com.musicslayer.cashmaster'
-    compileSdk 34
+    compileSdk 35
+
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+    signingConfigs {
+        release {
+            keyAlias localProperties['alias']
+            keyPassword localProperties['password']
+            storeFile file(localProperties['keystore'])
+            storePassword localProperties['password']
+        }
+    }
 
     defaultConfig {
         applicationId "com.musicslayer.cashmaster"
-        minSdk 21
-        targetSdk 34
+        minSdk 21 // Minimum needed for some libraries we depend on.
+        //noinspection EditedTargetSdkVersion
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        // TEST
+        debug {
         }
+        release {
+            signingConfig signingConfigs.release
+            debuggable true
+        }
+
+
+
+        // REAL
+        /*
+        debug {
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+        }
+
+         */
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src\\main\\res'
+            }
+        }
+    }
+    namespace 'com.musicslayer.cashmaster'
 }
 
 dependencies {
-
-    implementation libs.appcompat
-    implementation libs.material
-    testImplementation libs.junit
-    androidTestImplementation libs.ext.junit
-    androidTestImplementation libs.espresso.core
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.22")) // Fix Duplicate class
+    runtimeOnly 'github.ryuunoakaihitomi.retoast:retoast:1.7.0'
 }

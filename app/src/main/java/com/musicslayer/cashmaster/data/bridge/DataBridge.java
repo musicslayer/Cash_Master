@@ -282,6 +282,9 @@ public class DataBridge {
         else if(obj instanceof String) {
             return new StringSerializableToJSON((String)obj);
         }
+        else if(obj instanceof Integer) {
+            return new IntegerSerializableToJSON((Integer)obj);
+        }
         else if(obj instanceof Boolean) {
             return new BooleanSerializableToJSON((Boolean)obj);
         }
@@ -299,6 +302,9 @@ public class DataBridge {
         }
         else if(String.class.isAssignableFrom(clazz)) {
             return StringSerializableToJSON.class;
+        }
+        else if(Integer.class.isAssignableFrom(clazz)) {
+            return IntegerSerializableToJSON.class;
         }
         else if(Boolean.class.isAssignableFrom(clazz)) {
             return BooleanSerializableToJSON.class;
@@ -322,6 +328,22 @@ public class DataBridge {
 
         public static String deserializeFromJSON(Reader o) throws IOException {
             return o.getString();
+        }
+    }
+
+    private static class IntegerSerializableToJSON implements SerializableToJSON {
+        int obj;
+        private IntegerSerializableToJSON(int obj) {
+            this.obj = obj;
+        }
+
+        @Override
+        public void serializeToJSON(DataBridge.Writer o) throws IOException {
+            o.putString(Integer.toString(obj));
+        }
+
+        public static int deserializeFromJSON(DataBridge.Reader o) throws IOException {
+            return Integer.parseInt(o.getString());
         }
     }
 

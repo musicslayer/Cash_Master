@@ -19,16 +19,9 @@ public class ToastUtil {
         // Use a dummy value for the duration. When the toast is shown, we will set it according to the setting.
         int duration = Toast.LENGTH_SHORT;
 
-        toastMap.put("category_name_cannot_be_same", Toast.makeText(context, "The new category name must be different than the current category name.", duration));
-        toastMap.put("category_name_used", Toast.makeText(context, "A category with this name already exists.", duration));
-        toastMap.put("item_name_cannot_be_same", Toast.makeText(context, "The new item name must be different than the current item name.", duration));
-        toastMap.put("item_name_used", Toast.makeText(context, "An item with this name already exists.", duration));
+        toastMap.put("line_item_name_used", Toast.makeText(context, "A line item with this name already exists.", duration));
 
         toastMap.put("must_fill_inputs", Toast.makeText(context, "All red input fields must be filled with appropriate values.", duration));
-
-        toastMap.put("current_category_cannot_be_deleted", Toast.makeText(context, "The current category cannot be deleted.", duration));
-        toastMap.put("favorite_category_cannot_be_deleted", Toast.makeText(context, "The favorite category cannot be deleted.", duration));
-        toastMap.put("only_category_cannot_be_deleted", Toast.makeText(context, "The only remaining category cannot be deleted.", duration));
     }
 
     private static int getToastDuration() {
