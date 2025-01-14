@@ -21,6 +21,8 @@ public class ToastUtil {
 
         toastMap.put("line_item_exists", Toast.makeText(context, "A line item with this name and month already exists.", duration));
         toastMap.put("must_fill_inputs", Toast.makeText(context, "All red input fields must be filled with appropriate values.", duration));
+        toastMap.put("year_does_not_exist", Toast.makeText(context, "This year does not exist.", duration));
+        toastMap.put("year_exists", Toast.makeText(context, "This year already exists.", duration));
     }
 
     private static int getToastDuration() {

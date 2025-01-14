@@ -18,31 +18,12 @@
         app:title="Edit Line Item" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/edit_line_item_dialog_monthTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Month Below"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_toolbar" />
-
-    <com.musicslayer.cashmaster.view.red.MonthEditText
-        android:id="@+id/edit_line_item_dialog_monthEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="25"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_monthTextView" />
-
-    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/edit_line_item_dialog_nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Name Below"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_monthEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_toolbar" />
 
     <com.musicslayer.cashmaster.view.red.PlainTextEditText
         android:id="@+id/edit_line_item_dialog_nameEditText"

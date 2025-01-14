@@ -11,7 +11,6 @@ import com.musicslayer.cashmaster.util.ToastUtil;
 
 // TODO Edittext line color in the theme...
 // TODO MonthEditText, BooleanEditText -> We shouldn't need these. These can just be a dropdown...
-// TODO Do we really need HashUtils? Do we need to implement hashcode and equals methods?
 // TODO YEARS!!!
 // TODO Backup to database?
 

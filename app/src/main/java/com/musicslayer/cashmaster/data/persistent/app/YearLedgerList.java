@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 import com.musicslayer.cashmaster.ledger.YearLedger;
-import com.musicslayer.cashmaster.util.HashMapUtil;
 import com.musicslayer.cashmaster.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
@@ -45,10 +44,10 @@ public class YearLedgerList {
 
         for(int i = 0; i < size; i++) {
             YearLedger yearLedger = DataBridge.deserialize(sharedPreferences.getString("yearLedger_" + i, "?"), YearLedger.class);
-            HashMapUtil.putValueInMap(YearLedger.map_yearLedgers, yearLedger.year, yearLedger);
+            YearLedger.map_yearLedgers.put(yearLedger.year, yearLedger);
         }
 
         int currentYearLedgerYear = sharedPreferences.getInt("currentYearLedger_year", 0);
-        YearLedger.currentYearLedger = HashMapUtil.getValueFromMap(YearLedger.map_yearLedgers, currentYearLedgerYear);
+        YearLedger.currentYearLedger = YearLedger.map_yearLedgers.get(currentYearLedgerYear);
     }
 }

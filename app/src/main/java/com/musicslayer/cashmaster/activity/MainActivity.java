@@ -13,8 +13,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.data.persistent.app.Theme;
-import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
+import com.musicslayer.cashmaster.dialog.AddYearDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
+import com.musicslayer.cashmaster.dialog.SwitchYearDialog;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
@@ -35,34 +36,54 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        // Add Button
-        BaseDialogFragment addLineItemDialogFragment = BaseDialogFragment.newInstance(AddLineItemDialog.class, -1);
-        addLineItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        // Add Year Button
+        BaseDialogFragment addYearDialogFragment = BaseDialogFragment.newInstance(AddYearDialog.class);
+        addYearDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if(((AddLineItemDialog)dialog).isComplete) {
-                    String month = ((AddLineItemDialog)dialog).user_MONTH;
-                    String name = ((AddLineItemDialog)dialog).user_NAME;
-                    int amount = ((AddLineItemDialog)dialog).user_AMOUNT;
-                    boolean isIncome = ((AddLineItemDialog)dialog).user_ISINCOME;
-
-                    YearLedger yearLedger = YearLedger.currentYearLedger;
-                    yearLedger.addLineItem(month, name, amount, isIncome);
+                if(((AddYearDialog)dialog).isComplete) {
+                    // Add and then switch to the new year.
+                    int newYear = ((AddYearDialog)dialog).user_YEAR;
+                    YearLedger.addYear(newYear);
+                    YearLedger.setCurrentYear(newYear);
 
                     updateLayout();
                 }
             }
         });
-        addLineItemDialogFragment.restoreListeners(this, "addLineItem");
+        addYearDialogFragment.restoreListeners(this, "addYear");
 
-        AppCompatImageButton addButton = findViewById(R.id.main_addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
+        AppCompatImageButton addYearButton = findViewById(R.id.main_addYearButton);
+        addYearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addLineItemDialogFragment.updateArguments(AddLineItemDialog.class, YearLedger.currentYearLedger.year);
-                addLineItemDialogFragment.show(MainActivity.this, "addLineItem");
+                addYearDialogFragment.updateArguments(AddYearDialog.class);
+                addYearDialogFragment.show(MainActivity.this, "addYear");
+            }
+        });
 
-                updateLayout();
+        // Switch Year Button
+        BaseDialogFragment switchYearDialogFragment = BaseDialogFragment.newInstance(SwitchYearDialog.class);
+        switchYearDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(((SwitchYearDialog)dialog).isComplete) {
+                    // Switch the year.
+                    int newYear = ((SwitchYearDialog)dialog).user_YEAR;
+                    YearLedger.setCurrentYear(newYear);
+
+                    updateLayout();
+                }
+            }
+        });
+        switchYearDialogFragment.restoreListeners(this, "switchYear");
+
+        AppCompatImageButton switchYearButton = findViewById(R.id.main_switchYearButton);
+        switchYearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchYearDialogFragment.updateArguments(SwitchYearDialog.class);
+                switchYearDialogFragment.show(MainActivity.this, "switchYear");
             }
         });
 
@@ -108,6 +129,12 @@ public class MainActivity extends BaseActivity {
         L.removeAllViews();
 
         YearLedgerView yearLedgerView = new YearLedgerView(this, YearLedger.currentYearLedger);
+        yearLedgerView.setOnLineItemAddListener(new MonthLedgerView.OnLineItemAddListener() {
+            @Override
+            public void onAdd() {
+                updateLayout();
+            }
+        });
         yearLedgerView.setOnLineItemEditListener(new MonthLedgerView.OnLineItemEditListener() {
             @Override
             public void onEdit() {

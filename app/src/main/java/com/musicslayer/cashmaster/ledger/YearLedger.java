@@ -2,7 +2,6 @@ package com.musicslayer.cashmaster.ledger;
 
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
-import com.musicslayer.cashmaster.util.HashMapUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,11 +70,16 @@ public class YearLedger implements DataBridge.SerializableToJSON {
             yearLedger.monthLedgers.add(monthLedger);
         }
 
-        HashMapUtil.putValueInMap(map_yearLedgers, year, yearLedger);
+        map_yearLedgers.put(year, yearLedger);
     }
 
     public static YearLedger getYearLedger(int year) {
-        return HashMapUtil.getValueFromMap(map_yearLedgers, year);
+        return map_yearLedgers.get(year);
+    }
+
+    public static void setCurrentYear(int year) {
+        currentYearLedger = getYearLedger(year);
+        new YearLedgerList().saveAllData();
     }
 
     public static void addYear(int year) {
@@ -85,9 +89,13 @@ public class YearLedger implements DataBridge.SerializableToJSON {
     }
 
     public static void removeYear(int year) {
-        HashMapUtil.removeValueFromMap(map_yearLedgers, year);
+        map_yearLedgers.remove(year);
 
         new YearLedgerList().saveAllData();
+    }
+
+    public static boolean hasYear(int year) {
+        return map_yearLedgers.get(year) != null;
     }
 
     public void addLineItem(String month, String name, int amount, boolean isIncome) {
