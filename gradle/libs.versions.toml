@@ -8,7 +8,6 @@ retoast = "1.7.0"
 [libraries]
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlinBom" }
 navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationUi" }
 retoast = { module = "github.ryuunoakaihitomi.retoast:retoast", version.ref = "retoast" }
 
