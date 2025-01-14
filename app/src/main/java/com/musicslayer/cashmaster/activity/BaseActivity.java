@@ -35,7 +35,7 @@ abstract public class BaseActivity extends AppCompatActivity {
                 // If we get here, we are uninitialized, but we are not at the entry point of the app. Something went wrong!
 
                 // The Toast database is not initialized, so manually create this toast.
-                Toast.makeText(this, "Bliss List needs to be restarted.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Cash Master needs to be restarted.", Toast.LENGTH_LONG).show();
 
                 try {
                     // May throw Exceptions, but we don't care. We just need the app to eventually exit.

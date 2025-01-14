@@ -5,10 +5,8 @@ import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 import com.musicslayer.cashmaster.util.HashMapUtil;
 
 import java.io.IOException;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 public class YearLedger implements DataBridge.SerializableToJSON {
@@ -21,10 +19,10 @@ public class YearLedger implements DataBridge.SerializableToJSON {
     @Override
     public void serializeToJSON(DataBridge.Writer o) throws IOException {
         o.beginObject()
-                .serialize("!V!", "1", String.class)
-                .serialize("year", year, Integer.class)
-                .serializeArrayList("monthLedgers", monthLedgers, MonthLedger.class)
-                .endObject();
+            .serialize("!V!", "1", String.class)
+            .serialize("year", year, Integer.class)
+            .serializeArrayList("monthLedgers", monthLedgers, MonthLedger.class)
+            .endObject();
     }
 
     public static YearLedger deserializeFromJSON(DataBridge.Reader o) throws IOException {
@@ -65,28 +63,10 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         yearLedger.year = year;
 
         // Add all 12 months up front.
-        ArrayList<String> ALL_MONTHS = new ArrayList<>();
-        ALL_MONTHS.add("January");
-        ALL_MONTHS.add("February");
-        ALL_MONTHS.add("March");
-        ALL_MONTHS.add("April");
-        ALL_MONTHS.add("May");
-        ALL_MONTHS.add("June");
-        ALL_MONTHS.add("July");
-        ALL_MONTHS.add("August");
-        ALL_MONTHS.add("September");
-        ALL_MONTHS.add("October");
-        ALL_MONTHS.add("November");
-        ALL_MONTHS.add("December");
-
-        for(String month : ALL_MONTHS) {
+        for(String month : Month.ALL_MONTHS) {
             MonthLedger monthLedger = new MonthLedger();
             monthLedger.year = year;
             monthLedger.month = month;
-
-            // TODO To debug, just add some values here.
-            monthLedger.addLineItem("First", 100, true);
-            monthLedger.addLineItem("Second", 50, false);
 
             yearLedger.monthLedgers.add(monthLedger);
         }
@@ -115,7 +95,17 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         if(monthLedger == null) {
             throw new IllegalStateException("Month does not exist. month = " + month);
         }
-        monthLedger.addLineItem(name, amount, isIncome);
+        monthLedger.addLineItem(year, month, name, amount, isIncome);
+
+        new YearLedgerList().saveAllData();
+    }
+
+    public void removeLineItem(String month, String name) {
+        MonthLedger monthLedger = getMonthLedger(month);
+        if(monthLedger == null) {
+            throw new IllegalStateException("Month does not exist. month = " + month);
+        }
+        monthLedger.removeLineItem(name);
 
         new YearLedgerList().saveAllData();
     }

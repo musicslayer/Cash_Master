@@ -16,6 +16,7 @@ import com.musicslayer.cashmaster.data.persistent.app.Theme;
 import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
 import java.util.ArrayList;
@@ -52,14 +53,14 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        addLineItemDialogFragment.restoreListeners(this, "addMonth");
+        addLineItemDialogFragment.restoreListeners(this, "addLineItem");
 
         AppCompatImageButton addButton = findViewById(R.id.main_addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addLineItemDialogFragment.updateArguments(AddLineItemDialog.class, YearLedger.currentYearLedger.year);
-                addLineItemDialogFragment.show(MainActivity.this, "add");
+                addLineItemDialogFragment.show(MainActivity.this, "addLineItem");
 
                 updateLayout();
             }
@@ -103,14 +104,16 @@ public class MainActivity extends BaseActivity {
             themeButton.setImageResource(R.drawable.baseline_dark_mode_24);
         }
 
-        updateLayoutInfo();
-    }
-
-    public void updateLayoutInfo() {
         LinearLayoutCompat L = findViewById(R.id.main_todoLinearLayout);
         L.removeAllViews();
 
-        YearLedgerView yearLedgerView =  new YearLedgerView(this, YearLedger.currentYearLedger);
+        YearLedgerView yearLedgerView = new YearLedgerView(this, YearLedger.currentYearLedger);
+        yearLedgerView.setOnLineItemEditListener(new MonthLedgerView.OnLineItemEditListener() {
+            @Override
+            public void onEdit() {
+                updateLayout();
+            }
+        });
         L.addView(yearLedgerView);
     }
 

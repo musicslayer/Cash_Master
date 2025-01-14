@@ -3,10 +3,10 @@ package com.musicslayer.cashmaster.view.red;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.musicslayer.cashmaster.ledger.Month;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
-
-// TODO We shouldn't need this. This can just be a dropdown...
 
 public class MonthEditText extends RedEditText {
     public MonthEditText(Context context) {
@@ -23,23 +23,9 @@ public class MonthEditText extends RedEditText {
 
     // Returns if the value is an actual month.
     public boolean condition() {
-        ArrayList<String> ALL_MONTHS = new ArrayList<>();
-        ALL_MONTHS.add("January");
-        ALL_MONTHS.add("February");
-        ALL_MONTHS.add("March");
-        ALL_MONTHS.add("April");
-        ALL_MONTHS.add("May");
-        ALL_MONTHS.add("June");
-        ALL_MONTHS.add("July");
-        ALL_MONTHS.add("August");
-        ALL_MONTHS.add("September");
-        ALL_MONTHS.add("October");
-        ALL_MONTHS.add("November");
-        ALL_MONTHS.add("December");
-
         try {
             String month = this.getTextString();
-            return ALL_MONTHS.contains(month);
+            return Month.ALL_MONTHS.contains(month);
         }
         catch(Exception ignored) {
             return false;

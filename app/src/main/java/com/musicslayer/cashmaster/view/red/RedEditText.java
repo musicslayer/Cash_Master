@@ -35,6 +35,7 @@ abstract public class RedEditText extends AppCompatEditText {
 
     public void setTextString(String s) {
         this.setText(s);
+        this.test();
     }
 
     public void setMaxLength(int maxLength) {

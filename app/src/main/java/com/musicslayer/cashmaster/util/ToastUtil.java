@@ -12,15 +12,14 @@ import java.util.HashMap;
 
 public class ToastUtil {
     final static HashMap<String, Toast> toastMap = new HashMap<>();
-// TODO Update these toasts
+
     @SuppressLint({"ShowToast"})
     public static void initialize() {
         Context context = App.applicationContext;
         // Use a dummy value for the duration. When the toast is shown, we will set it according to the setting.
         int duration = Toast.LENGTH_SHORT;
 
-        toastMap.put("line_item_name_used", Toast.makeText(context, "A line item with this name already exists.", duration));
-
+        toastMap.put("line_item_exists", Toast.makeText(context, "A line item with this name and month already exists.", duration));
         toastMap.put("must_fill_inputs", Toast.makeText(context, "All red input fields must be filled with appropriate values.", duration));
     }
 

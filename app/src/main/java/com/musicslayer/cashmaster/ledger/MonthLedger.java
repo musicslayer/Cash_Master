@@ -15,11 +15,11 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
     @Override
     public void serializeToJSON(DataBridge.Writer o) throws IOException {
         o.beginObject()
-                .serialize("!V!", "1", String.class)
-                .serialize("year", year, Integer.class)
-                .serialize("month", month, String.class)
-                .serializeArrayList("lineItems", lineItems, LineItem.class)
-                .endObject();
+            .serialize("!V!", "1", String.class)
+            .serialize("year", year, Integer.class)
+            .serialize("month", month, String.class)
+            .serializeArrayList("lineItems", lineItems, LineItem.class)
+            .endObject();
     }
 
     public static MonthLedger deserializeFromJSON(DataBridge.Reader o) throws IOException {
@@ -45,8 +45,10 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
         return monthLedger;
     }
 
-    public void addLineItem(String name, int amount, boolean isIncome) {
+    public void addLineItem(int year, String month, String name, int amount, boolean isIncome) {
         LineItem lineItem = new LineItem();
+        lineItem.year = year;
+        lineItem.month = month;
         lineItem.name = name;
         lineItem.amount = amount;
         lineItem.isIncome = isIncome;

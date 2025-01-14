@@ -6,7 +6,7 @@ public class ThrowableUtil {
     public static void processThrowable(Throwable e) {
         try {
             String threadText = ThreadUtil.getCurrentThreadInfo();
-            Log.e("Bliss List ERROR", threadText + "\n" + getThrowableText(e));
+            Log.e("Cash Master ERROR", threadText + "\n" + getThrowableText(e));
         }
         catch(Exception ignored) {
         }

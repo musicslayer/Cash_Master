@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/add_line_item_dialog"
+    android:id="@+id/edit_line_item_dialog"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/add_line_item_dialog_toolbar"
+        android:id="@+id/edit_line_item_dialog_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
@@ -15,18 +15,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Add Line Item" />
+        app:title="Edit Line Item" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/add_line_item_dialog_monthTextView"
+        android:id="@+id/edit_line_item_dialog_monthTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Month Below"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_toolbar" />
 
     <com.musicslayer.cashmaster.view.red.MonthEditText
-        android:id="@+id/add_line_item_dialog_monthEditText"
+        android:id="@+id/edit_line_item_dialog_monthEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -34,18 +34,18 @@
         android:maxLength="25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_monthTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_monthTextView" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/add_line_item_dialog_nameTextView"
+        android:id="@+id/edit_line_item_dialog_nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Name Below"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_monthEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_monthEditText" />
 
     <com.musicslayer.cashmaster.view.red.PlainTextEditText
-        android:id="@+id/add_line_item_dialog_nameEditText"
+        android:id="@+id/edit_line_item_dialog_nameEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -53,18 +53,18 @@
         android:maxLength="25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_nameTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_nameTextView" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/add_line_item_dialog_amountTextView"
+        android:id="@+id/edit_line_item_dialog_amountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Amount Below"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_nameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_nameEditText" />
 
     <com.musicslayer.cashmaster.view.red.Int6EditText
-        android:id="@+id/add_line_item_dialog_amountEditText"
+        android:id="@+id/edit_line_item_dialog_amountEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -72,18 +72,18 @@
         android:maxLength="25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_amountTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_amountTextView" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/add_line_item_dialog_isIncomeTextView"
+        android:id="@+id/edit_line_item_dialog_isIncomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter IsIncome Below"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_amountEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_amountEditText" />
 
     <com.musicslayer.cashmaster.view.red.BooleanEditText
-        android:id="@+id/add_line_item_dialog_isIncomeEditText"
+        android:id="@+id/edit_line_item_dialog_isIncomeEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -91,15 +91,24 @@
         android:maxLength="25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_isIncomeTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_isIncomeTextView" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/add_line_item_dialog_createButton"
+        android:id="@+id/edit_line_item_dialog_editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
-        app:drawableLeftCompat="@drawable/baseline_add_24"
+        android:text="Edit"
+        app:drawableLeftCompat="@drawable/baseline_edit_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_line_item_dialog_isIncomeEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_isIncomeEditText" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/edit_line_item_dialog_deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        app:drawableLeftCompat="@drawable/baseline_delete_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_isIncomeEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,9 @@ import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 
 // TODO Edittext line color in the theme...
+// TODO MonthEditText, BooleanEditText -> We shouldn't need these. These can just be a dropdown...
+// TODO Do we really need HashUtils? Do we need to implement hashcode and equals methods?
+// TODO YEARS!!!
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
