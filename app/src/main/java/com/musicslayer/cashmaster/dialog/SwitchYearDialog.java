@@ -8,16 +8,20 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.YearLedger;
-import com.musicslayer.cashmaster.util.ToastUtil;
-import com.musicslayer.cashmaster.view.red.YearEditText;
+import com.musicslayer.cashmaster.view.BorderedSpinnerView;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SwitchYearDialog extends BaseDialog {
     public int user_YEAR;
 
-    public SwitchYearDialog(Activity activity) {
+    public int year;
+
+    public SwitchYearDialog(Activity activity, Integer year) {
         super(activity);
+        this.year = year;
     }
 
     public int getBaseViewID() {
@@ -27,28 +31,25 @@ public class SwitchYearDialog extends BaseDialog {
     public void createLayout(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_switch_year);
 
-        final YearEditText E_YEAR = findViewById(R.id.switch_year_dialog_yearEditText);
+        BorderedSpinnerView bsv = findViewById(R.id.switch_year_dialog_spinner);
+        ArrayList<Integer> years = new ArrayList<>(YearLedger.map_yearLedgers.keySet());
+        Collections.sort(years);
 
-        AppCompatButton B_CREATE = findViewById(R.id.switch_year_dialog_createButton);
-        B_CREATE.setOnClickListener(new View.OnClickListener() {
+        ArrayList<String> yearStrings = new ArrayList<>();
+        for(int year : years) {
+            yearStrings.add("" + year);
+        }
+
+        bsv.setOptions(yearStrings);
+        bsv.setSelectionByValue("" + year);
+
+        AppCompatButton B_SWITCH = findViewById(R.id.switch_year_dialog_createButton);
+        B_SWITCH.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                boolean isValid = E_YEAR.test();
+                user_YEAR = new BigInteger((String)bsv.spinner.getSelectedItem()).intValue();
 
-                if(!isValid) {
-                    ToastUtil.showToast("must_fill_inputs");
-                }
-                else {
-                    int year = new BigInteger(E_YEAR.getTextString()).intValue();
-
-                    if (!YearLedger.hasYear(year)) {
-                        ToastUtil.showToast("year_does_not_exist");
-                    } else {
-                        user_YEAR = year;
-
-                        isComplete = true;
-                        dismiss();
-                    }
-                }
+                isComplete = true;
+                dismiss();
             }
         });
     }

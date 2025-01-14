@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity {
         });
 
         // Switch Year Button
-        BaseDialogFragment switchYearDialogFragment = BaseDialogFragment.newInstance(SwitchYearDialog.class);
+        BaseDialogFragment switchYearDialogFragment = BaseDialogFragment.newInstance(SwitchYearDialog.class, -1);
         switchYearDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity {
         switchYearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchYearDialogFragment.updateArguments(SwitchYearDialog.class);
+                switchYearDialogFragment.updateArguments(SwitchYearDialog.class, YearLedger.currentYearLedger.year);
                 switchYearDialogFragment.show(MainActivity.this, "switchYear");
             }
         });

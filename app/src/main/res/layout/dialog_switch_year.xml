@@ -17,23 +17,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Switch Year" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/switch_year_dialog_yearTextView"
+    <com.musicslayer.cashmaster.view.BorderedSpinnerView
+        android:id="@+id/switch_year_dialog_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Year Below"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_year_dialog_toolbar" />
-
-    <com.musicslayer.cashmaster.view.red.YearEditText
-        android:id="@+id/switch_year_dialog_yearEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_year_dialog_yearTextView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/switch_year_dialog_createButton"
@@ -42,6 +31,6 @@
         android:text="Switch"
         app:drawableLeftCompat="@drawable/baseline_add_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_year_dialog_yearEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_year_dialog_spinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
