@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -20,7 +19,7 @@ import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 
 public class MainActivity extends BaseActivity {
     @SuppressLint("MissingSuperCall")
@@ -106,9 +105,9 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
 
         // Subtitle - Use current year
-        int total = YearLedger.currentYearLedger.getTotal();
-        String yearTotalStr = YearLedger.currentYearLedger.year + " Total: $" + Math.abs(total);
-        if(total < 0) {
+        BigDecimal total = YearLedger.currentYearLedger.getTotal();
+        String yearTotalStr = YearLedger.currentYearLedger.year + " Total: $" + total.abs();
+        if(total.compareTo(BigDecimal.ZERO) < 0) {
             yearTotalStr = "<font color=#ff0000>" + yearTotalStr + "</font>";
         }
         toolbar.setSubtitle(Html.fromHtml(yearTotalStr));
@@ -142,18 +141,5 @@ public class MainActivity extends BaseActivity {
             }
         });
         L.addView(yearLedgerView);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle bundle) {
-        if(bundle != null) {
-            updateLayout();
-        }
-        super.onRestoreInstanceState(bundle);
     }
 }

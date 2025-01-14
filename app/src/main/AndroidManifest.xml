@@ -16,12 +16,12 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         tools:targetApi="s">
 
-        <activity android:name=".activity.InitialActivity" android:screenOrientation="locked" android:exported="true">
+        <activity android:name=".activity.InitialActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" android:screenOrientation="locked"/>
+        <activity android:name=".activity.MainActivity"/>
     </application>
 </manifest>

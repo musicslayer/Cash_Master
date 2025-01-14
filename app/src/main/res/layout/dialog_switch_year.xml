@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/swith_year_dialog_toolbar"
+        android:id="@+id/switch_year_dialog_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
@@ -23,15 +23,14 @@
         android:layout_height="wrap_content"
         android:text="Enter Year Below"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swith_year_dialog_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/switch_year_dialog_toolbar" />
 
-    <com.musicslayer.cashmaster.view.red.Int4EditText
+    <com.musicslayer.cashmaster.view.red.YearEditText
         android:id="@+id/switch_year_dialog_yearEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="25"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_year_dialog_yearTextView" />

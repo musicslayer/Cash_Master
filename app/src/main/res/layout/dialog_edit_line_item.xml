@@ -17,13 +17,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Edit Line Item" />
 
+    <RadioGroup
+        android:id="@+id/edit_line_item_dialog_radioGroup"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/edit_line_item_dialog_incomeRadioButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_line_item_dialog_toolbar">
+
+        <RadioButton
+            android:id="@+id/edit_line_item_dialog_incomeRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Income" />
+
+        <RadioButton
+            android:id="@+id/edit_line_item_dialog_expenseRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Expense" />
+    </RadioGroup>
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/edit_line_item_dialog_nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Name Below"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_radioGroup" />
 
     <com.musicslayer.cashmaster.view.red.PlainTextEditText
         android:id="@+id/edit_line_item_dialog_nameEditText"
@@ -44,35 +66,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_nameEditText" />
 
-    <com.musicslayer.cashmaster.view.red.Int6EditText
+    <com.musicslayer.cashmaster.view.red.AmountEditText
         android:id="@+id/edit_line_item_dialog_amountEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="25"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_amountTextView" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/edit_line_item_dialog_isIncomeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter IsIncome Below"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_amountEditText" />
-
-    <com.musicslayer.cashmaster.view.red.BooleanEditText
-        android:id="@+id/edit_line_item_dialog_isIncomeEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="25"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_isIncomeTextView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/edit_line_item_dialog_editButton"
@@ -81,7 +83,7 @@
         android:text="Edit"
         app:drawableLeftCompat="@drawable/baseline_edit_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_isIncomeEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_amountEditText" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/edit_line_item_dialog_deleteButton"
@@ -90,6 +92,6 @@
         android:text="Delete"
         app:drawableLeftCompat="@drawable/baseline_delete_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_isIncomeEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_amountEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

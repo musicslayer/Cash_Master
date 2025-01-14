@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
-import com.musicslayer.cashmaster.view.red.Int4EditText;
+import com.musicslayer.cashmaster.view.red.YearEditText;
 
 import java.math.BigInteger;
 
@@ -27,7 +27,7 @@ public class SwitchYearDialog extends BaseDialog {
     public void createLayout(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_switch_year);
 
-        final Int4EditText E_YEAR = findViewById(R.id.switch_year_dialog_yearEditText);
+        final YearEditText E_YEAR = findViewById(R.id.switch_year_dialog_yearEditText);
 
         AppCompatButton B_CREATE = findViewById(R.id.switch_year_dialog_createButton);
         B_CREATE.setOnClickListener(new View.OnClickListener() {

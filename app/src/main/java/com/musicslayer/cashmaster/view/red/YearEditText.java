@@ -5,20 +5,19 @@ import android.util.AttributeSet;
 
 import java.math.BigInteger;
 
-public class Int4EditText extends RedEditText {
-    public Int4EditText(Context context) {
+public class YearEditText extends RedEditText {
+    public YearEditText(Context context) {
         this(context, null);
     }
 
-    public Int4EditText(Context context, AttributeSet attributeSet) {
+    public YearEditText(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
-        // Enforce a maximum length to protect algorithms from having to process large values.
-        // For now, all of these only need 4 digits.
+        // Use 4 digits for years.
         setMaxLength(4);
     }
 
-    // Returns if the value is an integer with up to 6 digits.
+    // Returns if the value is an integer with up to 4 digits.
     public boolean condition() {
         try {
             BigInteger value = new BigInteger(this.getTextString());

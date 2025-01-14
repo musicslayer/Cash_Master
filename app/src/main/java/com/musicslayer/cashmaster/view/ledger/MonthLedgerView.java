@@ -19,6 +19,8 @@ import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.view.HorizontalSplitView;
 
+import java.math.BigDecimal;
+
 public class MonthLedgerView extends LinearLayout {
     public MonthLedger monthLedger;
     private MonthLedgerView.OnLineItemAddListener onLineItemAddListener;
@@ -57,7 +59,7 @@ public class MonthLedgerView extends LinearLayout {
                     if(((AddLineItemDialog)dialog).isComplete) {
                         // Add the line item, and then fire the listener.
                         String name = ((AddLineItemDialog)dialog).user_NAME;
-                        int amount = ((AddLineItemDialog)dialog).user_AMOUNT;
+                        BigDecimal amount = ((AddLineItemDialog)dialog).user_AMOUNT;
                         boolean isIncome = ((AddLineItemDialog)dialog).user_ISINCOME;
 
                         int year = ((AddLineItemDialog)dialog).year;
@@ -97,9 +99,9 @@ public class MonthLedgerView extends LinearLayout {
             // Total
             AppCompatTextView T_TOTAL = new AppCompatTextView(context);
             T_TOTAL.setPadding(0, 0, 0, 20);
-            int total = monthLedger.getTotal();
-            String monthTotalStr = "Total: $" + Math.abs(total);
-            if(total < 0) {
+            BigDecimal total = monthLedger.getTotal();
+            String monthTotalStr = "Total: $" + total.abs();
+            if(total.compareTo(BigDecimal.ZERO) < 0) {
                 monthTotalStr = "<font color=#ff0000>" + monthTotalStr + "</font>";
             }
             T_TOTAL.setText(Html.fromHtml(monthTotalStr));
@@ -122,7 +124,7 @@ public class MonthLedgerView extends LinearLayout {
                         }
                         else {
                             String name = ((EditLineItemDialog)dialog).user_NAME;
-                            int amount = ((EditLineItemDialog)dialog).user_AMOUNT;
+                            BigDecimal amount = ((EditLineItemDialog)dialog).user_AMOUNT;
                             boolean isIncome = ((EditLineItemDialog)dialog).user_ISINCOME;
 
                             yearLedger.removeLineItem(lineItem.month, lineItem.name);

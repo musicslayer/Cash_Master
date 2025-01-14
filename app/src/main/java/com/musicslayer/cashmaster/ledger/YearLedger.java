@@ -4,6 +4,8 @@ import com.musicslayer.cashmaster.data.bridge.DataBridge;
 import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -98,7 +100,7 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         return map_yearLedgers.get(year) != null;
     }
 
-    public void addLineItem(String month, String name, int amount, boolean isIncome) {
+    public void addLineItem(String month, String name, BigDecimal amount, boolean isIncome) {
         MonthLedger monthLedger = getMonthLedger(month);
         if(monthLedger == null) {
             throw new IllegalStateException("Month does not exist. month = " + month);
@@ -135,10 +137,10 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         return null;
     }
 
-    public int getTotal() {
-        int total = 0;
+    public BigDecimal getTotal() {
+        BigDecimal total = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
         for(MonthLedger monthLedger : monthLedgers) {
-            total += monthLedger.getTotal();
+            total = total.add(monthLedger.getTotal());
         }
         return total;
     }

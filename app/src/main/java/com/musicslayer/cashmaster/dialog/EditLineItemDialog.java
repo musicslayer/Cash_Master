@@ -3,6 +3,8 @@ package com.musicslayer.cashmaster.dialog;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -11,17 +13,16 @@ import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
-import com.musicslayer.cashmaster.view.red.BooleanEditText;
-import com.musicslayer.cashmaster.view.red.Int6EditText;
-import com.musicslayer.cashmaster.view.red.MonthEditText;
+import com.musicslayer.cashmaster.view.red.AmountEditText;
 import com.musicslayer.cashmaster.view.red.PlainTextEditText;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class EditLineItemDialog extends BaseDialog {
     public boolean user_ISDELETE;
     public String user_NAME;
-    public int user_AMOUNT;
+    public BigDecimal user_AMOUNT;
     public boolean user_ISINCOME;
 
     public LineItem lineItem;
@@ -42,26 +43,34 @@ public class EditLineItemDialog extends BaseDialog {
         toolbar.setSubtitle(lineItem.month);
 
         final PlainTextEditText E_NAME = findViewById(R.id.edit_line_item_dialog_nameEditText);
-        final Int6EditText E_AMOUNT = findViewById(R.id.edit_line_item_dialog_amountEditText);
-        final BooleanEditText E_ISINCOME = findViewById(R.id.edit_line_item_dialog_isIncomeEditText);
+        final AmountEditText E_AMOUNT = findViewById(R.id.edit_line_item_dialog_amountEditText);
+
+        RadioGroup radioGroup = findViewById(R.id.edit_line_item_dialog_radioGroup);
+        RadioButton rbIncome = findViewById(R.id.edit_line_item_dialog_incomeRadioButton);
+        RadioButton rbExpense = findViewById(R.id.edit_line_item_dialog_expenseRadioButton);
+        if(lineItem.isIncome) {
+            radioGroup.check(rbIncome.getId());
+        }
+        else {
+            radioGroup.check(rbExpense.getId());
+        }
 
         E_NAME.setTextString(lineItem.name);
         E_AMOUNT.setTextString("" + lineItem.amount);
-        E_ISINCOME.setTextString("" + lineItem.isIncome);
 
         AppCompatButton B_EDIT = findViewById(R.id.edit_line_item_dialog_editButton);
         B_EDIT.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform all tests without short circuiting.
-                boolean isValid = E_NAME.test() & E_AMOUNT.test() & E_ISINCOME.test();
+                boolean isValid = E_NAME.test() & E_AMOUNT.test();
 
                 if(!isValid) {
                     ToastUtil.showToast("must_fill_inputs");
                 }
                 else {
                     String name = E_NAME.getTextString();
-                    int amount = new BigInteger(E_AMOUNT.getTextString()).intValue();
-                    boolean isIncome = Boolean.parseBoolean(E_ISINCOME.getTextString());
+                    BigDecimal amount = new BigDecimal(E_AMOUNT.getTextString()).setScale(2, RoundingMode.UNNECESSARY);
+                    boolean isIncome = rbIncome.isChecked();
 
                     YearLedger yearLedger = YearLedger.getYearLedger(lineItem.year);
 

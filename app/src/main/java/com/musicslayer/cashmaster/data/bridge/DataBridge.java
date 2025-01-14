@@ -10,6 +10,7 @@ import com.musicslayer.cashmaster.util.ThrowableUtil;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -288,6 +289,9 @@ public class DataBridge {
         else if(obj instanceof Boolean) {
             return new BooleanSerializableToJSON((Boolean)obj);
         }
+        else if(obj instanceof BigDecimal) {
+            return new BigDecimalSerializableToJSON((BigDecimal)obj);
+        }
         else {
             // Anything else is unsupported.
             throw new IllegalStateException("class = " + obj.getClass().getSimpleName() + " obj = " + obj);
@@ -308,6 +312,9 @@ public class DataBridge {
         }
         else if(Boolean.class.isAssignableFrom(clazz)) {
             return BooleanSerializableToJSON.class;
+        }
+        else if(BigDecimal.class.isAssignableFrom(clazz)) {
+            return BigDecimalSerializableToJSON.class;
         }
         else {
             // Anything else is unsupported.
@@ -360,6 +367,22 @@ public class DataBridge {
 
         public static boolean deserializeFromJSON(Reader o) throws IOException {
             return Boolean.parseBoolean(o.getString());
+        }
+    }
+
+    private static class BigDecimalSerializableToJSON implements SerializableToJSON {
+        BigDecimal obj;
+        private BigDecimalSerializableToJSON(BigDecimal obj) {
+            this.obj = obj;
+        }
+
+        @Override
+        public void serializeToJSON(DataBridge.Writer o) throws IOException {
+            o.putString(obj.toString());
+        }
+
+        public static BigDecimal deserializeFromJSON(DataBridge.Reader o) throws IOException {
+            return new BigDecimal(o.getString());
         }
     }
 }

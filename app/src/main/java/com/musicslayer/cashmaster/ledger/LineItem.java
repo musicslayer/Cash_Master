@@ -3,12 +3,13 @@ package com.musicslayer.cashmaster.ledger;
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class LineItem implements DataBridge.SerializableToJSON {
     public int year;
     public String month;
     public String name;
-    public int amount; // Amount is always a positive number.
+    public BigDecimal amount;
     public boolean isIncome;
 
     @Override
@@ -18,7 +19,7 @@ public class LineItem implements DataBridge.SerializableToJSON {
             .serialize("year", year, Integer.class)
             .serialize("month", month, String.class)
             .serialize("name", name, String.class)
-            .serialize("amount", amount, Integer.class)
+            .serialize("amount", amount, BigDecimal.class)
             .serialize("isIncome", isIncome, Boolean.class)
             .endObject();
     }
@@ -33,7 +34,7 @@ public class LineItem implements DataBridge.SerializableToJSON {
             int year = o.deserialize("year", Integer.class);
             String month = o.deserialize("month", String.class);
             String name = o.deserialize("name", String.class);
-            int amount = o.deserialize("amount", Integer.class);
+            BigDecimal amount = o.deserialize("amount", BigDecimal.class);
             boolean isIncome = o.deserialize("isIncome", Boolean.class);
             o.endObject();
 

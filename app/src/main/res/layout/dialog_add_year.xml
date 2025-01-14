@@ -25,13 +25,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_year_dialog_toolbar" />
 
-    <com.musicslayer.cashmaster.view.red.Int4EditText
+    <com.musicslayer.cashmaster.view.red.YearEditText
         android:id="@+id/add_year_dialog_yearEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="25"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_year_dialog_yearTextView" />

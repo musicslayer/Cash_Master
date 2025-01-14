@@ -3,6 +3,8 @@ package com.musicslayer.cashmaster.ledger;
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,7 +47,7 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
         return monthLedger;
     }
 
-    public void addLineItem(int year, String month, String name, int amount, boolean isIncome) {
+    public void addLineItem(int year, String month, String name, BigDecimal amount, boolean isIncome) {
         LineItem lineItem = new LineItem();
         lineItem.year = year;
         lineItem.month = month;
@@ -73,14 +75,14 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
         return false;
     }
 
-    public int getTotal() {
-        int total = 0;
+    public BigDecimal getTotal() {
+        BigDecimal total = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
         for(LineItem lineItem : lineItems) {
             if(lineItem.isIncome) {
-                total += lineItem.amount;
+                total = total.add(lineItem.amount);
             }
             else {
-                total -= lineItem.amount;
+                total = total.subtract(lineItem.amount);
             }
         }
         return total;
@@ -97,7 +99,7 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
             @Override
             public int compare(LineItem a, LineItem b) {
                 // Sort in descending order
-                return b.amount - a.amount;
+                return b.amount.compareTo(a.amount);
             }
         });
         return incomes;
@@ -114,7 +116,7 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
             @Override
             public int compare(LineItem a, LineItem b) {
                 // Sort in descending order
-                return b.amount - a.amount;
+                return b.amount.compareTo(a.amount);
             }
         });
         return expenses;
