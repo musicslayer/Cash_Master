@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class YearLedger implements DataBridge.SerializableToJSON {
@@ -94,6 +95,28 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         map_yearLedgers.remove(year);
 
         new YearLedgerList().saveAllData();
+    }
+
+    public static int getNearestYear(int year) {
+        // If the year is the smallest then return the next largest, else return the next smallest.
+        // It is assumed that A) year is in the list, and B) it is not the only year there.
+        ArrayList<Integer> years = new ArrayList<>(map_yearLedgers.keySet());
+        Collections.sort(years);
+
+        int index = -1;
+        for(int i = 0; i < years.size(); i++) {
+            if(year == years.get(i)) {
+                index = i;
+                break;
+            }
+        }
+
+        if(index == 0) {
+            return years.get(1);
+        }
+        else {
+            return years.get(index - 1);
+        }
     }
 
     public static boolean hasYear(int year) {

@@ -19,6 +19,7 @@ public class ToastUtil {
         // Use a dummy value for the duration. When the toast is shown, we will set it according to the setting.
         int duration = Toast.LENGTH_SHORT;
 
+        toastMap.put("cannot_delete_only_year", Toast.makeText(context, "Cannot delete the only year.", duration));
         toastMap.put("line_item_exists", Toast.makeText(context, "A line item with this name and month already exists.", duration));
         toastMap.put("must_fill_inputs", Toast.makeText(context, "All red input fields must be filled with appropriate values.", duration));
         toastMap.put("year_exists", Toast.makeText(context, "This year already exists.", duration));

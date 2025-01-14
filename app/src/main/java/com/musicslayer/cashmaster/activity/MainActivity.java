@@ -14,8 +14,10 @@ import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.data.persistent.app.Theme;
 import com.musicslayer.cashmaster.dialog.AddYearDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
+import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
 import com.musicslayer.cashmaster.dialog.SwitchYearDialog;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.util.ToastUtil;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
@@ -85,6 +87,40 @@ public class MainActivity extends BaseActivity {
                 switchYearDialogFragment.show(MainActivity.this, "switchYear");
             }
         });
+
+        BaseDialogFragment confirmDeleteItemDialogFragment = BaseDialogFragment.newInstance(ConfirmDeleteYearDialog.class, -1);
+        confirmDeleteItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(((ConfirmDeleteYearDialog)dialog).isComplete) {
+                    // Set current year to something nearby and then remove the year.
+                    int oldYear = ((ConfirmDeleteYearDialog)dialog).year;
+                    int newYear = YearLedger.getNearestYear(oldYear);
+
+                    YearLedger.setCurrentYear(newYear);
+                    YearLedger.removeYear(oldYear);
+
+                    updateLayout();
+                }
+            }
+        });
+        confirmDeleteItemDialogFragment.restoreListeners(this, "delete_year");
+
+        AppCompatImageButton deleteYearButton = findViewById(R.id.main_deleteYearButton);
+        deleteYearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(YearLedger.map_yearLedgers.size() == 1) {
+                    ToastUtil.showToast("cannot_delete_only_year");
+                }
+                else {
+                    confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteYearDialog.class, YearLedger.currentYearLedger.year);
+                    confirmDeleteItemDialogFragment.show(MainActivity.this, "delete_year");
+                }
+            }
+        });
+
+
 
         // Theme Button
         AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
