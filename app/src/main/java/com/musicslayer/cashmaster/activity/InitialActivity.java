@@ -13,6 +13,7 @@ import com.musicslayer.cashmaster.util.ToastUtil;
 // TODO MonthEditText, BooleanEditText -> We shouldn't need these. These can just be a dropdown...
 // TODO Do we really need HashUtils? Do we need to implement hashcode and equals methods?
 // TODO YEARS!!!
+// TODO Backup to database?
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
