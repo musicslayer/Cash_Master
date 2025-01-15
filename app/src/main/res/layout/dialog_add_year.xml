@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Add Year" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/add_year_dialog_yearTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

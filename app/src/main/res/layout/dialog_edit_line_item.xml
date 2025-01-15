@@ -39,7 +39,7 @@
             android:text="Expense" />
     </RadioGroup>
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/edit_line_item_dialog_nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_nameTextView" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/edit_line_item_dialog_amountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

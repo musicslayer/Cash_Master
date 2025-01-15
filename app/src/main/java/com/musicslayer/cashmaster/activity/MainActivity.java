@@ -5,11 +5,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
@@ -148,6 +148,9 @@ public class MainActivity extends BaseActivity {
         yearTextView.setText(yearTotalStr);
         if(total.compareTo(BigDecimal.ZERO) < 0) {
             yearTextView.setTextColor(getResources().getColor(R.color.red));
+        }
+        else {
+            yearTextView.setTextColor(getResources().getColor(R.color.feature));
         }
 
         // Theme Button - Icon matches current theme setting

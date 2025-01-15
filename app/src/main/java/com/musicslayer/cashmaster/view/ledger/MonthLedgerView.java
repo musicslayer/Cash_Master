@@ -93,6 +93,9 @@ public class MonthLedgerView extends LinearLayout {
             if(total.compareTo(BigDecimal.ZERO) < 0) {
                 T_TOTAL.setTextColor(getResources().getColor(R.color.red));
             }
+            else {
+                T_TOTAL.setTextColor(getResources().getColor(R.color.feature));
+            }
 
             this.addView(T_TOTAL);
 
@@ -152,6 +155,7 @@ public class MonthLedgerView extends LinearLayout {
                 TextView T_LINEITEM = new TextView(context);
                 T_LINEITEM.setPadding(30, 0, 0, 0);
                 T_LINEITEM.setText(lineItem.name + " $" + lineItem.amount);
+                T_LINEITEM.setTextColor(getResources().getColor(R.color.feature));
 
                 L_LINEITEM.addView(B_EDIT);
                 L_LINEITEM.addView(T_LINEITEM);
