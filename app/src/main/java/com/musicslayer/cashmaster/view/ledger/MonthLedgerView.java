@@ -2,13 +2,11 @@ package com.musicslayer.cashmaster.view.ledger;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
@@ -17,6 +15,7 @@ import com.musicslayer.cashmaster.dialog.EditLineItemDialog;
 import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.view.RichTextView;
 import com.musicslayer.cashmaster.view.HorizontalSplitView;
 import com.musicslayer.cashmaster.view.ImageButtonView;
 
@@ -85,14 +84,15 @@ public class MonthLedgerView extends LinearLayout {
             this.addView(B_ADD);
 
             // Total
-            AppCompatTextView T_TOTAL = new AppCompatTextView(context);
+            RichTextView T_TOTAL = new RichTextView(context);
             T_TOTAL.setPadding(0, 0, 0, 20);
             BigDecimal total = monthLedger.getTotal();
             String monthTotalStr = "Total: $" + total.abs();
-            if(total.compareTo(BigDecimal.ZERO) < 0) {
-                monthTotalStr = "<font color=#ff0000>" + monthTotalStr + "</font>";
-            }
-            T_TOTAL.setText(Html.fromHtml(monthTotalStr));
+
+            T_TOTAL.setColor(0);
+            T_TOTAL.setShouldColor(total.compareTo(BigDecimal.ZERO) < 0);
+            T_TOTAL.appendText(monthTotalStr);
+            T_TOTAL.finishText();
 
             this.addView(T_TOTAL);
 
@@ -149,10 +149,10 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                AppCompatTextView T_LINEITEM = new AppCompatTextView(context);
+                RichTextView T_LINEITEM = new RichTextView(context);
                 T_LINEITEM.setPadding(30, 0, 0, 0);
-                String lineItemStr = lineItem.name + " $" + lineItem.amount;
-                T_LINEITEM.setText(Html.fromHtml(lineItemStr));
+                T_LINEITEM.appendText(lineItem.name + " $" + lineItem.amount);
+                T_LINEITEM.finishText();
 
                 L_LINEITEM.addView(B_EDIT);
                 L_LINEITEM.addView(T_LINEITEM);
@@ -179,11 +179,12 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                AppCompatTextView T_LINEITEM = new AppCompatTextView(context);
+                RichTextView T_LINEITEM = new RichTextView(context);
                 T_LINEITEM.setPadding(30, 0, 0, 0);
-                String lineItemStr = lineItem.name + " $" + lineItem.amount;
-                lineItemStr = "<font color=#ff0000>" + lineItemStr + "</font>";
-                T_LINEITEM.setText(Html.fromHtml(lineItemStr));
+                T_LINEITEM.setColor(0);
+                T_LINEITEM.setShouldColor(true);
+                T_LINEITEM.appendText(lineItem.name + " $" + lineItem.amount);
+                T_LINEITEM.finishText();
 
                 L_LINEITEM.addView(B_EDIT);
                 L_LINEITEM.addView(T_LINEITEM);

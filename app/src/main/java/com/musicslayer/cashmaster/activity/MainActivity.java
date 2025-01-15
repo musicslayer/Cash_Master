@@ -3,7 +3,6 @@ package com.musicslayer.cashmaster.activity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -19,12 +18,12 @@ import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
+import com.musicslayer.cashmaster.view.RichTextView;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class MainActivity extends BaseActivity {
     @SuppressLint("MissingSuperCall")
@@ -141,15 +140,15 @@ public class MainActivity extends BaseActivity {
     }
 
     public void updateLayout() {
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-
-        // Subtitle - Use current year
+        // Current year total
         BigDecimal total = YearLedger.currentYearLedger.getTotal();
         String yearTotalStr = YearLedger.currentYearLedger.year + " Total: $" + total.abs();
-        if(total.compareTo(BigDecimal.ZERO) < 0) {
-            yearTotalStr = "<font color=#ff0000>" + yearTotalStr + "</font>";
-        }
-        toolbar.setSubtitle(Html.fromHtml(yearTotalStr));
+
+        RichTextView richTextView = findViewById(R.id.main_yearTotalTextView);
+        richTextView.setColor(0);
+        richTextView.setShouldColor(total.compareTo(BigDecimal.ZERO) < 0);
+        richTextView.appendText(yearTotalStr);
+        richTextView.finishText();
 
         // Theme Button - Icon matches current theme setting
         AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
