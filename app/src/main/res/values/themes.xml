@@ -61,7 +61,7 @@
         <item name="android:drawablePadding">4dp</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
-        <item name="android:background">@drawable/border_round</item>
+        <item name="android:background">@drawable/border_round_thick</item>
         <item name="cornerRadius">4dp</item>
         <item name="android:letterSpacing">0.09</item>
         <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
@@ -104,7 +104,7 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingTop">16dp</item>
-        <item name="android:background">@drawable/border_round</item>
+        <item name="android:background">@drawable/border_round_thick</item>
         <item name="cornerRadius">4dp</item>
         <item name="android:letterSpacing">0.09</item>
         <item name="materialButtonStyle">@style/MaterialButtonTheme</item>

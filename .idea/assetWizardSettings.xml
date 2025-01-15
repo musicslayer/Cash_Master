@@ -319,7 +319,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$PROJECT_DIR$/../../MIKE/ANDROID/SDK/icons/material/materialicons/calendar_month/baseline_calendar_month_24.xml" />
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../MIKE/ANDROID/SDK/icons/material/materialicons/add_box/baseline_add_box_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -329,7 +329,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="baseline_calendar_month_24" />
+                            <entry key="outputName" value="baseline_add_box_48" />
                             <entry key="sourceFile" value="C:\GITHUB\Cash_Master" />
                           </map>
                         </option>

@@ -35,10 +35,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_year_dialog_yearTextView" />
 
-    <com.musicslayer.cashmaster.view.ImageButtonView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_year_dialog_createButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Add"
+        app:drawableLeftCompat="@drawable/baseline_add_box_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_year_dialog_yearEditText" />
 

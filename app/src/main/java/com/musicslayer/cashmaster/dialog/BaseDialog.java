@@ -50,6 +50,9 @@ abstract public class BaseDialog extends Dialog {
         ViewGroup v = findViewById(getBaseViewID());
         ViewGroup p = (ViewGroup)v.getParent();
 
+        // Set margins
+        v.setPadding(20, 0, 0, 20);
+
         // Stretch to 90% width. This is needed to see any dialog at all.
         int[] dimensions = WindowUtil.getDimensions(this.activity);
         v.setLayoutParams(new FrameLayout.LayoutParams((int)(dimensions[0] * 0.9), FrameLayout.LayoutParams.WRAP_CONTENT));
