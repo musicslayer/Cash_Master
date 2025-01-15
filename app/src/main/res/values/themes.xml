@@ -113,7 +113,7 @@
         <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
     </style>
 
-    <style name="ItemTextTheme">
+    <style name="ItemTextTheme" parent="@style/TextAppearance.AppCompat">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
         <item name="android:textColor">@color/feature</item>
@@ -129,7 +129,7 @@
         <item name="android:insetBottom">0dp</item>
     </style>
 
-    <style name="PopupMenuTheme" parent="ThemeOverlay.AppCompat.Light">
+    <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu">
         <item name="android:popupBackground">@color/background</item>
     </style>
 
