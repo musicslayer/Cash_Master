@@ -36,12 +36,6 @@ public class ConfirmDeleteYearDialog extends BaseDialog {
             }
         });
 
-        AppCompatButton B_CANCEL = findViewById(R.id.confirm_delete_year_dialog_cancelButton);
-        B_CANCEL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        addCancelButton();
     }
 }

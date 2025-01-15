@@ -11,6 +11,7 @@ import com.musicslayer.cashmaster.util.ToastUtil;
 
 // TODO Backup to database?
 // TODO Dialogs can have "X" button in upper right
+// TODO Create image button button?
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {

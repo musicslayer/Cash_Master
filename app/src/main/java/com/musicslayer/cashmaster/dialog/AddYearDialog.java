@@ -51,5 +51,7 @@ public class AddYearDialog extends BaseDialog {
                 }
             }
         });
+
+        addCancelButton();
     }
 }

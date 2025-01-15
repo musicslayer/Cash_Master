@@ -99,5 +99,7 @@ public class EditLineItemDialog extends BaseDialog {
                 dismiss();
             }
         });
+
+        addCancelButton();
     }
 }

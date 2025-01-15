@@ -52,5 +52,7 @@ public class SwitchYearDialog extends BaseDialog {
                 dismiss();
             }
         });
+
+        addCancelButton();
     }
 }

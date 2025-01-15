@@ -120,8 +120,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-
-
         // Theme Button
         AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
         themeButton.setOnClickListener(new View.OnClickListener() {

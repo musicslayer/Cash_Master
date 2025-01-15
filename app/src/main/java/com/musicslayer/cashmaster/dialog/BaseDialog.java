@@ -3,14 +3,19 @@ package com.musicslayer.cashmaster.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
+import androidx.appcompat.widget.Toolbar;
 
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.activity.BaseActivity;
+import com.musicslayer.cashmaster.util.PixelUtil;
 import com.musicslayer.cashmaster.util.WindowUtil;
 
 abstract public class BaseDialog extends Dialog {
@@ -31,9 +36,6 @@ abstract public class BaseDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Needed for older versions of Android.
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         createLayout(savedInstanceState);
     }
 
@@ -58,5 +60,42 @@ abstract public class BaseDialog extends Dialog {
         p.removeView(v);
         s.addView(v);
         p.addView(s);
+    }
+
+    public void addCancelButton() {
+        Toolbar toolbar = findToolbar();
+
+        ConstraintLayout CL = findViewById(getBaseViewID());
+        ConstraintSet CS = new ConstraintSet();
+
+        AppCompatImageButton cancelButton = new AppCompatImageButton(activity);
+        cancelButton.setImageResource(R.drawable.baseline_cancel_24);
+        cancelButton.setBackgroundColor(activity.getResources().getColor(android.R.color.transparent));
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+        cancelButton.setId(View.generateViewId());
+        CL.addView(cancelButton);
+
+        CS.clone(CL);
+        CS.connect(cancelButton.getId(), ConstraintSet.BOTTOM, toolbar.getId(), ConstraintSet.BOTTOM, 0);
+        CS.connect(cancelButton.getId(), ConstraintSet.END, toolbar.getId(), ConstraintSet.END, PixelUtil.dpToPx(10, activity));
+        CS.connect(cancelButton.getId(), ConstraintSet.TOP, CL.getId(), ConstraintSet.TOP, 0);
+        CS.applyTo(CL);
+    }
+
+    private Toolbar findToolbar() {
+        ViewGroup v = findViewById(getBaseViewID());
+        for(int i = 0; i < v.getChildCount(); i++) {
+            View child = v.getChildAt(i);
+            if(child instanceof Toolbar) {
+                return (Toolbar)child;
+            }
+        }
+        throw new IllegalStateException("Dialog does not have a toolbar.");
     }
 }
