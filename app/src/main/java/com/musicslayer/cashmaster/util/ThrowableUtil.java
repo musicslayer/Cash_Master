@@ -2,11 +2,15 @@ package com.musicslayer.cashmaster.util;
 
 import android.util.Log;
 
+import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.app.App;
+
 public class ThrowableUtil {
     public static void processThrowable(Throwable e) {
         try {
             String threadText = ThreadUtil.getCurrentThreadInfo();
-            Log.e("Cash Master ERROR", threadText + "\n" + getThrowableText(e));
+            String appName = App.applicationContext.getResources().getString(R.string.app_title);
+            Log.e(appName + " ERROR", threadText + "\n" + getThrowableText(e));
         }
         catch(Exception ignored) {
         }
