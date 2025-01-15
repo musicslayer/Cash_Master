@@ -1,11 +1,14 @@
 package com.musicslayer.cashmaster.ledger;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-public class LineItem implements DataBridge.SerializableToJSON {
+public class LineItem implements DataBridge.SerializableToJSON, Parcelable {
     public int year;
     public String month;
     public String name;
@@ -49,5 +52,44 @@ public class LineItem implements DataBridge.SerializableToJSON {
         }
 
         return lineItem;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(year);
+        out.writeString(month);
+        out.writeString(name);
+        out.writeString(DataBridge.serialize(amount, BigDecimal.class));
+        out.writeInt(isIncome ? 1 : 0);
+    }
+
+    public static final Parcelable.Creator<LineItem> CREATOR = new Parcelable.Creator<LineItem>() {
+        @Override
+        public LineItem createFromParcel(Parcel in) {
+            int year = in.readInt();
+            String month = in.readString();
+            String name = in.readString();
+            BigDecimal amount = DataBridge.deserialize(in.readString(), BigDecimal.class);
+            boolean isIncome = in.readInt() == 1;
+
+            LineItem lineItem = new LineItem();
+            lineItem.year = year;
+            lineItem.month = month;
+            lineItem.name = name;
+            lineItem.amount = amount;
+            lineItem.isIncome = isIncome;
+
+            return lineItem;
+        }
+
+        @Override
+        public LineItem[] newArray(int size) {
+            return new LineItem[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }
