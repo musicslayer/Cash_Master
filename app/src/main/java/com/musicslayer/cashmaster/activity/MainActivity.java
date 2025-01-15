@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -15,13 +17,14 @@ import com.musicslayer.cashmaster.data.persistent.app.Theme;
 import com.musicslayer.cashmaster.dialog.AddYearDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
-import com.musicslayer.cashmaster.dialog.SwitchYearDialog;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends BaseActivity {
     @SuppressLint("MissingSuperCall")
@@ -64,30 +67,32 @@ public class MainActivity extends BaseActivity {
         });
 
         // Switch Year Button
-        BaseDialogFragment switchYearDialogFragment = BaseDialogFragment.newInstance(SwitchYearDialog.class, -1);
-        switchYearDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if(((SwitchYearDialog)dialog).isComplete) {
-                    // Switch the year.
-                    int newYear = ((SwitchYearDialog)dialog).user_YEAR;
-                    YearLedger.setCurrentYear(newYear);
+        AppCompatImageButton switchYearButton = findViewById(R.id.main_switchYearButton);
+        PopupMenu popup = new PopupMenu(this, switchYearButton);
 
-                    updateLayout();
-                }
+        ArrayList<Integer> years = YearLedger.getAllYears();
+        for(int year : years) {
+            popup.getMenu().add("" + year);
+        }
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                int newYear = Integer.parseInt(item.toString());
+                YearLedger.setCurrentYear(newYear);
+
+                updateLayout();
+                return true;
             }
         });
-        switchYearDialogFragment.restoreListeners(this, "switchYear");
 
-        AppCompatImageButton switchYearButton = findViewById(R.id.main_switchYearButton);
         switchYearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchYearDialogFragment.updateArguments(SwitchYearDialog.class, YearLedger.currentYearLedger.year);
-                switchYearDialogFragment.show(MainActivity.this, "switchYear");
+                popup.show();
             }
         });
 
+        // Confirm Delete Button
         BaseDialogFragment confirmDeleteItemDialogFragment = BaseDialogFragment.newInstance(ConfirmDeleteYearDialog.class, -1);
         confirmDeleteItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

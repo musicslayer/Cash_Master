@@ -100,8 +100,7 @@ public class YearLedger implements DataBridge.SerializableToJSON {
     public static int getNearestYear(int year) {
         // If the year is the smallest then return the next largest, else return the next smallest.
         // It is assumed that A) year is in the list, and B) it is not the only year there.
-        ArrayList<Integer> years = new ArrayList<>(map_yearLedgers.keySet());
-        Collections.sort(years);
+        ArrayList<Integer> years = getAllYears();
 
         int index = -1;
         for(int i = 0; i < years.size(); i++) {
@@ -117,6 +116,13 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         else {
             return years.get(index - 1);
         }
+    }
+
+    public static ArrayList<Integer> getAllYears() {
+        // Returns all the available years in order.
+        ArrayList<Integer> years = new ArrayList<>(YearLedger.map_yearLedgers.keySet());
+        Collections.sort(years);
+        return years;
     }
 
     public static boolean hasYear(int year) {
