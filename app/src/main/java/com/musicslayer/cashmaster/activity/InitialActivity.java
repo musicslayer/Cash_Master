@@ -11,7 +11,6 @@ import com.musicslayer.cashmaster.util.ToastUtil;
 
 // TODO Backup to database?
 // TODO Dark mode popup background too black?
-// TODO Dark mode softer red?
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {

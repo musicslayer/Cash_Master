@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
@@ -15,7 +16,6 @@ import com.musicslayer.cashmaster.dialog.EditLineItemDialog;
 import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
-import com.musicslayer.cashmaster.view.RichTextView;
 import com.musicslayer.cashmaster.view.HorizontalSplitView;
 import com.musicslayer.cashmaster.view.ImageButtonView;
 
@@ -84,15 +84,15 @@ public class MonthLedgerView extends LinearLayout {
             this.addView(B_ADD);
 
             // Total
-            RichTextView T_TOTAL = new RichTextView(context);
-            T_TOTAL.setPadding(0, 0, 0, 20);
             BigDecimal total = monthLedger.getTotal();
             String monthTotalStr = "Total: $" + total.abs();
 
-            T_TOTAL.setColor(0);
-            T_TOTAL.setShouldColor(total.compareTo(BigDecimal.ZERO) < 0);
-            T_TOTAL.appendText(monthTotalStr);
-            T_TOTAL.finishText();
+            TextView T_TOTAL = new TextView(context);
+            T_TOTAL.setPadding(0, 0, 0, 20);
+            T_TOTAL.setText(monthTotalStr);
+            if(total.compareTo(BigDecimal.ZERO) < 0) {
+                T_TOTAL.setTextColor(getResources().getColor(R.color.red));
+            }
 
             this.addView(T_TOTAL);
 
@@ -149,10 +149,9 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                RichTextView T_LINEITEM = new RichTextView(context);
+                TextView T_LINEITEM = new TextView(context);
                 T_LINEITEM.setPadding(30, 0, 0, 0);
-                T_LINEITEM.appendText(lineItem.name + " $" + lineItem.amount);
-                T_LINEITEM.finishText();
+                T_LINEITEM.setText(lineItem.name + " $" + lineItem.amount);
 
                 L_LINEITEM.addView(B_EDIT);
                 L_LINEITEM.addView(T_LINEITEM);
@@ -179,12 +178,10 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                RichTextView T_LINEITEM = new RichTextView(context);
+                TextView T_LINEITEM = new TextView(context);
                 T_LINEITEM.setPadding(30, 0, 0, 0);
-                T_LINEITEM.setColor(0);
-                T_LINEITEM.setShouldColor(true);
-                T_LINEITEM.appendText(lineItem.name + " $" + lineItem.amount);
-                T_LINEITEM.finishText();
+                T_LINEITEM.setText(lineItem.name + " $" + lineItem.amount);
+                T_LINEITEM.setTextColor(getResources().getColor(R.color.red));
 
                 L_LINEITEM.addView(B_EDIT);
                 L_LINEITEM.addView(T_LINEITEM);

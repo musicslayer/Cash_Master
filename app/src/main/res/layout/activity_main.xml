@@ -61,7 +61,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_add_box_24" />
 
-    <com.musicslayer.cashmaster.view.RichTextView
+    <TextView
         android:id="@+id/main_yearTotalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

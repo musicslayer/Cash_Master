@@ -11,8 +11,9 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
 
-// An EditText that can turn red if a condition is not met.
+import com.musicslayer.cashmaster.R;
 
+// An EditText that can turn red if a condition is not met.
 abstract public class RedEditText extends AppCompatEditText {
     boolean is_red = false;
 
@@ -60,7 +61,8 @@ abstract public class RedEditText extends AppCompatEditText {
             is_red = false;
         }
         else {
-            getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(0xFFFF0000, BlendModeCompat.SRC_ATOP));
+            int color = getResources().getColor(R.color.red);
+            getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
             is_red = true;
         }
 
@@ -91,7 +93,8 @@ abstract public class RedEditText extends AppCompatEditText {
 
             is_red = bundle.getBoolean("is_red");
             if(is_red) {
-                getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(0xFFFF0000, BlendModeCompat.SRC_ATOP));
+                int color = getResources().getColor(R.color.red);
+                getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
             }
             else {
                 getBackground().clearColorFilter();

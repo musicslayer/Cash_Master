@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -18,7 +19,6 @@ import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
-import com.musicslayer.cashmaster.view.RichTextView;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
@@ -144,11 +144,11 @@ public class MainActivity extends BaseActivity {
         BigDecimal total = YearLedger.currentYearLedger.getTotal();
         String yearTotalStr = YearLedger.currentYearLedger.year + " Total: $" + total.abs();
 
-        RichTextView richTextView = findViewById(R.id.main_yearTotalTextView);
-        richTextView.setColor(0);
-        richTextView.setShouldColor(total.compareTo(BigDecimal.ZERO) < 0);
-        richTextView.appendText(yearTotalStr);
-        richTextView.finishText();
+        TextView yearTextView = findViewById(R.id.main_yearTotalTextView);
+        yearTextView.setText(yearTotalStr);
+        if(total.compareTo(BigDecimal.ZERO) < 0) {
+            yearTextView.setTextColor(getResources().getColor(R.color.red));
+        }
 
         // Theme Button - Icon matches current theme setting
         AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
