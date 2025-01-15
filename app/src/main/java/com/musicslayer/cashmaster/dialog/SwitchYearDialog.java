@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.appcompat.widget.AppCompatButton;
-
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.view.BorderedSpinnerView;
+import com.musicslayer.cashmaster.view.ImageButtonView;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -43,7 +42,9 @@ public class SwitchYearDialog extends BaseDialog {
         bsv.setOptions(yearStrings);
         bsv.setSelectionByValue("" + year);
 
-        AppCompatButton B_SWITCH = findViewById(R.id.switch_year_dialog_createButton);
+        ImageButtonView B_SWITCH = findViewById(R.id.switch_year_dialog_createButton);
+        B_SWITCH.setImageResource(R.drawable.baseline_check_24);
+        B_SWITCH.setTextString("Switch");
         B_SWITCH.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 user_YEAR = new BigInteger((String)bsv.spinner.getSelectedItem()).intValue();

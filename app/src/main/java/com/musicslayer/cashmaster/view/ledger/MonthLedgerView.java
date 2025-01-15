@@ -18,6 +18,7 @@ import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.view.HorizontalSplitView;
+import com.musicslayer.cashmaster.view.ImageButtonView;
 
 import java.math.BigDecimal;
 
@@ -47,10 +48,6 @@ public class MonthLedgerView extends LinearLayout {
         else {
             setVisibility(VISIBLE);
 
-            LinearLayout L_MONTH = new LinearLayout(context);
-            L_MONTH.setOrientation(HORIZONTAL);
-            L_MONTH.setGravity(Gravity.CENTER_VERTICAL);
-
             // Add Button
             BaseDialogFragment addLineItemDialogFragment = BaseDialogFragment.newInstance(AddLineItemDialog.class, -1, "");
             addLineItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -73,11 +70,10 @@ public class MonthLedgerView extends LinearLayout {
             });
             addLineItemDialogFragment.restoreListeners(context, "addLineItem");
 
-            AppCompatImageButton B_ADD = new AppCompatImageButton(context);
-            B_ADD.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            ImageButtonView B_ADD = new ImageButtonView(context);
             B_ADD.setImageResource(R.drawable.baseline_add_box_24);
-            B_ADD.setPadding(0, 0, 0, 0);
-            B_ADD.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            B_ADD.setTextSize(20);
+            B_ADD.setTextString(monthLedger.month);
             B_ADD.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -86,15 +82,7 @@ public class MonthLedgerView extends LinearLayout {
                 }
             });
 
-            // Month
-            AppCompatTextView T_MONTH = new AppCompatTextView(context);
-            T_MONTH.setPadding(30, 0, 0, 0);
-            T_MONTH.setTextSize(20);
-            T_MONTH.setText(monthLedger.month);
-
-            L_MONTH.addView(B_ADD);
-            L_MONTH.addView(T_MONTH);
-            this.addView(L_MONTH);
+            this.addView(B_ADD);
 
             // Total
             AppCompatTextView T_TOTAL = new AppCompatTextView(context);

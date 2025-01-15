@@ -16,12 +16,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Delete Year?" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.musicslayer.cashmaster.view.ImageButtonView
         android:id="@+id/confirm_delete_year_dialog_confirmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:drawableLeftCompat="@drawable/baseline_check_24"
-        android:text="Confirm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_delete_year_dialog_toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
+import com.musicslayer.cashmaster.view.ImageButtonView;
 import com.musicslayer.cashmaster.view.red.AmountEditText;
 import com.musicslayer.cashmaster.view.red.PlainTextEditText;
 
@@ -49,8 +49,10 @@ public class AddLineItemDialog extends BaseDialog {
         RadioButton rbIncome = findViewById(R.id.add_line_item_dialog_incomeRadioButton);
         radioGroup.check(rbIncome.getId());
 
-        AppCompatButton B_CREATE = findViewById(R.id.add_line_item_dialog_createButton);
-        B_CREATE.setOnClickListener(new View.OnClickListener() {
+        ImageButtonView B_ADD = findViewById(R.id.add_line_item_dialog_createButton);
+        B_ADD.setImageResource(R.drawable.baseline_add_box_24);
+        B_ADD.setTextString("Add");
+        B_ADD.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform all tests without short circuiting.
                 boolean isValid = E_NAME.test() & E_AMOUNT.test();

@@ -24,12 +24,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_year_dialog_toolbar" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.musicslayer.cashmaster.view.ImageButtonView
         android:id="@+id/switch_year_dialog_createButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Switch"
-        app:drawableLeftCompat="@drawable/baseline_add_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_year_dialog_spinner" />
 

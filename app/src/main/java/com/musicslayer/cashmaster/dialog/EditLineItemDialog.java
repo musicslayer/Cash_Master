@@ -6,13 +6,13 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
+import com.musicslayer.cashmaster.view.ImageButtonView;
 import com.musicslayer.cashmaster.view.red.AmountEditText;
 import com.musicslayer.cashmaster.view.red.PlainTextEditText;
 
@@ -58,7 +58,9 @@ public class EditLineItemDialog extends BaseDialog {
         E_NAME.setTextString(lineItem.name);
         E_AMOUNT.setTextString("" + lineItem.amount);
 
-        AppCompatButton B_EDIT = findViewById(R.id.edit_line_item_dialog_editButton);
+        ImageButtonView B_EDIT = findViewById(R.id.edit_line_item_dialog_editButton);
+        B_EDIT.setImageResource(R.drawable.baseline_edit_24);
+        B_EDIT.setTextString("Edit");
         B_EDIT.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform all tests without short circuiting.
@@ -90,7 +92,9 @@ public class EditLineItemDialog extends BaseDialog {
             }
         });
 
-        AppCompatButton B_DELETE = findViewById(R.id.edit_line_item_dialog_deleteButton);
+        ImageButtonView B_DELETE = findViewById(R.id.edit_line_item_dialog_deleteButton);
+        B_DELETE.setImageResource(R.drawable.baseline_delete_24);
+        B_DELETE.setTextString("Delete");
         B_DELETE.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 user_ISDELETE = true;
