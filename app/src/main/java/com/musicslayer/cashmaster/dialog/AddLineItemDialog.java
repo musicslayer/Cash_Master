@@ -78,7 +78,5 @@ public class AddLineItemDialog extends BaseDialog {
                 }
             }
         });
-
-        addCancelButton();
     }
 }

@@ -43,6 +43,7 @@ abstract public class BaseDialog extends Dialog {
     public void show() {
         super.show();
         adjustDialog();
+        addCancelButton();
     }
 
     public void adjustDialog() {

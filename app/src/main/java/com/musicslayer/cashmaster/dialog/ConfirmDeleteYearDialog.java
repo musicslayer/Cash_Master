@@ -35,7 +35,5 @@ public class ConfirmDeleteYearDialog extends BaseDialog {
                 dismiss();
             }
         });
-
-        addCancelButton();
     }
 }
