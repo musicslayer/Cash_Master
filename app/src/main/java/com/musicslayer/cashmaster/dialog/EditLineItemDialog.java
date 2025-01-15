@@ -42,8 +42,8 @@ public class EditLineItemDialog extends BaseDialog {
         Toolbar toolbar = findViewById(R.id.edit_line_item_dialog_toolbar);
         toolbar.setSubtitle(lineItem.month);
 
-        final PlainTextEditText E_NAME = findViewById(R.id.edit_line_item_dialog_nameEditText);
-        final AmountEditText E_AMOUNT = findViewById(R.id.edit_line_item_dialog_amountEditText);
+        PlainTextEditText E_NAME = findViewById(R.id.edit_line_item_dialog_nameEditText);
+        AmountEditText E_AMOUNT = findViewById(R.id.edit_line_item_dialog_amountEditText);
 
         RadioGroup radioGroup = findViewById(R.id.edit_line_item_dialog_radioGroup);
         RadioButton rbIncome = findViewById(R.id.edit_line_item_dialog_incomeRadioButton);
@@ -76,7 +76,8 @@ public class EditLineItemDialog extends BaseDialog {
 
                     if (!lineItem.name.equals(name) && yearLedger.hasLineItem(lineItem.month, name)) {
                         ToastUtil.showToast("line_item_exists");
-                    } else {
+                    }
+                    else {
                         user_NAME = name;
                         user_AMOUNT = amount;
                         user_ISINCOME = isIncome;

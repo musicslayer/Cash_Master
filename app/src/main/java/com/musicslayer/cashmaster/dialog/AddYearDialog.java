@@ -27,7 +27,7 @@ public class AddYearDialog extends BaseDialog {
     public void createLayout(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_add_year);
 
-        final YearEditText E_YEAR = findViewById(R.id.add_year_dialog_yearEditText);
+        YearEditText E_YEAR = findViewById(R.id.add_year_dialog_yearEditText);
 
         AppCompatButton B_ADD = findViewById(R.id.add_year_dialog_createButton);
         B_ADD.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +42,8 @@ public class AddYearDialog extends BaseDialog {
 
                     if (YearLedger.hasYear(year)) {
                         ToastUtil.showToast("year_exists");
-                    } else {
+                    }
+                    else {
                         user_YEAR = year;
 
                         isComplete = true;

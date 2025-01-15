@@ -38,20 +38,11 @@ public class YearLedgerView extends LinearLayout {
         }
     }
 
-    public void setOnLineItemAddListener(MonthLedgerView.OnLineItemAddListener onLineItemAddListener) {
+    public void setOnLineItemChangeListener(MonthLedgerView.OnLineItemChangeListener onLineItemChangeListener) {
         for(int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             if(child instanceof MonthLedgerView) {
-                ((MonthLedgerView) child).setOnLineItemAddListener(onLineItemAddListener);
-            }
-        }
-    }
-
-    public void setOnLineItemEditListener(MonthLedgerView.OnLineItemEditListener onLineItemEditListener) {
-        for(int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            if(child instanceof MonthLedgerView) {
-                ((MonthLedgerView) child).setOnLineItemEditListener(onLineItemEditListener);
+                ((MonthLedgerView) child).setOnLineItemChangeListener(onLineItemChangeListener);
             }
         }
     }

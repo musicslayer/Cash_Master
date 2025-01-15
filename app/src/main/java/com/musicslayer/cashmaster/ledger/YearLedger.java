@@ -53,8 +53,7 @@ public class YearLedger implements DataBridge.SerializableToJSON {
             // Use the current year.
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
             addYearLedgerNoSave(currentYear);
-
-            YearLedger.currentYearLedger = getYearLedger(currentYear);
+            currentYearLedger = getYearLedger(currentYear);
 
             new YearLedgerList().saveAllData();
         }
@@ -101,17 +100,10 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         // If the year is the smallest then return the next largest, else return the next smallest.
         // It is assumed that A) year is in the list, and B) it is not the only year there.
         ArrayList<Integer> years = getAllYears();
-
-        int index = -1;
-        for(int i = 0; i < years.size(); i++) {
-            if(year == years.get(i)) {
-                index = i;
-                break;
-            }
-        }
+        int index = years.indexOf(year);
 
         if(index == 0) {
-            return years.get(1);
+            return years.get(index + 1);
         }
         else {
             return years.get(index - 1);

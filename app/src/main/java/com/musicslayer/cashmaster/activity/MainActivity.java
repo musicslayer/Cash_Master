@@ -54,14 +54,13 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        addYearDialogFragment.restoreListeners(this, "addYear");
+        addYearDialogFragment.restoreListeners(this, "add_year");
 
         AppCompatImageButton addYearButton = findViewById(R.id.main_addYearButton);
         addYearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addYearDialogFragment.updateArguments(AddYearDialog.class);
-                addYearDialogFragment.show(MainActivity.this, "addYear");
+                addYearDialogFragment.show(MainActivity.this, "add_year");
             }
         });
 
@@ -169,15 +168,9 @@ public class MainActivity extends BaseActivity {
         L.removeAllViews();
 
         YearLedgerView yearLedgerView = new YearLedgerView(this, YearLedger.currentYearLedger);
-        yearLedgerView.setOnLineItemAddListener(new MonthLedgerView.OnLineItemAddListener() {
+        yearLedgerView.setOnLineItemChangeListener(new MonthLedgerView.OnLineItemChangeListener() {
             @Override
-            public void onAdd() {
-                updateLayout();
-            }
-        });
-        yearLedgerView.setOnLineItemEditListener(new MonthLedgerView.OnLineItemEditListener() {
-            @Override
-            public void onEdit() {
+            public void onChange() {
                 updateLayout();
             }
         });

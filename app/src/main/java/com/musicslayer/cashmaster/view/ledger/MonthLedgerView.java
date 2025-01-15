@@ -23,8 +23,7 @@ import java.math.BigDecimal;
 
 public class MonthLedgerView extends LinearLayout {
     public MonthLedger monthLedger;
-    private MonthLedgerView.OnLineItemAddListener onLineItemAddListener;
-    private MonthLedgerView.OnLineItemEditListener onLineItemEditListener;
+    private MonthLedgerView.OnLineItemChangeListener onLineItemChangeListener;
 
     public MonthLedgerView(Context context) {
         super(context);
@@ -60,14 +59,15 @@ public class MonthLedgerView extends LinearLayout {
 
                         int year = ((AddLineItemDialog)dialog).year;
                         String month = ((AddLineItemDialog)dialog).month;
+
                         YearLedger yearLedger = YearLedger.getYearLedger(year);
                         yearLedger.addLineItem(month, name, amount, isIncome);
 
-                        onLineItemAddListener.onAdd();
+                        onLineItemChangeListener.onChange();
                     }
                 }
             });
-            addLineItemDialogFragment.restoreListeners(context, "addLineItem");
+            addLineItemDialogFragment.restoreListeners(context, "add_line_item");
 
             ImageButtonView B_ADD = new ImageButtonView(context);
             B_ADD.setImageResource(R.drawable.baseline_add_box_24);
@@ -77,13 +77,14 @@ public class MonthLedgerView extends LinearLayout {
                 @Override
                 public void onClick(View view) {
                     addLineItemDialogFragment.updateArguments(AddLineItemDialog.class, monthLedger.year, monthLedger.month);
-                    addLineItemDialogFragment.show(context, "addLineItem");
+                    addLineItemDialogFragment.show(context, "add_line_item");
                 }
             });
 
             this.addView(B_ADD);
 
             // Total
+            // TODO Padding on top too large!
             BigDecimal total = monthLedger.getTotal();
             String monthTotalStr = "Total: $" + total.abs();
 
@@ -122,11 +123,11 @@ public class MonthLedgerView extends LinearLayout {
                             yearLedger.addLineItem(lineItem.month, name, amount, isIncome);
                         }
 
-                        onLineItemEditListener.onEdit();
+                        onLineItemChangeListener.onChange();
                     }
                 }
             });
-            editLineItemDialogFragment.restoreListeners(context, "editLineItem");
+            editLineItemDialogFragment.restoreListeners(context, "edit_line_item");
 
             // Line Items
             HorizontalSplitView horizontalSplitView = new HorizontalSplitView(context);
@@ -134,7 +135,7 @@ public class MonthLedgerView extends LinearLayout {
 
             // Incomes
             for(LineItem lineItem : monthLedger.getSortedIncomes()) {
-                LinearLayout L_LINEITEM = new LinearLayout(context);
+                LinearLayout L_LINEITEM = new LinearLayout(context); // TODO Can this all be an ImageButtonView?
                 L_LINEITEM.setOrientation(HORIZONTAL);
                 L_LINEITEM.setPadding(0, 0, 0, 20);
                 L_LINEITEM.setGravity(Gravity.CENTER_VERTICAL);
@@ -148,7 +149,7 @@ public class MonthLedgerView extends LinearLayout {
                     @Override
                     public void onClick(View view) {
                         editLineItemDialogFragment.updateArguments(EditLineItemDialog.class, lineItem);
-                        editLineItemDialogFragment.show(context, "editLineItem");
+                        editLineItemDialogFragment.show(context, "edit_line_item");
                     }
                 });
 
@@ -178,7 +179,7 @@ public class MonthLedgerView extends LinearLayout {
                     @Override
                     public void onClick(View view) {
                         editLineItemDialogFragment.updateArguments(EditLineItemDialog.class, lineItem);
-                        editLineItemDialogFragment.show(context, "editLineItem");
+                        editLineItemDialogFragment.show(context, "edit_line_item");
                     }
                 });
 
@@ -196,19 +197,11 @@ public class MonthLedgerView extends LinearLayout {
         }
     }
 
-    public void setOnLineItemAddListener(MonthLedgerView.OnLineItemAddListener onLineItemAddListener) {
-        this.onLineItemAddListener = onLineItemAddListener;
+    public void setOnLineItemChangeListener(MonthLedgerView.OnLineItemChangeListener onLineItemChangeListener) {
+        this.onLineItemChangeListener = onLineItemChangeListener;
     }
 
-    public void setOnLineItemEditListener(MonthLedgerView.OnLineItemEditListener onLineItemEditListener) {
-        this.onLineItemEditListener = onLineItemEditListener;
-    }
-
-    abstract public static class OnLineItemAddListener {
-        abstract public void onAdd();
-    }
-
-    abstract public static class OnLineItemEditListener {
-        abstract public void onEdit();
+    abstract public static class OnLineItemChangeListener {
+        abstract public void onChange();
     }
 }

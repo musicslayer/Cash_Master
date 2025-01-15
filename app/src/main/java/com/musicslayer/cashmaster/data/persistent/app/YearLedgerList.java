@@ -9,6 +9,7 @@ import com.musicslayer.cashmaster.util.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// TODO Name it LedgerList? LedgerData? Rework?
 public class YearLedgerList {
     public String getSharedPreferencesKey() {
         return "yearLedger_data";
