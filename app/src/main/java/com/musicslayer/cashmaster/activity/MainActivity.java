@@ -151,9 +151,13 @@ public class MainActivity extends BaseActivity {
     }
 
     public void updateLayout() {
+        // Current year
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        toolbar.setSubtitle("" + YearLedger.currentYearLedger.year);
+
         // Current year total
         BigDecimal total = YearLedger.currentYearLedger.getTotal();
-        String yearTotalStr = YearLedger.currentYearLedger.year + " Total: $" + total.abs();
+        String yearTotalStr = "Total: $" + total.abs();
 
         TextView yearTextView = findViewById(R.id.main_yearTotalTextView);
         yearTextView.setText(yearTotalStr);

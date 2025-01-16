@@ -73,6 +73,10 @@ public class AddLineItemDialog extends BaseDialog {
                         user_AMOUNT = amount;
                         user_ISINCOME = isIncome;
 
+                        // Adjust name to make aggregation easier.
+                        user_NAME = user_NAME.trim();
+                        user_NAME = user_NAME.toUpperCase();
+
                         isComplete = true;
                         dismiss();
                     }

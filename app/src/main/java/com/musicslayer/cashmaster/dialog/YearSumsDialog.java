@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,11 +31,14 @@ public class YearSumsDialog extends BaseDialog {
     public void createLayout(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_year_sums);
 
+        Toolbar toolbar = findViewById(R.id.year_sums_dialog_toolbar);
+        toolbar.setSubtitle("" + year);
+
         YearLedger yearLedger = YearLedger.getYearLedger(year);
 
         // Current year total
         BigDecimal total = yearLedger.getTotal();
-        String yearTotalStr = year + " Total: $" + total.abs();
+        String yearTotalStr = "Total: $" + total.abs();
 
         TextView yearTextView = findViewById(R.id.year_sums_dialog_yearTextView);
         yearTextView.setText(yearTotalStr);
@@ -52,6 +58,10 @@ public class YearSumsDialog extends BaseDialog {
         Collections.sort(names);
         for(String name : names) {
             BigDecimal amount = sums.get(name);
+            if(amount == null) {
+                amount = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
+            }
+
             TextView amountTextView = new TextView(activity);
             amountTextView.setText(name + " $" + amount.abs());
 
