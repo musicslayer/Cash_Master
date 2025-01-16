@@ -25,7 +25,7 @@ abstract public class BaseDialog extends Dialog {
     public boolean isComplete = false;
 
     abstract public void createLayout(Bundle savedInstanceState);
-    abstract public int getBaseViewID(); // TODO Can we programmatically determine this?
+    abstract public int getBaseViewID();
 
     public BaseDialog(Activity activity) {
         super(activity);
