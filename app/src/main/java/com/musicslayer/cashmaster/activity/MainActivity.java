@@ -68,10 +68,19 @@ public class MainActivity extends BaseActivity {
         AppCompatImageButton switchYearButton = findViewById(R.id.main_switchYearButton);
         PopupMenu popup = new PopupMenu(this, switchYearButton);
 
-        ArrayList<Integer> years = YearLedger.getAllYears();
-        for(int year : years) {
-            popup.getMenu().add("" + year);
-        }
+        switchYearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popup.getMenu().clear();
+
+                ArrayList<Integer> years = YearLedger.getAllYears();
+                for(int year : years) {
+                    popup.getMenu().add("" + year);
+                }
+
+                popup.show();
+            }
+        });
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
@@ -80,13 +89,6 @@ public class MainActivity extends BaseActivity {
 
                 updateLayout();
                 return true;
-            }
-        });
-
-        switchYearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popup.show();
             }
         });
 
@@ -164,6 +166,7 @@ public class MainActivity extends BaseActivity {
             themeButton.setImageResource(R.drawable.baseline_dark_mode_24);
         }
 
+        // Year Ledger
         LinearLayoutCompat L = findViewById(R.id.main_todoLinearLayout);
         L.removeAllViews();
 
