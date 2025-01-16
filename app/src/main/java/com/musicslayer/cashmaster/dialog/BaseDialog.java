@@ -75,7 +75,6 @@ abstract public class BaseDialog extends Dialog {
 
         AppCompatImageButton cancelButton = new AppCompatImageButton(activity);
         cancelButton.setImageResource(R.drawable.baseline_cancel_24);
-        cancelButton.setBackgroundColor(activity.getResources().getColor(android.R.color.transparent));
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +87,7 @@ abstract public class BaseDialog extends Dialog {
 
         CS.clone(CL);
         CS.connect(cancelButton.getId(), ConstraintSet.BOTTOM, toolbar.getId(), ConstraintSet.BOTTOM, 0);
-        CS.connect(cancelButton.getId(), ConstraintSet.END, toolbar.getId(), ConstraintSet.END, PixelUtil.dpToPx(10, activity));
+        CS.connect(cancelButton.getId(), ConstraintSet.END, toolbar.getId(), ConstraintSet.END, PixelUtil.dpToPx(16, activity));
         CS.connect(cancelButton.getId(), ConstraintSet.TOP, CL.getId(), ConstraintSet.TOP, 0);
         CS.applyTo(CL);
     }

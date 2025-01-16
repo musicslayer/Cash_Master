@@ -81,7 +81,6 @@ public class MonthLedgerView extends LinearLayout {
             this.addView(B_ADD);
 
             // Total
-            // TODO Padding on top too large!
             BigDecimal total = monthLedger.getTotal();
             String monthTotalStr = "Total: $" + total.abs();
 

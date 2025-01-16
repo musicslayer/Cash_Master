@@ -4,13 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatImageButton;
+
 // This View combines an ImageButton and a TextView
 public class ImageButtonView extends LinearLayout {
-    public ImageButton imageButton;
+    public AppCompatImageButton imageButton;
     public TextView textView;
 
     public ImageButtonView(Context context) {
@@ -28,9 +29,8 @@ public class ImageButtonView extends LinearLayout {
         this.setOrientation(HORIZONTAL);
         this.setGravity(Gravity.CENTER_VERTICAL);
 
-        imageButton = new ImageButton(context);
+        imageButton = new AppCompatImageButton(context);
         imageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        imageButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         this.addView(imageButton);
 
         textView = new TextView(context);
