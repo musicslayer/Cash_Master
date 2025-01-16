@@ -148,10 +148,10 @@ public class MainActivity extends BaseActivity {
         TextView yearTextView = findViewById(R.id.main_yearTotalTextView);
         yearTextView.setText(yearTotalStr);
         if(total.compareTo(BigDecimal.ZERO) < 0) {
-            yearTextView.setTextColor(getResources().getColor(R.color.red));
+            yearTextView.setTextColor(getColor(R.color.red));
         }
         else {
-            yearTextView.setTextColor(getResources().getColor(R.color.feature));
+            yearTextView.setTextColor(getColor(R.color.feature));
         }
 
         // Theme Button - Icon matches current theme setting

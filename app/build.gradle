@@ -32,7 +32,7 @@ android {
 
     defaultConfig {
         applicationId "com.musicslayer.cashmaster"
-        minSdk 21 // Minimum needed for some libraries we depend on.
+        minSdk 23 // Minimum needed for some libraries we depend on.
         //noinspection EditedTargetSdkVersion
         targetSdkVersion 35
         versionCode 1

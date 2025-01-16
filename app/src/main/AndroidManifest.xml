@@ -10,9 +10,9 @@
         android:theme="@style/Theme.CashMaster"
         android:icon="@mipmap/app_icon"
         android:roundIcon="@mipmap/app_icon_round"
-        android:allowBackup="false"
-        android:fullBackupContent="false"
         android:hasFragileUserData="true"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
         android:dataExtractionRules="@xml/data_extraction_rules"
         tools:targetApi="s">
 

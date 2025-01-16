@@ -88,10 +88,10 @@ public class MonthLedgerView extends LinearLayout {
             T_TOTAL.setPadding(0, 0, 0, 20);
             T_TOTAL.setText(monthTotalStr);
             if(total.compareTo(BigDecimal.ZERO) < 0) {
-                T_TOTAL.setTextColor(getResources().getColor(R.color.red));
+                T_TOTAL.setTextColor(context.getColor(R.color.red));
             }
             else {
-                T_TOTAL.setTextColor(getResources().getColor(R.color.feature));
+                T_TOTAL.setTextColor(context.getColor(R.color.feature));
             }
 
             this.addView(T_TOTAL);
@@ -134,7 +134,7 @@ public class MonthLedgerView extends LinearLayout {
                 ImageButtonView B_EDIT = new ImageButtonView(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
                 B_EDIT.setTextString(lineItem.name + " $" + lineItem.amount);
-                B_EDIT.setTextColor(getResources().getColor(R.color.feature));
+                B_EDIT.setTextColor(context.getColor(R.color.feature));
                 B_EDIT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -151,7 +151,7 @@ public class MonthLedgerView extends LinearLayout {
                 ImageButtonView B_EDIT = new ImageButtonView(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
                 B_EDIT.setTextString(lineItem.name + " $" + lineItem.amount);
-                B_EDIT.setTextColor(getResources().getColor(R.color.red));
+                B_EDIT.setTextColor(context.getColor(R.color.red));
                 B_EDIT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

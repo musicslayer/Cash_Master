@@ -47,6 +47,8 @@ abstract public class RedEditText extends AppCompatEditText {
 
     // Returns if the value satisfies the condition, and will highlight itself in red if it does not.
     public boolean test() {
+        Context context = getContext();
+
         boolean isValid;
 
         try {
@@ -61,7 +63,7 @@ abstract public class RedEditText extends AppCompatEditText {
             is_red = false;
         }
         else {
-            int color = getResources().getColor(R.color.red);
+            int color = context.getColor(R.color.red);
             getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
             is_red = true;
         }
@@ -93,7 +95,7 @@ abstract public class RedEditText extends AppCompatEditText {
 
             is_red = bundle.getBoolean("is_red");
             if(is_red) {
-                int color = getResources().getColor(R.color.red);
+                int color = getContext().getColor(R.color.red);
                 getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
             }
             else {
