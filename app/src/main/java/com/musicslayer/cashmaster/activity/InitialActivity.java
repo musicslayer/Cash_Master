@@ -9,8 +9,7 @@ import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 
-// TODO Backup to database?
-// TODO Aggregate Statistics?
+// TODO Remove all LayoutParams?
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {

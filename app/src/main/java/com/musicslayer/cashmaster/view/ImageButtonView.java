@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class ImageButtonView extends LinearLayout {
 
         imageButton = new AppCompatImageButton(context);
         imageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
         this.addView(imageButton);
 
         textView = new TextView(context);
@@ -40,6 +42,10 @@ public class ImageButtonView extends LinearLayout {
 
     public void setImageResource(int resID) {
         imageButton.setImageResource(resID);
+    }
+
+    public void setImageSize(int size) {
+        imageButton.setLayoutParams(new LinearLayout.LayoutParams(size, size));
     }
 
     public void setOnClickListener(View.OnClickListener onClickListener) {

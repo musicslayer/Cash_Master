@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -74,7 +75,10 @@ abstract public class BaseDialog extends Dialog {
         ConstraintSet CS = new ConstraintSet();
 
         AppCompatImageButton cancelButton = new AppCompatImageButton(activity);
+        int size = activity.getResources().getDimensionPixelSize(R.dimen.icon_size);
+        cancelButton.setLayoutParams(new FrameLayout.LayoutParams(size, size));
         cancelButton.setImageResource(R.drawable.baseline_cancel_24);
+        cancelButton.setScaleType(ImageView.ScaleType.FIT_XY);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

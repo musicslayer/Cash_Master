@@ -68,6 +68,7 @@ public class MonthLedgerView extends LinearLayout {
 
             ImageButtonView B_ADD = new ImageButtonView(context);
             B_ADD.setImageResource(R.drawable.baseline_add_box_24);
+            B_ADD.setImageSize(getResources().getDimensionPixelSize(R.dimen.icon_size));
             B_ADD.setTextSize(20);
             B_ADD.setTextString(monthLedger.month);
             B_ADD.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +134,7 @@ public class MonthLedgerView extends LinearLayout {
             for(LineItem lineItem : monthLedger.getSortedIncomes()) {
                 ImageButtonView B_EDIT = new ImageButtonView(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
+                B_EDIT.setImageSize(getResources().getDimensionPixelSize(R.dimen.icon_size));
                 B_EDIT.setTextString(lineItem.name + " $" + lineItem.amount);
                 B_EDIT.setTextColor(context.getColor(R.color.feature));
                 B_EDIT.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +152,7 @@ public class MonthLedgerView extends LinearLayout {
             for(LineItem lineItem : monthLedger.getSortedExpenses()) {
                 ImageButtonView B_EDIT = new ImageButtonView(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
+                B_EDIT.setImageSize(getResources().getDimensionPixelSize(R.dimen.icon_size));
                 B_EDIT.setTextString(lineItem.name + " $" + lineItem.amount);
                 B_EDIT.setTextColor(context.getColor(R.color.red));
                 B_EDIT.setOnClickListener(new View.OnClickListener() {
