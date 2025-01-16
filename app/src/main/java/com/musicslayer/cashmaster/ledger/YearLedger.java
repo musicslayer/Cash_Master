@@ -165,4 +165,28 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         }
         return total;
     }
+
+    public HashMap<String, BigDecimal> getSums() {
+        HashMap<String, BigDecimal> sums = new HashMap<>();
+
+        for(MonthLedger monthLedger : monthLedgers) {
+            for(LineItem lineItem : monthLedger.lineItems) {
+                BigDecimal total = sums.get(lineItem.name);
+                if(total == null) {
+                    total = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
+                }
+
+                if(lineItem.isIncome) {
+                    total = total.add(lineItem.amount);
+                }
+                else {
+                    total = total.subtract(lineItem.amount);
+                }
+
+                sums.put(lineItem.name, total);
+            }
+        }
+
+        return sums;
+    }
 }

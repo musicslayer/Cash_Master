@@ -28,12 +28,22 @@
         app:srcCompat="@drawable/baseline_auto_mode_24" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/main_deleteYearButton"
+        android:id="@+id/main_yearSumsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
         app:layout_constraintEnd_toStartOf="@id/main_themeButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_calculate_24" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/main_deleteYearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
+        app:layout_constraintEnd_toStartOf="@id/main_yearSumsButton"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_delete_24" />
 

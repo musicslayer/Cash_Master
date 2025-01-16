@@ -17,6 +17,7 @@ import com.musicslayer.cashmaster.data.persistent.app.Theme;
 import com.musicslayer.cashmaster.dialog.AddYearDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
+import com.musicslayer.cashmaster.dialog.YearSumsDialog;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
@@ -122,6 +123,15 @@ public class MainActivity extends BaseActivity {
                     confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteYearDialog.class, YearLedger.currentYearLedger.year);
                     confirmDeleteItemDialogFragment.show(MainActivity.this, "delete_year");
                 }
+            }
+        });
+
+        // Year Sums Button
+        AppCompatImageButton yearSumsButton = findViewById(R.id.main_yearSumsButton);
+        yearSumsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BaseDialogFragment.newInstance(YearSumsDialog.class, YearLedger.currentYearLedger.year).show(MainActivity.this, "year_sums");
             }
         });
 
