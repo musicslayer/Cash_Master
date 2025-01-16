@@ -1,6 +1,6 @@
 [versions]
 constraintlayout = "2.2.0"
-gradle = "8.5.2"
+gradle = "8.8.0"
 navigationUi = "2.8.5"
 retoast = "1.7.0"
 

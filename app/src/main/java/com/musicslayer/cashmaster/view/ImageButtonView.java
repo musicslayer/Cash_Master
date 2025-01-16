@@ -46,6 +46,10 @@ public class ImageButtonView extends LinearLayout {
         imageButton.setOnClickListener(onClickListener);
     }
 
+    public void setTextColor(int color) {
+        textView.setTextColor(color);
+    }
+
     public void setTextSize(float size) {
         textView.setTextSize(size);
     }

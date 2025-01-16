@@ -2,12 +2,9 @@ package com.musicslayer.cashmaster.view.ledger;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
@@ -135,16 +132,10 @@ public class MonthLedgerView extends LinearLayout {
 
             // Incomes
             for(LineItem lineItem : monthLedger.getSortedIncomes()) {
-                LinearLayout L_LINEITEM = new LinearLayout(context); // TODO Can this all be an ImageButtonView?
-                L_LINEITEM.setOrientation(HORIZONTAL);
-                L_LINEITEM.setPadding(0, 0, 0, 20);
-                L_LINEITEM.setGravity(Gravity.CENTER_VERTICAL);
-
-                AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
-                B_EDIT.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                ImageButtonView B_EDIT = new ImageButtonView(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
-                B_EDIT.setPadding(0, 0, 0, 0);
-                B_EDIT.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                B_EDIT.setTextString(lineItem.name + " $" + lineItem.amount);
+                B_EDIT.setTextColor(getResources().getColor(R.color.feature));
                 B_EDIT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -153,28 +144,15 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                TextView T_LINEITEM = new TextView(context);
-                T_LINEITEM.setPadding(30, 0, 0, 0);
-                T_LINEITEM.setText(lineItem.name + " $" + lineItem.amount);
-                T_LINEITEM.setTextColor(getResources().getColor(R.color.feature));
-
-                L_LINEITEM.addView(B_EDIT);
-                L_LINEITEM.addView(T_LINEITEM);
-                horizontalSplitView.addViewA(L_LINEITEM);
+                horizontalSplitView.addViewA(B_EDIT);
             }
 
             // Expenses
             for(LineItem lineItem : monthLedger.getSortedExpenses()) {
-                LinearLayout L_LINEITEM = new LinearLayout(context);
-                L_LINEITEM.setOrientation(HORIZONTAL);
-                L_LINEITEM.setPadding(0, 0, 0, 20);
-                L_LINEITEM.setGravity(Gravity.CENTER_VERTICAL);
-
-                AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
-                B_EDIT.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                ImageButtonView B_EDIT = new ImageButtonView(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
-                B_EDIT.setPadding(0, 0, 0, 0);
-                B_EDIT.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                B_EDIT.setTextString(lineItem.name + " $" + lineItem.amount);
+                B_EDIT.setTextColor(getResources().getColor(R.color.red));
                 B_EDIT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -183,14 +161,7 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                TextView T_LINEITEM = new TextView(context);
-                T_LINEITEM.setPadding(30, 0, 0, 0);
-                T_LINEITEM.setText(lineItem.name + " $" + lineItem.amount);
-                T_LINEITEM.setTextColor(getResources().getColor(R.color.red));
-
-                L_LINEITEM.addView(B_EDIT);
-                L_LINEITEM.addView(T_LINEITEM);
-                horizontalSplitView.addViewB(L_LINEITEM);
+                horizontalSplitView.addViewB(B_EDIT);
             }
 
             this.addView(horizontalSplitView);

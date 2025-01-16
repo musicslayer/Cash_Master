@@ -48,7 +48,7 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
     }
 
     public void addLineItem(int year, String month, String name, BigDecimal amount, boolean isIncome) {
-        LineItem lineItem = new LineItem(); // TODO No arg constructor?
+        LineItem lineItem = new LineItem();
         lineItem.year = year;
         lineItem.month = month;
         lineItem.name = name;
