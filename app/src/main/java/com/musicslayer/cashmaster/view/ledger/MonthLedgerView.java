@@ -3,8 +3,12 @@ package com.musicslayer.cashmaster.view.ledger;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
@@ -126,17 +130,17 @@ public class MonthLedgerView extends LinearLayout {
             });
             editLineItemDialogFragment.restoreListeners(context, "edit_line_item");
 
-            // Line Items
             HorizontalSplitView horizontalSplitView = new HorizontalSplitView(context);
             horizontalSplitView.setPadding(0, 0, 0, 100);
 
             // Incomes
+            EditLedgerTable editLedgerTableA = new EditLedgerTable(context);
             for(LineItem lineItem : monthLedger.getSortedIncomes()) {
-                ImageButtonView B_EDIT = new ImageButtonView(context);
+                int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
+                AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
-                B_EDIT.setImageSize(getResources().getDimensionPixelSize(R.dimen.icon_size));
-                B_EDIT.setTextString(lineItem.name + " $" + lineItem.amount);
-                B_EDIT.setTextColor(context.getColor(R.color.feature));
+                B_EDIT.setLayoutParams(new TableRow.LayoutParams(size, size));
+                B_EDIT.setScaleType(ImageView.ScaleType.FIT_XY);
                 B_EDIT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -145,16 +149,18 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                horizontalSplitView.addViewA(B_EDIT);
+                editLedgerTableA.addRow(B_EDIT, lineItem.name, lineItem.amount, context.getColor(R.color.feature));
             }
+            horizontalSplitView.addViewA(editLedgerTableA);
 
             // Expenses
+            EditLedgerTable editLedgerTableB = new EditLedgerTable(context);
             for(LineItem lineItem : monthLedger.getSortedExpenses()) {
-                ImageButtonView B_EDIT = new ImageButtonView(context);
+                int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
+                AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
-                B_EDIT.setImageSize(getResources().getDimensionPixelSize(R.dimen.icon_size));
-                B_EDIT.setTextString(lineItem.name + " $" + lineItem.amount);
-                B_EDIT.setTextColor(context.getColor(R.color.red));
+                B_EDIT.setLayoutParams(new TableRow.LayoutParams(size, size));
+                B_EDIT.setScaleType(ImageView.ScaleType.FIT_XY);
                 B_EDIT.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -163,8 +169,9 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                horizontalSplitView.addViewB(B_EDIT);
+                editLedgerTableB.addRow(B_EDIT, lineItem.name, lineItem.amount, context.getColor(R.color.red));
             }
+            horizontalSplitView.addViewB(editLedgerTableB);
 
             this.addView(horizontalSplitView);
         }
