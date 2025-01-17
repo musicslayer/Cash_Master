@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#282828</color>
-    <color name="feature">#A4A4A4</color>
-    <color name="feature_faded">#40A4A4A4</color>
-    <color name="red">#FF6666</color>
+    <color name="monochrome_background">#282828</color>
+    <color name="monochrome_feature">#A4A4A4</color>
+    <color name="monochrome_feature_faded">#40A4A4A4</color>
+    <color name="monochrome_red">#FF6666</color>
+
+    <color name="other_background">#40FF8811</color>
+    <color name="other_feature">#40448800</color>
+    <color name="other_feature_faded">#20448800</color>
+    <color name="other_red">#40FF00FF</color>
 </resources>

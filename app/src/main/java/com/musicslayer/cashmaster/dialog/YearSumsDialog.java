@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.PixelUtil;
 
 import java.math.BigDecimal;
@@ -46,10 +47,10 @@ public class YearSumsDialog extends BaseDialog {
         TextView yearTextView = findViewById(R.id.year_sums_dialog_yearTextView);
         yearTextView.setText(yearTotalStr);
         if(total.compareTo(BigDecimal.ZERO) < 0) {
-            yearTextView.setTextColor(activity.getColor(R.color.red));
+            yearTextView.setTextColor(ColorUtil.getThemeRed(activity));
         }
         else {
-            yearTextView.setTextColor(activity.getColor(R.color.feature));
+            yearTextView.setTextColor(ColorUtil.getThemeFeature(activity));
         }
 
         // Aggregate sums of line items
@@ -74,10 +75,10 @@ public class YearSumsDialog extends BaseDialog {
             t1.setText(amountStr);
 
             if(amount.compareTo(BigDecimal.ZERO) < 0) {
-                t1.setTextColor(activity.getColor(R.color.red));
+                t1.setTextColor(ColorUtil.getThemeRed(activity));
             }
             else {
-                t1.setTextColor(activity.getColor(R.color.feature));
+                t1.setTextColor(ColorUtil.getThemeFeature(activity));
             }
 
             TableRow row = new TableRow(activity);

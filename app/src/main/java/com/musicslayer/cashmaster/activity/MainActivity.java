@@ -19,6 +19,7 @@ import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
 import com.musicslayer.cashmaster.dialog.YearSumsDialog;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.ToastUtil;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
@@ -162,10 +163,10 @@ public class MainActivity extends BaseActivity {
         TextView yearTextView = findViewById(R.id.main_yearTotalTextView);
         yearTextView.setText(yearTotalStr);
         if(total.compareTo(BigDecimal.ZERO) < 0) {
-            yearTextView.setTextColor(getColor(R.color.red));
+            yearTextView.setTextColor(ColorUtil.getThemeRed(this));
         }
         else {
-            yearTextView.setTextColor(getColor(R.color.feature));
+            yearTextView.setTextColor(ColorUtil.getThemeFeature(this));
         }
 
         // Theme Button - Icon matches current theme setting

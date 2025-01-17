@@ -20,6 +20,7 @@ import com.musicslayer.cashmaster.dialog.EditLineItemDialog;
 import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.PixelUtil;
 import com.musicslayer.cashmaster.view.HorizontalSplitView;
 import com.musicslayer.cashmaster.view.ImageButtonView;
@@ -98,10 +99,10 @@ public class MonthLedgerView extends LinearLayout {
             T_TOTAL.setPadding(0, 0, 0, PixelUtil.dpToPx(5, context));
             T_TOTAL.setText(monthTotalStr);
             if(total.compareTo(BigDecimal.ZERO) < 0) {
-                T_TOTAL.setTextColor(context.getColor(R.color.red));
+                T_TOTAL.setTextColor(ColorUtil.getThemeRed(context));
             }
             else {
-                T_TOTAL.setTextColor(context.getColor(R.color.feature));
+                T_TOTAL.setTextColor(ColorUtil.getThemeFeature(context));
             }
 
             this.addView(T_TOTAL);
@@ -144,7 +145,7 @@ public class MonthLedgerView extends LinearLayout {
                 String name = lineItem.name;
                 BigDecimal amount = lineItem.amount;
                 int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
-                int color = context.getColor(R.color.feature);
+                int color = ColorUtil.getThemeFeature(context);
 
                 AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
@@ -188,7 +189,7 @@ public class MonthLedgerView extends LinearLayout {
                 String name = lineItem.name;
                 BigDecimal amount = lineItem.amount;
                 int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
-                int color = context.getColor(R.color.red);
+                int color = ColorUtil.getThemeRed(context);
 
                 AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);

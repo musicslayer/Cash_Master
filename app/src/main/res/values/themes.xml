@@ -1,16 +1,33 @@
 <resources>
-    <!-- Base application theme. -->
+
+    <!-- Monochrome -->
+    <style name="Theme.CashMaster.Monochrome" parent="Theme.CashMaster">
+        <item name="theme_background">@color/monochrome_background</item>
+        <item name="theme_feature">@color/monochrome_feature</item>
+        <item name="theme_feature_faded">@color/monochrome_feature_faded</item>
+        <item name="theme_red">@color/monochrome_red</item>
+    </style>
+
+    <!-- Other -->
+    <style name="Theme.CashMaster.Other" parent="Theme.CashMaster">
+        <item name="theme_background">@color/other_background</item>
+        <item name="theme_feature">@color/other_feature</item>
+        <item name="theme_feature_faded">@color/other_feature_faded</item>
+        <item name="theme_red">@color/other_red</item>
+    </style>
+
+    <!-- Base theme -->
     <style name="Theme.CashMaster" parent="Theme.MaterialComponents">
         <!-- Primary Brand Colors -->
-        <item name="colorPrimary">@color/background</item>
-        <item name="colorPrimaryVariant">@color/feature</item>
-        <item name="colorPrimaryDark">@color/background</item>
-        <item name="colorOnPrimary">@color/background</item>
+        <item name="colorPrimary">?attr/theme_background</item>
+        <item name="colorPrimaryVariant">?attr/theme_feature</item>
+        <item name="colorPrimaryDark">?attr/theme_background</item>
+        <item name="colorOnPrimary">?attr/theme_background</item>
 
         <!-- Secondary Brand Colors -->
-        <item name="colorSecondary">@color/feature</item>
-        <item name="colorSecondaryVariant">@color/feature</item>
-        <item name="colorOnSecondary">@color/background</item>
+        <item name="colorSecondary">?attr/theme_feature</item>
+        <item name="colorSecondaryVariant">?attr/theme_feature</item>
+        <item name="colorOnSecondary">?attr/theme_background</item>
 
         <!-- View Themes -->
         <item name="actionBarStyle">@style/ActionBarTheme</item>
@@ -27,19 +44,19 @@
 
         <!-- Other -->
         <item name="singleLine">true</item>
-        <item name="subtitleTextColor">@color/feature</item>
-        <item name="titleTextColor">@color/feature</item>
+        <item name="subtitleTextColor">?attr/theme_feature</item>
+        <item name="titleTextColor">?attr/theme_feature</item>
         <item name="windowNoTitle">true</item>
 
         <item name="android:fadeScrollbars">false</item>
         <item name="android:freezesText">true</item>
         <item name="android:itemBackground">@drawable/border_tight</item>
-        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:navigationBarColor">?attr/theme_background</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColorPrimary">@color/feature</item>
-        <item name="android:textColorSecondary">@color/feature</item>
+        <item name="android:textColorPrimary">?attr/theme_feature</item>
+        <item name="android:textColorSecondary">?attr/theme_feature</item>
         <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowBackground">?attr/theme_background</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
 
@@ -50,14 +67,14 @@
     <style name="ActionBarTheme.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size_title</item>
-        <item name="android:textColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="ButtonTheme" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@color/feature</item>
-        <item name="strokeColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
+        <item name="strokeColor">?attr/theme_feature</item>
         <item name="strokeWidth">1dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -73,14 +90,14 @@
     <style name="CheckBoxTheme" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="DialogTheme" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColorPrimary">@color/feature</item>
-        <item name="android:textColorSecondary">@color/feature</item>
+        <item name="android:textColorPrimary">?attr/theme_feature</item>
+        <item name="android:textColorSecondary">?attr/theme_feature</item>
         <item name="android:windowBackground">@drawable/dialog_background</item>
 
         <item name="actionBarStyle">@style/ActionBarTheme</item>
@@ -97,8 +114,8 @@
     <style name="ImageButtonTheme" parent="@style/Widget.AppCompat.ImageButton">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@color/feature</item>
-        <item name="strokeColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
+        <item name="strokeColor">?attr/theme_feature</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:drawablePadding">0dp</item>
@@ -114,34 +131,34 @@
     <style name="ItemTextTheme" parent="@style/TextAppearance.AppCompat">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="MaterialButtonTheme" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@color/feature</item>
-        <item name="strokeColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
+        <item name="strokeColor">?attr/theme_feature</item>
         <item name="strokeWidth">1dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
     </style>
 
     <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu">
-        <item name="android:popupBackground">@color/background</item>
+        <item name="android:popupBackground">?attr/theme_background</item>
     </style>
 
     <style name="RadioButtonTheme" parent="Widget.AppCompat.CompoundButton.RadioButton">
-        <item name="android:buttonTint">@color/feature</item>
+        <item name="android:buttonTint">?attr/theme_feature</item>
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="TextViewTheme" parent="@style/Widget.MaterialComponents.TextView">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="ToolbarTheme" parent="@style/Widget.AppCompat.Toolbar">
@@ -151,6 +168,6 @@
     <style name="ToolbarTheme.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:fontFamily">@string/font_family</item>
         <item name="android:textSize">@dimen/font_size_title</item>
-        <item name="android:textColor">@color/feature</item>
+        <item name="android:textColor">?attr/theme_feature</item>
     </style>
 </resources>
