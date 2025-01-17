@@ -39,42 +39,30 @@
             android:text="Expense" />
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/edit_line_item_dialog_nameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Name Below"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_radioGroup" />
-
     <com.musicslayer.cashmaster.view.red.PlainTextEditText
         android:id="@+id/edit_line_item_dialog_nameEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="Name"
+        android:textColorHint="@color/feature_faded"
         android:inputType="textPersonName"
         android:maxLength="25"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_nameTextView" />
-
-    <TextView
-        android:id="@+id/edit_line_item_dialog_amountTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Amount Below"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_nameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_radioGroup" />
 
     <com.musicslayer.cashmaster.view.red.AmountEditText
         android:id="@+id/edit_line_item_dialog_amountEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="Amount (xxxx.yy)"
+        android:textColorHint="@color/feature_faded"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_amountTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_line_item_dialog_nameEditText" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/edit_line_item_dialog_editButton"

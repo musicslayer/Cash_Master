@@ -2,5 +2,6 @@
 <resources>
     <color name="background">#FFFFFF</color>
     <color name="feature">#000000</color>
+    <color name="feature_faded">#40000000</color>
     <color name="red">#FF0000</color>
 </resources>

@@ -17,23 +17,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Add Year" />
 
-    <TextView
-        android:id="@+id/add_year_dialog_yearTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Year Below"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_year_dialog_toolbar" />
-
     <com.musicslayer.cashmaster.view.red.YearEditText
         android:id="@+id/add_year_dialog_yearEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="Year (4-Digit)"
+        android:textColorHint="@color/feature_faded"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_year_dialog_yearTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/add_year_dialog_toolbar" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_year_dialog_createButton"
