@@ -41,6 +41,35 @@ public class DataBridge {
         }
     }
 
+    public static <T> String serializeValue(T obj, Class<T> clazzT) {
+        // JSON doesn't allow direct Strings as top-level values, so directly handle value ourselves.
+        if(obj == null) { return null; }
+
+        Writer writer = new Writer();
+        Reader reader = null;
+
+        try {
+            writer.beginArray();
+            writer.serialize(null, obj, clazzT);
+            writer.endArray();
+            safeFlushAndClose(writer);
+
+            reader = new Reader(writer.stringWriter.toString());
+            reader.beginArray();
+            String s = reader.getString();
+            reader.endArray();
+            safeClose(reader);
+
+            return s;
+        }
+        catch(Exception e) {
+            ThrowableUtil.processThrowable(e);
+            safeFlushAndClose(writer);
+            safeClose(reader);
+            throw new IllegalStateException(e);
+        }
+    }
+
     public static <T> String serialize(T obj, Class<T> clazzT) {
         if(obj == null) { return null; }
 
@@ -54,6 +83,35 @@ public class DataBridge {
         catch(Exception e) {
             ThrowableUtil.processThrowable(e);
             safeFlushAndClose(writer);
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static <T> T deserializeValue(String s, Class<T> clazzT) {
+        // JSON doesn't allow direct Strings as top-level values, so directly handle value ourselves.
+        if(s == null) { return null; }
+
+        Writer writer = new Writer();
+        Reader reader = null;
+
+        try {
+            writer.beginArray();
+            writer.putString(s);
+            writer.endArray();
+            safeFlushAndClose(writer);
+
+            reader = new Reader(writer.stringWriter.toString());
+            reader.beginArray();
+            T obj = reader.deserialize(null, clazzT);
+            reader.endArray();
+            safeClose(reader);
+
+            return obj;
+        }
+        catch(Exception e) {
+            ThrowableUtil.processThrowable(e);
+            safeFlushAndClose(writer);
+            safeClose(reader);
             throw new IllegalStateException(e);
         }
     }
@@ -105,6 +163,16 @@ public class DataBridge {
 
         public Writer endObject() throws IOException {
             jsonWriter.endObject();
+            return this;
+        }
+
+        public Writer beginArray() throws IOException {
+            jsonWriter.beginArray();
+            return this;
+        }
+
+        public Writer endArray() throws IOException {
+            jsonWriter.endArray();
             return this;
         }
 
@@ -196,6 +264,16 @@ public class DataBridge {
 
         public Reader endObject() throws IOException {
             jsonReader.endObject();
+            return this;
+        }
+
+        public Reader beginArray() throws IOException {
+            jsonReader.beginArray();
+            return this;
+        }
+
+        public Reader endArray() throws IOException {
+            jsonReader.endArray();
             return this;
         }
 

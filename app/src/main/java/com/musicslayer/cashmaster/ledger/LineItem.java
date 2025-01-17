@@ -59,8 +59,8 @@ public class LineItem implements DataBridge.SerializableToJSON, Parcelable {
         out.writeInt(year);
         out.writeString(month);
         out.writeString(name);
-        out.writeString(DataBridge.serialize(amount, BigDecimal.class));
-        out.writeInt(isIncome ? 1 : 0);
+        out.writeString(DataBridge.serializeValue(amount, BigDecimal.class));
+        out.writeString(Boolean.toString(isIncome)); // "writeBoolean" requires newer Android version.
     }
 
     public static final Parcelable.Creator<LineItem> CREATOR = new Parcelable.Creator<LineItem>() {
@@ -69,8 +69,8 @@ public class LineItem implements DataBridge.SerializableToJSON, Parcelable {
             int year = in.readInt();
             String month = in.readString();
             String name = in.readString();
-            BigDecimal amount = DataBridge.deserialize(in.readString(), BigDecimal.class);
-            boolean isIncome = in.readInt() == 1;
+            BigDecimal amount = DataBridge.deserializeValue(in.readString(), BigDecimal.class);
+            boolean isIncome = Boolean.parseBoolean(in.readString());
 
             LineItem lineItem = new LineItem();
             lineItem.year = year;
