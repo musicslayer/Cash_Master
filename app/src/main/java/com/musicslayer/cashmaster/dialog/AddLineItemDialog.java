@@ -63,6 +63,10 @@ public class AddLineItemDialog extends BaseDialog {
                     BigDecimal amount = new BigDecimal(E_AMOUNT.getTextString()).setScale(2, RoundingMode.UNNECESSARY);
                     boolean isIncome = rbIncome.isChecked();
 
+                    // Adjust name to make aggregation easier.
+                    name = name.trim();
+                    name = name.toUpperCase();
+
                     YearLedger yearLedger = YearLedger.getYearLedger(year);
 
                     if (yearLedger.hasLineItem(month, name)) {
@@ -72,10 +76,6 @@ public class AddLineItemDialog extends BaseDialog {
                         user_NAME = name;
                         user_AMOUNT = amount;
                         user_ISINCOME = isIncome;
-
-                        // Adjust name to make aggregation easier.
-                        user_NAME = user_NAME.trim();
-                        user_NAME = user_NAME.toUpperCase();
 
                         isComplete = true;
                         dismiss();
