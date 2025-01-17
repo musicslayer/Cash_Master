@@ -2,15 +2,19 @@ package com.musicslayer.cashmaster.dialog;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.ledger.YearLedger;
-import com.musicslayer.cashmaster.view.ledger.LedgerTable;
+import com.musicslayer.cashmaster.util.PixelUtil;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,10 +57,34 @@ public class YearSumsDialog extends BaseDialog {
         ArrayList<String> names = new ArrayList<>(sums.keySet());
         Collections.sort(names);
 
-        LedgerTable ledgerTable = findViewById(R.id.year_sums_dialog_yearSumsLedgerTable);
+        TableLayout ledgerTable = findViewById(R.id.year_sums_dialog_yearSumsLedgerTable);
         for(String name : names) {
             BigDecimal amount = sums.get(name);
-            ledgerTable.addRow(name, amount);
+
+            AppCompatTextView t0 = new AppCompatTextView(activity);
+            t0.setText(name);
+
+            AppCompatTextView t1 = new AppCompatTextView(activity);
+            t1.setPadding(PixelUtil.dpToPx(10, activity), 0, 0, 0);
+
+            if(amount == null) {
+                amount = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
+            }
+            String amountStr = "$" + amount.abs();
+            t1.setText(amountStr);
+
+            if(amount.compareTo(BigDecimal.ZERO) < 0) {
+                t1.setTextColor(activity.getColor(R.color.red));
+            }
+            else {
+                t1.setTextColor(activity.getColor(R.color.feature));
+            }
+
+            TableRow row = new TableRow(activity);
+            row.addView(t0);
+            row.addView(t1);
+
+            ledgerTable.addView(row);
         }
     }
 }

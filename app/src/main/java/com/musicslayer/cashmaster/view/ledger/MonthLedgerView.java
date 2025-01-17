@@ -2,13 +2,16 @@ package com.musicslayer.cashmaster.view.ledger;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
@@ -22,6 +25,7 @@ import com.musicslayer.cashmaster.view.HorizontalSplitView;
 import com.musicslayer.cashmaster.view.ImageButtonView;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class MonthLedgerView extends LinearLayout {
     public MonthLedger monthLedger;
@@ -135,9 +139,13 @@ public class MonthLedgerView extends LinearLayout {
             horizontalSplitView.setPadding(0, 0, 0, PixelUtil.dpToPx(30, context));
 
             // Incomes
-            EditLedgerTable editLedgerTableA = new EditLedgerTable(context);
+            TableLayout ledgerTableA = new TableLayout(context);
             for(LineItem lineItem : monthLedger.getSortedIncomes()) {
+                String name = lineItem.name;
+                BigDecimal amount = lineItem.amount;
                 int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
+                int color = context.getColor(R.color.feature);
+
                 AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
                 B_EDIT.setLayoutParams(new TableRow.LayoutParams(size, size));
@@ -150,14 +158,38 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                editLedgerTableA.addRow(B_EDIT, lineItem.name, lineItem.amount, context.getColor(R.color.feature));
+                AppCompatTextView t0 = new AppCompatTextView(context);
+                t0.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
+                t0.setText(name);
+
+                AppCompatTextView t1 = new AppCompatTextView(context);
+                t1.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
+
+                if(amount == null) {
+                    amount = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
+                }
+                String amountStr = "$" + amount;
+                t1.setText(amountStr);
+                t1.setTextColor(color);
+
+                TableRow row = new TableRow(context);
+                row.setGravity(Gravity.CENTER_VERTICAL);
+                row.addView(B_EDIT);
+                row.addView(t0);
+                row.addView(t1);
+
+                ledgerTableA.addView(row);
             }
-            horizontalSplitView.addViewA(editLedgerTableA);
+            horizontalSplitView.addViewA(ledgerTableA);
 
             // Expenses
-            EditLedgerTable editLedgerTableB = new EditLedgerTable(context);
+            TableLayout ledgerTableB = new TableLayout(context);
             for(LineItem lineItem : monthLedger.getSortedExpenses()) {
+                String name = lineItem.name;
+                BigDecimal amount = lineItem.amount;
                 int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
+                int color = context.getColor(R.color.red);
+
                 AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
                 B_EDIT.setImageResource(R.drawable.baseline_edit_24);
                 B_EDIT.setLayoutParams(new TableRow.LayoutParams(size, size));
@@ -170,9 +202,29 @@ public class MonthLedgerView extends LinearLayout {
                     }
                 });
 
-                editLedgerTableB.addRow(B_EDIT, lineItem.name, lineItem.amount, context.getColor(R.color.red));
+                AppCompatTextView t0 = new AppCompatTextView(context);
+                t0.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
+                t0.setText(name);
+
+                AppCompatTextView t1 = new AppCompatTextView(context);
+                t1.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
+
+                if(amount == null) {
+                    amount = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
+                }
+                String amountStr = "$" + amount;
+                t1.setText(amountStr);
+                t1.setTextColor(color);
+
+                TableRow row = new TableRow(context);
+                row.setGravity(Gravity.CENTER_VERTICAL);
+                row.addView(B_EDIT);
+                row.addView(t0);
+                row.addView(t1);
+
+                ledgerTableB.addView(row);
             }
-            horizontalSplitView.addViewB(editLedgerTableB);
+            horizontalSplitView.addViewB(ledgerTableB);
 
             this.addView(horizontalSplitView);
         }
