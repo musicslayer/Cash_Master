@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.musicslayer.cashmaster.app.App;
+import com.musicslayer.cashmaster.data.persistent.app.Color;
 import com.musicslayer.cashmaster.util.AppearanceUtil;
 
 abstract public class BaseActivity extends AppCompatActivity {
@@ -50,6 +51,7 @@ abstract public class BaseActivity extends AppCompatActivity {
 
         setCurrentActivity(this);
         AppearanceUtil.setAppearance(this);
+        setTheme(Color.getCurrentColorID());
 
         createLayout(savedInstanceState);
     }

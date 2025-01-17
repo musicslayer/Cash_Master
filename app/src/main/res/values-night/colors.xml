@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="monochrome_background">#282828</color>
-    <color name="monochrome_feature">#A4A4A4</color>
-    <color name="monochrome_feature_faded">#40A4A4A4</color>
-    <color name="monochrome_red">#FF6666</color>
+    <color name="earth_background">#FF1C1C1C</color>
+    <color name="earth_feature">#FFB78D59</color>
+    <color name="earth_feature_faded">#40B78D59</color>
+    <color name="earth_red">#FFEA5C5A</color>
 
-    <color name="other_background">#00FF44</color>
-    <color name="other_feature">#0000FF</color>
-    <color name="other_feature_faded">#400000FF</color>
-    <color name="other_red">#FFFF00</color>
+    <color name="forest_background">#FF212121</color>
+    <color name="forest_feature">#FF2C6B2F</color>
+    <color name="forest_feature_faded">#402C6B2F</color>
+    <color name="forest_red">#FFFF5722</color>
+
+    <color name="mint_background">#FF121212</color>
+    <color name="mint_feature">#FF00B1A4</color>
+    <color name="mint_feature_faded">#4000B1A4</color>
+    <color name="mint_red">#FFFF4F5F</color>
+
+    <color name="monochrome_background">#FF282828</color>
+    <color name="monochrome_feature">#FFA4A4A4</color>
+    <color name="monochrome_feature_faded">#40A4A4A4</color>
+    <color name="monochrome_red">#FFFF6666</color>
+
+    <color name="neon_background">#FF121212</color>
+    <color name="neon_feature">#FFFF4081</color>
+    <color name="neon_feature_faded">#40FF4081</color>
+    <color name="neon_red">#FF00E5FF</color>
+
+    <color name="sky_background">#FF0A1D37</color>
+    <color name="sky_feature">#FF5E8C85</color>
+    <color name="sky_feature_faded">#405E8C85</color>
+    <color name="sky_red">#FFD53F56</color>
+
+    <color name="sunset_background">#FF2D2D2D</color>
+    <color name="sunset_feature">#FFFF9E2F </color>
+    <color name="sunset_feature_faded">#40FF9E2F</color>
+    <color name="sunset_red">#FFEA5C5A</color>
 </resources>

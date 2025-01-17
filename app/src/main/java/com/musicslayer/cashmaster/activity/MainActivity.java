@@ -13,6 +13,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.data.persistent.app.Color;
 import com.musicslayer.cashmaster.data.persistent.app.Theme;
 import com.musicslayer.cashmaster.dialog.AddYearDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
@@ -68,23 +69,23 @@ public class MainActivity extends BaseActivity {
 
         // Switch Year Button
         AppCompatImageButton switchYearButton = findViewById(R.id.main_switchYearButton);
-        PopupMenu popup = new PopupMenu(this, switchYearButton);
+        PopupMenu yearPopup = new PopupMenu(this, switchYearButton);
 
         switchYearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popup.getMenu().clear();
+                yearPopup.getMenu().clear();
 
                 ArrayList<Integer> years = YearLedger.getAllYears();
                 for(int year : years) {
-                    popup.getMenu().add("" + year);
+                    yearPopup.getMenu().add("" + year);
                 }
 
-                popup.show();
+                yearPopup.show();
             }
         });
 
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        yearPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 int newYear = Integer.parseInt(item.toString());
                 YearLedger.setCurrentYear(newYear);
@@ -133,6 +134,34 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 BaseDialogFragment.newInstance(YearSumsDialog.class, YearLedger.currentYearLedger.year).show(MainActivity.this, "year_sums");
+            }
+        });
+
+        // Color Button
+        AppCompatImageButton switchColorButton = findViewById(R.id.main_colorButton);
+        PopupMenu colorPopup = new PopupMenu(this, switchColorButton);
+
+        switchColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                colorPopup.getMenu().clear();
+
+                ArrayList<String> colors = Color.getAllColors();
+                for(String color : colors) {
+                    colorPopup.getMenu().add(color);
+                }
+
+                colorPopup.show();
+            }
+        });
+
+        colorPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                Color.setColor(item.toString());
+                recreate();
+
+                updateLayout();
+                return true;
             }
         });
 

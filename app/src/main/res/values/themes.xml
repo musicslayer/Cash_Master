@@ -1,6 +1,29 @@
 <resources>
+    <!-- Earth Theme -->
+    <style name="Theme.CashMaster.Earth" parent="Theme.CashMaster">
+        <item name="theme_background">@color/earth_background</item>
+        <item name="theme_feature">@color/earth_feature</item>
+        <item name="theme_feature_faded">@color/earth_feature_faded</item>
+        <item name="theme_red">@color/earth_red</item>
+    </style>
 
-    <!-- Monochrome -->
+    <!-- Forest Theme -->
+    <style name="Theme.CashMaster.Forest" parent="Theme.CashMaster">
+        <item name="theme_background">@color/forest_background</item>
+        <item name="theme_feature">@color/forest_feature</item>
+        <item name="theme_feature_faded">@color/forest_feature_faded</item>
+        <item name="theme_red">@color/forest_red</item>
+    </style>
+
+    <!-- Mint Theme -->
+    <style name="Theme.CashMaster.Mint" parent="Theme.CashMaster">
+        <item name="theme_background">@color/mint_background</item>
+        <item name="theme_feature">@color/mint_feature</item>
+        <item name="theme_feature_faded">@color/mint_feature_faded</item>
+        <item name="theme_red">@color/mint_red</item>
+    </style>
+
+    <!-- Monochrome Theme -->
     <style name="Theme.CashMaster.Monochrome" parent="Theme.CashMaster">
         <item name="theme_background">@color/monochrome_background</item>
         <item name="theme_feature">@color/monochrome_feature</item>
@@ -8,15 +31,31 @@
         <item name="theme_red">@color/monochrome_red</item>
     </style>
 
-    <!-- Other -->
-    <style name="Theme.CashMaster.Other" parent="Theme.CashMaster">
-        <item name="theme_background">@color/other_background</item>
-        <item name="theme_feature">@color/other_feature</item>
-        <item name="theme_feature_faded">@color/other_feature_faded</item>
-        <item name="theme_red">@color/other_red</item>
+    <!-- Neon Theme -->
+    <style name="Theme.CashMaster.Neon" parent="Theme.CashMaster">
+        <item name="theme_background">@color/neon_background</item>
+        <item name="theme_feature">@color/neon_feature</item>
+        <item name="theme_feature_faded">@color/neon_feature_faded</item>
+        <item name="theme_red">@color/neon_red</item>
     </style>
 
-    <!-- Base theme -->
+    <!-- Sky Theme -->
+    <style name="Theme.CashMaster.Sky" parent="Theme.CashMaster">
+        <item name="theme_background">@color/sky_background</item>
+        <item name="theme_feature">@color/sky_feature</item>
+        <item name="theme_feature_faded">@color/sky_feature_faded</item>
+        <item name="theme_red">@color/sky_red</item>
+    </style>
+
+    <!-- Sunset Theme -->
+    <style name="Theme.CashMaster.Sunset" parent="Theme.CashMaster">
+        <item name="theme_background">@color/sunset_background</item>
+        <item name="theme_feature">@color/sunset_feature</item>
+        <item name="theme_feature_faded">@color/sunset_feature_faded</item>
+        <item name="theme_red">@color/sunset_red</item>
+    </style>
+
+    <!-- Base Theme -->
     <style name="Theme.CashMaster" parent="Theme.MaterialComponents">
         <!-- Primary Brand Colors -->
         <item name="colorPrimary">?attr/theme_background</item>
