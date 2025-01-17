@@ -79,7 +79,7 @@ public class MonthLedgerView extends LinearLayout {
             ImageButtonView B_ADD = new ImageButtonView(context);
             B_ADD.setImageResource(R.drawable.baseline_add_box_24);
             B_ADD.setImageSize(getResources().getDimensionPixelSize(R.dimen.icon_size));
-            B_ADD.setTextSize(20);
+            B_ADD.setTextSize(getResources().getDimension(R.dimen.font_size_header));
             B_ADD.setTextString(monthLedger.month);
             B_ADD.setOnClickListener(new View.OnClickListener() {
                 @Override

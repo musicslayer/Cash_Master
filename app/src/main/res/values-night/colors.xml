@@ -5,8 +5,8 @@
     <color name="monochrome_feature_faded">#40A4A4A4</color>
     <color name="monochrome_red">#FF6666</color>
 
-    <color name="other_background">#40FF8811</color>
-    <color name="other_feature">#40448800</color>
-    <color name="other_feature_faded">#20448800</color>
-    <color name="other_red">#40FF00FF</color>
+    <color name="other_background">#00FF44</color>
+    <color name="other_feature">#0000FF</color>
+    <color name="other_feature_faded">#400000FF</color>
+    <color name="other_red">#FFFF00</color>
 </resources>

@@ -2,6 +2,7 @@ package com.musicslayer.cashmaster.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -55,7 +56,7 @@ public class ImageButtonView extends LinearLayout {
     }
 
     public void setTextSize(float size) {
-        textView.setTextSize(size);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
     }
 
     public void setTextString(String text) {

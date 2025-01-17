@@ -36,7 +36,7 @@ public class HorizontalSplitView extends LinearLayout {
 
         LA = new LinearLayout(context);
         LA.setOrientation(VERTICAL);
-        LA.setLayoutParams(new LinearLayout.LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.5f));
+        LA.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.5f));
 
         LB = new LinearLayout(context);
         LB.setOrientation(VERTICAL);
