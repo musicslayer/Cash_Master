@@ -6,11 +6,13 @@ import android.os.Parcelable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
 
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
 
+import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.util.ColorUtil;
 
 // An EditText that can turn red if a condition is not met.
@@ -22,7 +24,8 @@ abstract public class RedEditText extends AppCompatEditText {
     }
 
     public RedEditText(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
+        // Apply theme here because themes.xml cannot apply the EditText theme globally.
+        super(new ContextThemeWrapper(context, R.style.EditTextTheme), attributeSet);
         this.getBackground().mutate();
         test();
     }
@@ -59,7 +62,8 @@ abstract public class RedEditText extends AppCompatEditText {
         }
 
         if(isValid) {
-            getBackground().clearColorFilter();
+            int color = ColorUtil.getThemeFeature(context);
+            getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
             is_red = false;
         }
         else {
@@ -99,7 +103,8 @@ abstract public class RedEditText extends AppCompatEditText {
                 getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
             }
             else {
-                getBackground().clearColorFilter();
+                int color = ColorUtil.getThemeFeature(getContext());
+                getBackground().setColorFilter(BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP));
             }
         }
 
