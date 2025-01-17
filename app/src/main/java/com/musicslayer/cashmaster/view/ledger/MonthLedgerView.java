@@ -17,6 +17,7 @@ import com.musicslayer.cashmaster.dialog.EditLineItemDialog;
 import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.util.PixelUtil;
 import com.musicslayer.cashmaster.view.HorizontalSplitView;
 import com.musicslayer.cashmaster.view.ImageButtonView;
 
@@ -90,7 +91,7 @@ public class MonthLedgerView extends LinearLayout {
             String monthTotalStr = "Total: $" + total.abs();
 
             TextView T_TOTAL = new TextView(context);
-            T_TOTAL.setPadding(0, 0, 0, 20);
+            T_TOTAL.setPadding(0, 0, 0, PixelUtil.dpToPx(5, context));
             T_TOTAL.setText(monthTotalStr);
             if(total.compareTo(BigDecimal.ZERO) < 0) {
                 T_TOTAL.setTextColor(context.getColor(R.color.red));
@@ -131,7 +132,7 @@ public class MonthLedgerView extends LinearLayout {
             editLineItemDialogFragment.restoreListeners(context, "edit_line_item");
 
             HorizontalSplitView horizontalSplitView = new HorizontalSplitView(context);
-            horizontalSplitView.setPadding(0, 0, 0, 100);
+            horizontalSplitView.setPadding(0, 0, 0, PixelUtil.dpToPx(30, context));
 
             // Incomes
             EditLedgerTable editLedgerTableA = new EditLedgerTable(context);

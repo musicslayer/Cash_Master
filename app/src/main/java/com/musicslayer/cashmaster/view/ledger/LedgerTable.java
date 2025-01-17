@@ -8,6 +8,7 @@ import android.widget.TableRow;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.util.PixelUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -44,7 +45,7 @@ public class LedgerTable extends TableLayout {
             t0.setText(name);
 
             AppCompatTextView t1 = new AppCompatTextView(context);
-            t1.setPadding(30, 0, 0, 0);
+            t1.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
 
             if(amount == null) {
                 amount = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);

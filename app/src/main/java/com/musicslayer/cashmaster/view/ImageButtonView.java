@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
+import com.musicslayer.cashmaster.util.PixelUtil;
+
 // This View combines an ImageButton and a TextView
 public class ImageButtonView extends LinearLayout {
     public AppCompatImageButton imageButton;
@@ -36,7 +38,7 @@ public class ImageButtonView extends LinearLayout {
         this.addView(imageButton);
 
         textView = new TextView(context);
-        textView.setPadding(30, 0, 0, 0);
+        textView.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
         this.addView(textView);
     }
 
@@ -50,10 +52,6 @@ public class ImageButtonView extends LinearLayout {
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
         imageButton.setOnClickListener(onClickListener);
-    }
-
-    public void setTextColor(int color) {
-        textView.setTextColor(color);
     }
 
     public void setTextSize(float size) {

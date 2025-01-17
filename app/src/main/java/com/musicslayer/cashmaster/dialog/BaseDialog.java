@@ -97,6 +97,7 @@ abstract public class BaseDialog extends Dialog {
     }
 
     private Toolbar findToolbar() {
+        // The toolbar should be a direct child of the base view.
         ViewGroup v = findViewById(getBaseViewID());
         for(int i = 0; i < v.getChildCount(); i++) {
             View child = v.getChildAt(i);
