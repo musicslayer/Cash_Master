@@ -18,7 +18,7 @@
     <color name="mint_feature_faded">#4000B1A4</color>
     <color name="mint_red">#FFFF4F5F</color>
 
-    <color name="monochrome_accent">#FFFF6666</color>
+    <color name="monochrome_accent">#FFA4A4A4</color>
     <color name="monochrome_background">#FF282828</color>
     <color name="monochrome_feature">#FFA4A4A4</color>
     <color name="monochrome_feature_faded">#40A4A4A4</color>
@@ -26,9 +26,9 @@
 
     <color name="neon_accent">#FF1CE8FF</color>
     <color name="neon_background">#FF121212</color>
-    <color name="neon_feature">#FFFF4081</color>
-    <color name="neon_feature_faded">#40FF4081</color>
-    <color name="neon_red">#FF00E5FF</color>
+    <color name="neon_feature">#FF00E5FF</color>
+    <color name="neon_feature_faded">#4000E5FF</color>
+    <color name="neon_red">#FFFF4081</color>
 
     <color name="sky_accent">#FFFF92A1</color>
     <color name="sky_background">#FF0A1D37</color>

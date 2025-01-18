@@ -10,7 +10,7 @@ import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 
-// TODO Change color of text of clock, carrier signal, etc...
+// TODO Backspace on edittext with no text does white cursor wiggle???
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
