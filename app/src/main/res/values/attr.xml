@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="theme_accent" format="reference"/>
     <attr name="theme_background" format="reference"/>
     <attr name="theme_feature" format="reference"/>
     <attr name="theme_feature_faded" format="reference"/>

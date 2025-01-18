@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="earth_accent">#FFFF9A6A</color>
     <color name="earth_background">#FFFAF3E0</color>
     <color name="earth_feature">#FF6A4E23</color>
     <color name="earth_feature_faded">#406A4E23</color>
     <color name="earth_red">#FFEA5C5A</color>
 
+    <color name="forest_accent">#FFFF80C4</color>
     <color name="forest_background">#FFE8F5E9</color>
     <color name="forest_feature">#FF388E3C</color>
     <color name="forest_feature_faded">#40388E3C</color>
     <color name="forest_red">#FFF44336</color>
 
+    <color name="mint_accent">#FFFF80E5</color>
     <color name="mint_background">#FFF1F8F6</color>
     <color name="mint_feature">#FF00C2B7</color>
     <color name="mint_feature_faded">#4000C2B7</color>
     <color name="mint_red">#FFFF5F5F</color>
 
+    <color name="monochrome_accent">#FF80CBC4</color>
     <color name="monochrome_background">#FFFFFFFF</color>
     <color name="monochrome_feature">#FF000000</color>
     <color name="monochrome_feature_faded">#40000000</color>
     <color name="monochrome_red">#FFFF0000</color>
 
+    <color name="neon_accent">#FFFF80FF</color>
     <color name="neon_background">#FFFFFFFF</color>
     <color name="neon_feature">#FF00E5FF</color>
     <color name="neon_feature_faded">#4000E5FF</color>
     <color name="neon_red">#FFFF4081</color>
 
+    <color name="sky_accent">#FFFFC100</color>
     <color name="sky_background">#FFFFFFFF</color>
     <color name="sky_feature">#FF4A90E2</color>
     <color name="sky_feature_faded">#404A90E2</color>
     <color name="sky_red">#FFFF6F61</color>
 
+    <color name="sunset_accent">#FFFF9F29</color>
     <color name="sunset_background">#FFFFF8E1</color>
     <color name="sunset_feature">#FFBB6D00</color>
     <color name="sunset_feature_faded">#40BB6D00</color>

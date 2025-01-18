@@ -1,6 +1,7 @@
 <resources>
     <!-- Earth Theme -->
     <style name="Theme.CashMaster.Earth" parent="Theme.CashMaster">
+        <item name="theme_accent">@color/earth_accent</item>
         <item name="theme_background">@color/earth_background</item>
         <item name="theme_feature">@color/earth_feature</item>
         <item name="theme_feature_faded">@color/earth_feature_faded</item>
@@ -9,6 +10,7 @@
 
     <!-- Forest Theme -->
     <style name="Theme.CashMaster.Forest" parent="Theme.CashMaster">
+        <item name="theme_accent">@color/forest_accent</item>
         <item name="theme_background">@color/forest_background</item>
         <item name="theme_feature">@color/forest_feature</item>
         <item name="theme_feature_faded">@color/forest_feature_faded</item>
@@ -17,6 +19,7 @@
 
     <!-- Mint Theme -->
     <style name="Theme.CashMaster.Mint" parent="Theme.CashMaster">
+        <item name="theme_accent">@color/mint_accent</item>
         <item name="theme_background">@color/mint_background</item>
         <item name="theme_feature">@color/mint_feature</item>
         <item name="theme_feature_faded">@color/mint_feature_faded</item>
@@ -25,6 +28,7 @@
 
     <!-- Monochrome Theme -->
     <style name="Theme.CashMaster.Monochrome" parent="Theme.CashMaster">
+        <item name="theme_accent">@color/monochrome_accent</item>
         <item name="theme_background">@color/monochrome_background</item>
         <item name="theme_feature">@color/monochrome_feature</item>
         <item name="theme_feature_faded">@color/monochrome_feature_faded</item>
@@ -33,6 +37,7 @@
 
     <!-- Neon Theme -->
     <style name="Theme.CashMaster.Neon" parent="Theme.CashMaster">
+        <item name="theme_accent">@color/neon_accent</item>
         <item name="theme_background">@color/neon_background</item>
         <item name="theme_feature">@color/neon_feature</item>
         <item name="theme_feature_faded">@color/neon_feature_faded</item>
@@ -41,6 +46,7 @@
 
     <!-- Sky Theme -->
     <style name="Theme.CashMaster.Sky" parent="Theme.CashMaster">
+        <item name="theme_accent">@color/sky_accent</item>
         <item name="theme_background">@color/sky_background</item>
         <item name="theme_feature">@color/sky_feature</item>
         <item name="theme_feature_faded">@color/sky_feature_faded</item>
@@ -49,6 +55,7 @@
 
     <!-- Sunset Theme -->
     <style name="Theme.CashMaster.Sunset" parent="Theme.CashMaster">
+        <item name="theme_accent">@color/sunset_accent</item>
         <item name="theme_background">@color/sunset_background</item>
         <item name="theme_feature">@color/sunset_feature</item>
         <item name="theme_feature_faded">@color/sunset_feature_faded</item>
@@ -57,13 +64,10 @@
 
     <!-- Base Theme -->
     <style name="Theme.CashMaster" parent="Theme.MaterialComponents">
-        <!-- Primary Brand Colors -->
         <item name="colorPrimary">?attr/theme_background</item>
         <item name="colorPrimaryVariant">?attr/theme_feature</item>
         <item name="colorPrimaryDark">?attr/theme_background</item>
         <item name="colorOnPrimary">?attr/theme_background</item>
-
-        <!-- Secondary Brand Colors -->
         <item name="colorSecondary">?attr/theme_feature</item>
         <item name="colorSecondaryVariant">?attr/theme_feature</item>
         <item name="colorOnSecondary">?attr/theme_background</item>
@@ -140,9 +144,9 @@
     </style>
 
     <style name="EditTextTheme" parent="@style/Widget.AppCompat.EditText">
-        <item name="android:textCursorDrawable">@null</item>
         <item name="android:ems">10</item>
         <item name="android:textColorHint">?attr/theme_feature_faded</item>
+        <item name="colorAccent">?attr/theme_accent</item>
     </style>
 
     <style name="ImageButtonTheme" parent="@style/Widget.AppCompat.ImageButton">

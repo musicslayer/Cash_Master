@@ -10,7 +10,6 @@ import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 
-// TODO EditText cursor color still needs to be fixed.
 // TODO Change color of text of clock, carrier signal, etc...
 
 // This Activity class only exists for initialization code, not to be seen by the user.
