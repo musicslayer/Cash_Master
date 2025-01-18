@@ -14,7 +14,7 @@
         android:name="com.musicslayer.cashmaster.app.App"
         android:label="@string/app_title"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CashMaster.Monochrome"
+        android:theme="@style/Theme.AppTheme.Monochrome"
         android:icon="@mipmap/app_icon"
         android:roundIcon="@mipmap/app_icon_round"
         android:hasFragileUserData="true"

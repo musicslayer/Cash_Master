@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_title">Cash Master</string>
+    <string name="app_title_camel_case">CashMaster</string>
+    <string name="app_package">com.musicslayer.cashmaster</string>
 </resources>

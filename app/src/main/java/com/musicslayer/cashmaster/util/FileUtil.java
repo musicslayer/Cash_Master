@@ -1,5 +1,6 @@
 package com.musicslayer.cashmaster.util;
 
+import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.app.App;
 
 import org.apache.commons.io.FileUtils;
@@ -12,7 +13,8 @@ public class FileUtil {
         // Returns a temp file with the String written to it.
         File file;
         try {
-            file = File.createTempFile("CashMaster_TextFile_", ".txt", new File(App.cacheDir)); // TODO CashMater
+            String appTitleCamelCase = App.applicationContext.getString(R.string.app_title_camel_case);
+            file = File.createTempFile(appTitleCamelCase + "_TextFile_", ".txt", new File(App.cacheDir));
             FileUtils.writeStringToFile(file, s, StandardCharsets.UTF_8);
         }
         catch(Exception e) {

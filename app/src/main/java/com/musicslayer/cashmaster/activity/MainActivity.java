@@ -162,41 +162,43 @@ public class MainActivity extends BaseActivity {
         importExportPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 String option = item.toString();
-                if("Import Clipboard".equals(option)) {
-                    try {
-                        String clipboardText = String.valueOf(ClipboardUtil.importText());
+                switch(option) {
+                    case "Import Clipboard":
+                        try {
+                            String clipboardText = String.valueOf(ClipboardUtil.importText());
 
-                        // Check if clipboard text can be parsed as JSON.
-                        new JSONObject(clipboardText);
+                            // Check if clipboard text can be parsed as JSON.
+                            new JSONObject(clipboardText);
 
-                        new YearLedgerList().doImport(clipboardText);
+                            new YearLedgerList().doImport(clipboardText);
 
-                        updateLayout();
+                            updateLayout();
 
-                        ToastUtil.showToast("import_clipboard_success");
+                            ToastUtil.showToast("import_clipboard_success");
+                        } catch (Exception ignored) {
+                            ToastUtil.showToast("import_clipboard_not_from_app");
+                        }
+                        break;
+                    case "Export Clipboard": {
+                        // Export ledger data to clipboard.
+                        String json = new YearLedgerList().doExport();
+                        ClipboardUtil.exportText("export_data", json);
+                        break;
                     }
-                    catch(Exception ignored) {
-                        ToastUtil.showToast("import_clipboard_not_from_app");
+                    case "Export Email": {
+                        // Export ledger data to email.
+                        String json = new YearLedgerList().doExport();
+
+                        // Create temp file with exported data and email it.
+                        ArrayList<File> fileArrayList = new ArrayList<>();
+                        fileArrayList.add(FileUtil.writeTempFile(json));
+
+                        String appTitle = getString(R.string.app_title);
+                        MessageUtil.sendEmail(MainActivity.this, "", appTitle + " - Exported Data", "Exported data is attached.", fileArrayList);
+                        break;
                     }
-                }
-                else if("Export Clipboard".equals(option)) {
-                    // Export ledger data to clipboard.
-                    String json = new YearLedgerList().doExport();
-                    ClipboardUtil.exportText("export_data", json);
-                }
-                else if("Export Email".equals(option)) {
-                    // Export ledger data to email.
-                    String json = new YearLedgerList().doExport();
-
-                    // Create temp file with exported data and email it.
-                    ArrayList<File> fileArrayList = new ArrayList<>();
-                    fileArrayList.add(FileUtil.writeTempFile(json));
-
-                    String appName = getString(R.string.app_title);
-                    MessageUtil.sendEmail(MainActivity.this, "", appName + " - Exported Data", "Exported data is attached.", fileArrayList);
-                }
-                else {
-                    throw new IllegalStateException("option = " + option);
+                    default:
+                        throw new IllegalStateException("option = " + option);
                 }
                 return true;
             }

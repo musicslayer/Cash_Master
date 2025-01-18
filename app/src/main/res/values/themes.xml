@@ -1,6 +1,6 @@
 <resources>
     <!-- Earth Theme -->
-    <style name="Theme.CashMaster.Earth" parent="Theme.CashMaster">
+    <style name="Theme.AppTheme.Earth" parent="Theme.AppTheme">
         <item name="theme_accent">@color/earth_accent</item>
         <item name="theme_background">@color/earth_background</item>
         <item name="theme_feature">@color/earth_feature</item>
@@ -9,7 +9,7 @@
     </style>
 
     <!-- Forest Theme -->
-    <style name="Theme.CashMaster.Forest" parent="Theme.CashMaster">
+    <style name="Theme.AppTheme.Forest" parent="Theme.AppTheme">
         <item name="theme_accent">@color/forest_accent</item>
         <item name="theme_background">@color/forest_background</item>
         <item name="theme_feature">@color/forest_feature</item>
@@ -18,7 +18,7 @@
     </style>
 
     <!-- Mint Theme -->
-    <style name="Theme.CashMaster.Mint" parent="Theme.CashMaster">
+    <style name="Theme.AppTheme.Mint" parent="Theme.AppTheme">
         <item name="theme_accent">@color/mint_accent</item>
         <item name="theme_background">@color/mint_background</item>
         <item name="theme_feature">@color/mint_feature</item>
@@ -27,7 +27,7 @@
     </style>
 
     <!-- Monochrome Theme -->
-    <style name="Theme.CashMaster.Monochrome" parent="Theme.CashMaster">
+    <style name="Theme.AppTheme.Monochrome" parent="Theme.AppTheme">
         <item name="theme_accent">@color/monochrome_accent</item>
         <item name="theme_background">@color/monochrome_background</item>
         <item name="theme_feature">@color/monochrome_feature</item>
@@ -36,7 +36,7 @@
     </style>
 
     <!-- Neon Theme -->
-    <style name="Theme.CashMaster.Neon" parent="Theme.CashMaster">
+    <style name="Theme.AppTheme.Neon" parent="Theme.AppTheme">
         <item name="theme_accent">@color/neon_accent</item>
         <item name="theme_background">@color/neon_background</item>
         <item name="theme_feature">@color/neon_feature</item>
@@ -45,7 +45,7 @@
     </style>
 
     <!-- Sky Theme -->
-    <style name="Theme.CashMaster.Sky" parent="Theme.CashMaster">
+    <style name="Theme.AppTheme.Sky" parent="Theme.AppTheme">
         <item name="theme_accent">@color/sky_accent</item>
         <item name="theme_background">@color/sky_background</item>
         <item name="theme_feature">@color/sky_feature</item>
@@ -54,7 +54,7 @@
     </style>
 
     <!-- Sunset Theme -->
-    <style name="Theme.CashMaster.Sunset" parent="Theme.CashMaster">
+    <style name="Theme.AppTheme.Sunset" parent="Theme.AppTheme">
         <item name="theme_accent">@color/sunset_accent</item>
         <item name="theme_background">@color/sunset_background</item>
         <item name="theme_feature">@color/sunset_feature</item>
@@ -63,7 +63,7 @@
     </style>
 
     <!-- Base Theme -->
-    <style name="Theme.CashMaster" parent="Theme.MaterialComponents">
+    <style name="Theme.AppTheme" parent="Theme.MaterialComponents">
         <item name="colorPrimary">?attr/theme_background</item>
         <item name="colorPrimaryVariant">?attr/theme_feature</item>
         <item name="colorPrimaryDark">?attr/theme_background</item>

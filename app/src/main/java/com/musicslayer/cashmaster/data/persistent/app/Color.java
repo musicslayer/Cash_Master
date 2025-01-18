@@ -12,13 +12,13 @@ import java.util.HashMap;
 public class Color {
     private final static HashMap<String, Integer> colorMap = new HashMap<>();
     static {
-        colorMap.put("Earth", R.style.Theme_CashMaster_Earth);
-        colorMap.put("Forest", R.style.Theme_CashMaster_Forest);
-        colorMap.put("Mint", R.style.Theme_CashMaster_Mint);
-        colorMap.put("Monochrome", R.style.Theme_CashMaster_Monochrome);
-        colorMap.put("Neon", R.style.Theme_CashMaster_Neon);
-        colorMap.put("Sky", R.style.Theme_CashMaster_Sky);
-        colorMap.put("Sunset", R.style.Theme_CashMaster_Sunset);
+        colorMap.put("Earth", R.style.Theme_AppTheme_Earth);
+        colorMap.put("Forest", R.style.Theme_AppTheme_Forest);
+        colorMap.put("Mint", R.style.Theme_AppTheme_Mint);
+        colorMap.put("Monochrome", R.style.Theme_AppTheme_Monochrome);
+        colorMap.put("Neon", R.style.Theme_AppTheme_Neon);
+        colorMap.put("Sky", R.style.Theme_AppTheme_Sky);
+        colorMap.put("Sunset", R.style.Theme_AppTheme_Sunset);
     }
 
     public static ArrayList<String> getAllColors() {

@@ -2,6 +2,7 @@ package com.musicslayer.cashmaster.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.ParcelFileDescriptor;
 
 import androidx.annotation.NonNull;
 
+import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.app.App;
 
 import java.io.File;
@@ -19,12 +21,19 @@ public class CachedFileProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        // Match files with our com.musicslayer.cashmaster.provider authority with code 1.
-        // Match files with a different com.musicslayer.cashmaster.provider authority with code 2.
+        // Match files with our provider authority with code 1.
+        // Match files with a different provider authority with code 2.
         // Invalid/empty files will give the default value of -1.
         // (Matching will return the first match that applies.)
+        Context context = getContext();
+        if(context == null) {
+            throw new IllegalStateException();
+        }
+
+        String appPackage = context.getString(R.string.app_package);
+
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI("com.musicslayer.cashmaster.provider", "*", 1);
+        uriMatcher.addURI(appPackage + ".provider", "*", 1);
         uriMatcher.addURI("*", "*", 2);
 
         return true;

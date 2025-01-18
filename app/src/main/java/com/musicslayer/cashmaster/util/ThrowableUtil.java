@@ -9,8 +9,8 @@ public class ThrowableUtil {
     public static void processThrowable(Throwable e) {
         try {
             String threadText = ThreadUtil.getCurrentThreadInfo();
-            String appName = App.applicationContext.getResources().getString(R.string.app_title);
-            Log.e(appName + " ERROR", threadText + "\n" + getThrowableText(e));
+            String appTitle = App.applicationContext.getString(R.string.app_title);
+            Log.e(appTitle + " ERROR", threadText + "\n" + getThrowableText(e));
         }
         catch(Exception ignored) {
         }
