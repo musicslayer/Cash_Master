@@ -23,6 +23,23 @@ public class ToastUtil {
         toastMap.put("line_item_exists", Toast.makeText(context, "A line item with this name and month already exists.", duration));
         toastMap.put("must_fill_inputs", Toast.makeText(context, "All red input fields must be filled with appropriate values.", duration));
         toastMap.put("year_exists", Toast.makeText(context, "This year already exists.", duration));
+
+        // Import and Export
+        toastMap.put("export_clipboard_text_too_large", Toast.makeText(context, "Could not export to clipboard. Text is too large to place on clipboard.", duration));
+        toastMap.put("export_clipboard_unknown_error", Toast.makeText(context, "Could not export to clipboard. Cause is unknown.", duration));
+        toastMap.put("export_clipboard_success", Toast.makeText(context, "Export to clipboard complete.", duration));
+        toastMap.put("import_clipboard_empty", Toast.makeText(context, "Could not import from clipboard. Clipboard is empty.", duration));
+        toastMap.put("import_clipboard_not_from_app", Toast.makeText(context, "Could not import from clipboard. Text was not exported from this app.", duration));
+        toastMap.put("import_clipboard_not_text", Toast.makeText(context, "Could not import from clipboard. Clipboard does not contain text.", duration));
+        toastMap.put("import_clipboard_success", Toast.makeText(context, "Import from clipboard complete.", duration));
+
+        // Clipboard
+        toastMap.put("copy_clipboard_text_too_large", Toast.makeText(context, "Cannot copy. Text is too large to place on clipboard.", duration));
+        toastMap.put("copy_clipboard_unknown_error", Toast.makeText(context, "Cannot copy. Cause is unknown.", duration));
+        toastMap.put("copy_clipboard_success", Toast.makeText(context, "Text copied to clipboard.", duration));
+        toastMap.put("paste_clipboard_empty", Toast.makeText(context, "Cannot paste. Clipboard is empty.", duration));
+        toastMap.put("paste_clipboard_not_text", Toast.makeText(context, "Cannot paste. Clipboard does not contain text.", duration));
+        toastMap.put("paste_clipboard_success", Toast.makeText(context, "Text pasted from clipboard.", duration));
     }
 
     private static int getToastDuration() {

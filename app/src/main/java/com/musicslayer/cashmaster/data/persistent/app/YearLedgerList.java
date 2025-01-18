@@ -6,10 +6,17 @@ import com.musicslayer.cashmaster.data.bridge.DataBridge;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.SharedPreferencesUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class YearLedgerList {
+public class YearLedgerList implements DataBridge.ExportableToJSON {
+    public String doExport() { return DataBridge.exportData(this, YearLedgerList.class); }
+    public void doImport(String s) { DataBridge.importData(this, s, YearLedgerList.class); }
+
+    // Just pick something that would never actually be saved.
+    public final static String DEFAULT = "!UNKNOWN!";
+
     public String getSharedPreferencesKey() {
         return "yearLedger_data";
     }
@@ -49,5 +56,65 @@ public class YearLedgerList {
 
         int currentYearLedgerYear = sharedPreferences.getInt("currentYearLedger_year", 0);
         YearLedger.currentYearLedger = YearLedger.map_yearLedgers.get(currentYearLedgerYear);
+    }
+
+    @Override
+    public void exportDataToJSON(DataBridge.Writer o) throws IOException {
+        SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
+
+        o.beginObject();
+        o.serialize("!V!", "1", String.class);
+
+        String sizeKey = "yearLedgers_size";
+        int size = sharedPreferences.getInt(sizeKey, 0);
+        o.serialize(sizeKey, size, Integer.class);
+
+        for(int i = 0; i < size; i++) {
+            String key = "yearLedger_" + i;
+            String serialString = sharedPreferences.getString(key, DEFAULT);
+            o.serialize(key, serialString, String.class);
+        }
+
+        String currentYearKey = "currentYearLedger_year";
+        int currentYear = sharedPreferences.getInt(currentYearKey, 0);
+        o.serialize(currentYearKey, currentYear, Integer.class);
+
+        o.endObject();
+    }
+
+    @Override
+    public void importDataFromJSON(DataBridge.Reader o) throws IOException {
+        o.beginObject();
+
+        String version = o.deserialize("!V!", String.class);
+        if(!"1".equals(version)) {
+            throw new IllegalStateException("version = " + version);
+        }
+
+        SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        String sizeKey = "yearLedgers_size";
+        int size = o.deserialize(sizeKey, Integer.class);
+        editor.putInt(sizeKey, size);
+
+        for(int i = 0; i < size; i++) {
+            String key = "yearLedger_" + i;
+            String value = o.deserialize(key, String.class);
+            editor.putString(key, DataBridge.cycleSerialization(value, YearLedger.class));
+        }
+
+        String currentYearKey = "currentYearLedger_year";
+        int currentYear = o.deserialize(currentYearKey, Integer.class);
+        editor.putInt(currentYearKey, currentYear);
+
+        editor.apply();
+
+        o.endObject();
+
+        // Reinitialize data.
+        loadAllData();
     }
 }

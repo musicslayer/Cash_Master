@@ -15,15 +15,19 @@ import androidx.appcompat.widget.Toolbar;
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.data.persistent.app.Color;
 import com.musicslayer.cashmaster.data.persistent.app.Theme;
+import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 import com.musicslayer.cashmaster.dialog.AddYearDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
 import com.musicslayer.cashmaster.dialog.YearSumsDialog;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.util.ClipboardUtil;
 import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.ToastUtil;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
+
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -134,6 +138,49 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 BaseDialogFragment.newInstance(YearSumsDialog.class, YearLedger.currentYearLedger.year).show(MainActivity.this, "year_sums");
+            }
+        });
+
+        // Import/Export Button
+        AppCompatImageButton importExportButton = findViewById(R.id.main_importExportButton);
+        PopupMenu importExportPopup = new PopupMenu(this, importExportButton);
+
+        importExportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                importExportPopup.getMenu().clear();
+                importExportPopup.getMenu().add("Import");
+                importExportPopup.getMenu().add("Export");
+                importExportPopup.show();
+            }
+        });
+
+        importExportPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                String option = item.toString();
+                if("Import".equals(option)) {
+                    try {
+                        String clipboardText = String.valueOf(ClipboardUtil.importText());
+
+                        // Check if clipboard text can be parsed as JSON.
+                        new JSONObject(clipboardText);
+
+                        new YearLedgerList().doImport(clipboardText);
+
+                        updateLayout();
+
+                        ToastUtil.showToast("import_clipboard_success");
+                    }
+                    catch(Exception ignored) {
+                        ToastUtil.showToast("import_clipboard_not_from_app");
+                    }
+                }
+                else {
+                    // Export ledger data to clipboard.
+                    String value = new YearLedgerList().doExport();
+                    ClipboardUtil.exportText("export_data", value);
+                }
+                return true;
             }
         });
 

@@ -20,6 +20,11 @@ public class DataBridge {
         // Classes also need to implement static method "deserializeFromJSON".
     }
 
+    public interface ExportableToJSON {
+        void exportDataToJSON(DataBridge.Writer o) throws IOException;
+        void importDataFromJSON(DataBridge.Reader o) throws IOException;
+    }
+
     public static void safeFlushAndClose(Writer writer) {
         try {
             if(writer != null) {
@@ -87,6 +92,23 @@ public class DataBridge {
         }
     }
 
+    public static <T> String exportData(T obj, Class<T> clazzT) {
+        if(obj == null) { return null; }
+
+        Writer writer = new Writer();
+
+        try {
+            writer.exportData(null, obj, clazzT);
+            safeFlushAndClose(writer);
+            return writer.stringWriter.toString();
+        }
+        catch(Exception e) {
+            ThrowableUtil.processThrowable(e);
+            safeFlushAndClose(writer);
+            throw new IllegalStateException(e);
+        }
+    }
+
     public static <T> T deserializeValue(String s, Class<T> clazzT) {
         // JSON doesn't allow direct Strings as top-level values, so directly handle value ourselves.
         if(s == null) { return null; }
@@ -130,6 +152,27 @@ public class DataBridge {
             safeClose(reader);
             throw new IllegalStateException(e);
         }
+    }
+
+    public static <T> void importData(T obj, String s, Class<T> clazzT) {
+        if(s == null) { return; }
+
+        Reader reader = new Reader(s);
+        try {
+            reader.importData(null, obj, clazzT);
+            safeClose(reader);
+        }
+        catch(Exception e) {
+            ThrowableUtil.processThrowable(e);
+            safeClose(reader);
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static <T> String cycleSerialization(String s, Class<T> clazzT) {
+        // Do a round trip of deserializing and serializing to make sure the string represents an object of the class.
+        T obj = deserialize(s, clazzT);
+        return serialize(obj, clazzT);
     }
 
     public static class Writer {
@@ -229,6 +272,21 @@ public class DataBridge {
                 serializeArrayList("keys", keyArrayList, clazzT);
                 serializeArrayList("values", valueArrayList, clazzU);
                 jsonWriter.endObject();
+            }
+
+            return this;
+        }
+
+        public <T> Writer exportData(String key, T obj, Class<T> clazzT) throws IOException {
+            if(key != null) {
+                putName(key);
+            }
+
+            if(obj == null) {
+                putNull();
+            }
+            else {
+                wrapExportableObj(obj).exportDataToJSON(this);
             }
 
             return this;
@@ -350,6 +408,23 @@ public class DataBridge {
                 return hashMap;
             }
         }
+
+        public <T> void importData(String key, T obj, Class<T> clazzT) throws IOException {
+            if(key != null) {
+                String nextKey = getName();
+                if(!key.equals(nextKey)) {
+                    // Expected key was not found.
+                    throw new IllegalStateException("class = " + clazzT.getSimpleName() + " key = " + key + " nextKey = " + nextKey);
+                }
+            }
+
+            if(jsonReader.peek() == JsonToken.NULL) {
+                getNull();
+            }
+            else {
+                wrapExportableObj(obj).importDataFromJSON(this);
+            }
+        }
     }
 
     public static SerializableToJSON wrapSerializableObj(Object obj) {
@@ -369,6 +444,18 @@ public class DataBridge {
         }
         else if(obj instanceof BigDecimal) {
             return new BigDecimalSerializableToJSON((BigDecimal)obj);
+        }
+        else {
+            // Anything else is unsupported.
+            throw new IllegalStateException("class = " + obj.getClass().getSimpleName() + " obj = " + obj);
+        }
+    }
+
+    public static ExportableToJSON wrapExportableObj(Object obj) {
+        // Converts an arbitrary object into a ExportableToJSON subclass.
+        // Note that obj will always be non-null.
+        if(obj instanceof ExportableToJSON) {
+            return (ExportableToJSON)obj;
         }
         else {
             // Anything else is unsupported.
