@@ -81,6 +81,7 @@ android {
 }
 
 dependencies {
+    implementation libs.commons.io
     implementation libs.constraintlayout
     implementation libs.navigation.ui
     runtimeOnly libs.retoast

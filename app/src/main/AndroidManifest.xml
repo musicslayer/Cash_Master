@@ -3,6 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+    </queries>
+
     <application
         android:name="com.musicslayer.cashmaster.app.App"
         android:label="@string/app_title"
@@ -15,6 +22,13 @@
         android:fullBackupContent="@xml/backup_rules"
         android:dataExtractionRules="@xml/data_extraction_rules"
         tools:targetApi="s">
+
+        <provider
+            android:name="com.musicslayer.cashmaster.provider.CachedFileProvider"
+            android:authorities="com.musicslayer.cashmaster.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+        </provider>
 
         <activity android:name=".activity.InitialActivity" android:exported="true">
             <intent-filter>
