@@ -19,12 +19,7 @@ public class YearEditText extends RedEditText {
 
     // Returns if the value is an integer with up to 4 digits.
     public boolean condition() {
-        try {
-            BigInteger value = new BigInteger(this.getTextString());
-            return value.compareTo(BigInteger.ZERO) >= 0 && value.compareTo(BigInteger.valueOf(9999)) <= 0;
-        }
-        catch(Exception ignored) {
-            return false;
-        }
+        BigInteger value = new BigInteger(this.getTextString());
+        return value.compareTo(BigInteger.ZERO) >= 0 && value.compareTo(BigInteger.valueOf(9999)) <= 0;
     }
 }

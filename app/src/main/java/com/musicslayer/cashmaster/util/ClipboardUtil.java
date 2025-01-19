@@ -32,17 +32,26 @@ public class ClipboardUtil {
         // Import from the clipboard, which shows different messages than "paste".
         ClipboardManager clipboard = (ClipboardManager) App.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
 
-        if(!clipboard.hasPrimaryClip() || !clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+        boolean hasTextMimeType = clipboard.hasPrimaryClip()
+            && clipboard.getPrimaryClipDescription() != null
+            && (clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
+                || clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_HTML));
+
+        if(!hasTextMimeType) {
             ToastUtil.showToast("import_clipboard_not_text");
             return null;
         }
-        else if(clipboard.getPrimaryClip().getItemAt(0).getText() == null || "".contentEquals(clipboard.getPrimaryClip().getItemAt(0).getText())) {
+
+        boolean hasNonemptyText = clipboard.getPrimaryClip() != null
+            && clipboard.getPrimaryClip().getItemAt(0).getText() != null
+            && !"".contentEquals(clipboard.getPrimaryClip().getItemAt(0).getText());
+
+        if(!hasNonemptyText) {
             ToastUtil.showToast("import_clipboard_empty");
             return null;
         }
-        else{
-            // Don't show any message here, because we still don't know if the text is a valid format to be imported.
-            return clipboard.getPrimaryClip().getItemAt(0).getText();
-        }
+
+        // Don't show any message here, because we still don't know if the text is a valid format to be imported.
+        return clipboard.getPrimaryClip().getItemAt(0).getText();
     }
 }

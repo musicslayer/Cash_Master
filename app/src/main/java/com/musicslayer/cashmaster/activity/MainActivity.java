@@ -24,12 +24,11 @@ import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ClipboardUtil;
 import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.FileUtil;
+import com.musicslayer.cashmaster.util.JSONUtil;
 import com.musicslayer.cashmaster.util.MessageUtil;
 import com.musicslayer.cashmaster.util.ToastUtil;
 import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -164,20 +163,17 @@ public class MainActivity extends BaseActivity {
                 String option = item.toString();
                 switch(option) {
                     case "Import Clipboard":
-                        try {
-                            String clipboardText = String.valueOf(ClipboardUtil.importText());
+                        String clipboardText = String.valueOf(ClipboardUtil.importText());
 
-                            // Check if clipboard text can be parsed as JSON.
-                            new JSONObject(clipboardText);
-
+                        if(JSONUtil.isValidJSON(clipboardText)) {
                             new YearLedgerList().doImport(clipboardText);
-
                             updateLayout();
-
                             ToastUtil.showToast("import_clipboard_success");
-                        } catch (Exception ignored) {
+                        }
+                        else {
                             ToastUtil.showToast("import_clipboard_not_from_app");
                         }
+
                         break;
                     case "Export Clipboard": {
                         // Export ledger data to clipboard.

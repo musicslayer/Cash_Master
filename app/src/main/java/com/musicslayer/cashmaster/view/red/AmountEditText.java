@@ -19,12 +19,7 @@ public class AmountEditText extends RedEditText {
 
     // Returns if the value is a proper amount, which is a number with at most 2 decimal places.
     public boolean condition() {
-        try {
-            BigDecimal value = new BigDecimal(this.getTextString());
-            return value.scale() <= 2 && value.compareTo(BigDecimal.ZERO) >= 0 && value.compareTo(BigDecimal.valueOf(999999.99)) <= 0;
-        }
-        catch(Exception ignored) {
-            return false;
-        }
+        BigDecimal value = new BigDecimal(this.getTextString());
+        return value.scale() <= 2 && value.compareTo(BigDecimal.ZERO) >= 0 && value.compareTo(BigDecimal.valueOf(999999.99)) <= 0;
     }
 }
