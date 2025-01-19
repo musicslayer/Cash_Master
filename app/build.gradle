@@ -1,11 +1,11 @@
 plugins {
-    id 'com.android.application'
+    id "com.android.application"
 }
 
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
-        maven { url 'https://raw.githubusercontent.com/ryuunoakaihitomi/maven-repository/master' }
+        maven { url "https://raw.githubusercontent.com/ryuunoakaihitomi/maven-repository/master" }
     }
 
     tasks.withType(JavaCompile).tap {
@@ -23,10 +23,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias localProperties['alias']
-            keyPassword localProperties['password']
-            storeFile file(localProperties['keystore'])
-            storePassword localProperties['password']
+            keyAlias localProperties["alias"]
+            keyPassword localProperties["password"]
+            storeFile file(localProperties["keystore"])
+            storePassword localProperties["password"]
         }
     }
 
@@ -56,11 +56,11 @@ android {
         }
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
 
             ndk {
-                debugSymbolLevel 'FULL'
+                debugSymbolLevel "FULL"
             }
         }
 
@@ -73,11 +73,11 @@ android {
     sourceSets {
         main {
             res {
-                srcDirs 'src\\main\\res'
+                srcDirs "src\\main\\res"
             }
         }
     }
-    namespace 'com.musicslayer.cashmaster'
+    namespace "${defaultConfig.applicationId}"
 }
 
 dependencies {
