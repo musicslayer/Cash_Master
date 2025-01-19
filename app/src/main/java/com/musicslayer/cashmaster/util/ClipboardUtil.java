@@ -4,17 +4,26 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.PersistableBundle;
 
 import com.musicslayer.cashmaster.app.App;
 
 public class ClipboardUtil {
-    public static void exportText(String label, String text) {
-        // Export to the clipboard, which shows different messages than "copy".
+    public static void exportText(String label, String text, boolean isSensitive) {
         ClipboardManager clipboard = (ClipboardManager) App.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
 
         // Check to see if size is too large.
         try {
-            clipboard.setPrimaryClip(ClipData.newPlainText(label, text));
+            ClipData clipData = ClipData.newPlainText(label, text);
+
+            if(isSensitive) {
+                // Mark the clipboard content as sensitive so it is not visible in the preview.
+                PersistableBundle extras = new PersistableBundle();
+                extras.putBoolean("android.content.extra.IS_SENSITIVE", true);
+                clipData.getDescription().setExtras(extras);
+            }
+
+            clipboard.setPrimaryClip(clipData);
             ToastUtil.showToast("export_clipboard_success");
         }
         catch(RuntimeException e) {
@@ -29,7 +38,6 @@ public class ClipboardUtil {
     }
 
     public static CharSequence importText() {
-        // Import from the clipboard, which shows different messages than "paste".
         ClipboardManager clipboard = (ClipboardManager) App.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
 
         boolean hasTextMimeType = clipboard.hasPrimaryClip()

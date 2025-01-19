@@ -165,20 +165,22 @@ public class MainActivity extends BaseActivity {
                     case "Import Clipboard":
                         String clipboardText = String.valueOf(ClipboardUtil.importText());
 
-                        if(JSONUtil.isValidJSON(clipboardText)) {
-                            new YearLedgerList().doImport(clipboardText);
-                            updateLayout();
-                            ToastUtil.showToast("import_clipboard_success");
-                        }
-                        else {
-                            ToastUtil.showToast("import_clipboard_not_from_app");
+                        if(!"null".equals(clipboardText)) {
+                            if(JSONUtil.isValidJSON(clipboardText)) {
+                                new YearLedgerList().doImport(clipboardText);
+                                updateLayout();
+                                ToastUtil.showToast("import_clipboard_success");
+                            }
+                            else {
+                                ToastUtil.showToast("import_clipboard_not_from_app");
+                            }
                         }
 
                         break;
                     case "Export Clipboard": {
                         // Export ledger data to clipboard.
                         String json = new YearLedgerList().doExport();
-                        ClipboardUtil.exportText("export_data", json);
+                        ClipboardUtil.exportText("export_data", json, true);
                         break;
                     }
                     case "Export Email": {
