@@ -6,6 +6,8 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 
+import androidx.core.content.FileProvider;
+
 import com.musicslayer.cashmaster.R;
 
 import java.io.File;
@@ -30,7 +32,7 @@ public class MessageUtil {
             ArrayList<Uri> uriArrayList = new ArrayList<>();
             for(File file : fileArrayList) {
                 String appPackage = activity.getString(R.string.app_package);
-                Uri uri = Uri.parse("content://" + appPackage + ".provider/" + file.getName());
+                Uri uri = FileProvider.getUriForFile(activity, appPackage + ".fileprovider", file);
                 clipData.addItem(new ClipData.Item(uri));
                 uriArrayList.add(uri);
             }

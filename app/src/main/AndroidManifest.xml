@@ -24,10 +24,13 @@
         tools:targetApi="s">
 
         <provider
-            android:name="com.musicslayer.cashmaster.provider.CachedFileProvider"
-            android:authorities="com.musicslayer.cashmaster.provider"
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.musicslayer.cashmaster.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity android:name=".activity.InitialActivity" android:exported="true">

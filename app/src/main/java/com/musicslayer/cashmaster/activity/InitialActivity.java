@@ -11,6 +11,7 @@ import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 
 // TODO ImportExport PopupMenu - Something else for names/icons
+// TODO Proton Mail -> empty toAddress/subject/body
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
