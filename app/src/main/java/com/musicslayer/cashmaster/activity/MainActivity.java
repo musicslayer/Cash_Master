@@ -32,7 +32,10 @@ import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends BaseActivity {
     @SuppressLint("MissingSuperCall")
@@ -153,7 +156,7 @@ public class MainActivity extends BaseActivity {
                 importExportPopup.getMenu().clear();
                 importExportPopup.getMenu().add("Import Clipboard");
                 importExportPopup.getMenu().add("Export Clipboard");
-                importExportPopup.getMenu().add("Export Email"); // TODO Something else for names/icons
+                importExportPopup.getMenu().add("Export Email");
                 importExportPopup.show();
             }
         });
@@ -191,8 +194,14 @@ public class MainActivity extends BaseActivity {
                         ArrayList<File> fileArrayList = new ArrayList<>();
                         fileArrayList.add(FileUtil.writeTempFile(json));
 
+                        Date currentDate = new Date();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm", Locale.US);
+                        String timestamp = dateFormat.format(currentDate);
+
                         String appTitle = getString(R.string.app_title);
-                        MessageUtil.sendEmail(MainActivity.this, "", appTitle + " - Exported Data", "Exported data is attached.", fileArrayList);
+                        String subjectText = appTitle + " - Exported Data - " + timestamp;
+                        String bodyText = "Exported data is attached.\nTimestamp: " + timestamp;
+                        MessageUtil.sendEmail(MainActivity.this, "", subjectText, bodyText, fileArrayList);
                         break;
                     }
                     default:
