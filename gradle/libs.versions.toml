@@ -1,14 +1,16 @@
 [versions]
-commonsIo = "2.13.0"
-constraintlayout = "2.2.0"
 gradle = "8.8.0"
+
+commonsIo = "2.18.0"
+constraintlayout = "2.2.0"
 navigationUi = "2.8.5"
 retoast = "1.7.0"
 
 [libraries]
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+
 commons-io = { module = "commons-io:commons-io", version.ref = "commonsIo" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigationUi" }
 retoast = { module = "github.ryuunoakaihitomi.retoast:retoast", version.ref = "retoast" }
 
