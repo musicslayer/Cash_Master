@@ -154,9 +154,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 importExportPopup.getMenu().clear();
-                importExportPopup.getMenu().add("Import Clipboard");
-                importExportPopup.getMenu().add("Export Clipboard");
-                importExportPopup.getMenu().add("Export Email");
+                importExportPopup.getMenu().add("Import (Clipboard)");
+                importExportPopup.getMenu().add("Export (Clipboard)");
+                importExportPopup.getMenu().add("Export (Email)");
                 importExportPopup.show();
             }
         });
@@ -165,7 +165,7 @@ public class MainActivity extends BaseActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 String option = item.toString();
                 switch(option) {
-                    case "Import Clipboard":
+                    case "Import (Clipboard)":
                         String clipboardText = String.valueOf(ClipboardUtil.importText());
 
                         if(!"null".equals(clipboardText)) {
@@ -180,13 +180,13 @@ public class MainActivity extends BaseActivity {
                         }
 
                         break;
-                    case "Export Clipboard": {
+                    case "Export (Clipboard)": {
                         // Export ledger data to clipboard.
                         String json = new YearLedgerList().doExport();
                         ClipboardUtil.exportText("export_data", json, true);
                         break;
                     }
-                    case "Export Email": {
+                    case "Export (Email)": {
                         // Export ledger data to email.
                         String json = new YearLedgerList().doExport();
 
