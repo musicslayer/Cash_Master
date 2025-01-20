@@ -1,11 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<data-extraction-rules>
-    <cloud-backup disableIfNoEncryptionCapabilities="false">
-        <include domain="sharedpref" path="."/>
-        <include domain="device_sharedpref" path="."/>
-    </cloud-backup>
-    <device-transfer>
-        <include domain="sharedpref" path="."/>
-        <include domain="device_sharedpref" path="."/>
-    </device-transfer>
-</data-extraction-rules>
+<!-- Do not backup anything. -->
+<data-extraction-rules/>

@@ -18,8 +18,8 @@
         android:icon="@mipmap/app_icon"
         android:roundIcon="@mipmap/app_icon_round"
         android:hasFragileUserData="true"
-        android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_rules"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         tools:targetApi="s">
 
