@@ -17,7 +17,6 @@ import com.musicslayer.cashmaster.util.PixelUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class YearSumsDialog extends BaseDialog {
@@ -56,7 +55,7 @@ public class YearSumsDialog extends BaseDialog {
         // Aggregate sums of line items
         HashMap<String, BigDecimal> sums = yearLedger.getSums();
         ArrayList<String> names = new ArrayList<>(sums.keySet());
-        Collections.sort(names);
+        names.sort(null);
 
         TableLayout ledgerTable = findViewById(R.id.year_sums_dialog_yearSumsLedgerTable);
         for(String name : names) {

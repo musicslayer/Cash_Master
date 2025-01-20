@@ -6,7 +6,6 @@ import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class Color {
@@ -23,7 +22,7 @@ public class Color {
 
     public static ArrayList<String> getAllColors() {
         ArrayList<String> colors = new ArrayList<>(colorMap.keySet());
-        Collections.sort(colors);
+        colors.sort(null);
         return colors;
     }
 

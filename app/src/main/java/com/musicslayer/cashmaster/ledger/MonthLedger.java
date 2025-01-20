@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class MonthLedger implements DataBridge.SerializableToJSON {
@@ -95,7 +94,7 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
                 incomes.add(lineItem);
             }
         }
-        Collections.sort(incomes, new Comparator<LineItem>() {
+        incomes.sort(new Comparator<LineItem>() {
             @Override
             public int compare(LineItem a, LineItem b) {
                 // Sort in descending order
@@ -112,7 +111,7 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
                 expenses.add(lineItem);
             }
         }
-        Collections.sort(expenses, new Comparator<LineItem>() {
+        expenses.sort(new Comparator<LineItem>() {
             @Override
             public int compare(LineItem a, LineItem b) {
                 // Sort in descending order

@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class YearLedger implements DataBridge.SerializableToJSON {
@@ -113,7 +112,7 @@ public class YearLedger implements DataBridge.SerializableToJSON {
     public static ArrayList<Integer> getAllYears() {
         // Returns all the available years in order.
         ArrayList<Integer> years = new ArrayList<>(YearLedger.map_yearLedgers.keySet());
-        Collections.sort(years);
+        years.sort(null);
         return years;
     }
 
