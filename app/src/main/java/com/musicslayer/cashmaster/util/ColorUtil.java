@@ -5,6 +5,7 @@ import android.util.TypedValue;
 
 import com.musicslayer.cashmaster.R;
 
+// This class helps retrieve the color values of the currently selected theme.
 public class ColorUtil {
     public static int getThemeFeature(Context context) {
         TypedValue typedValue = new TypedValue();

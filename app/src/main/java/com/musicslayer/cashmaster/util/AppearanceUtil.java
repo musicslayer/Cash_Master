@@ -5,36 +5,39 @@ import android.content.pm.ActivityInfo;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.musicslayer.cashmaster.data.persistent.app.Theme;
+import com.musicslayer.cashmaster.data.persistent.app.Appearance;
 
 public class AppearanceUtil {
     // Needs activity, not Context
-    public static void setAppearance(Activity activity) {
-        setTheme();
-        setOrientation(activity);
+    public static void applyAppearance(Activity activity) {
+        applyColor(activity);
+        applyMode();
+        applyOrientation(activity);
     }
 
-    public static void setTheme() {
+    public static void applyColor(Activity activity) {
+        activity.setTheme(Appearance.getCurrentColorID());
+    }
+
+    public static void applyMode() {
         int desiredMode;
-        if("auto".equals(Theme.theme_setting)) {
+        if("auto".equals(Appearance.mode_setting)) {
             desiredMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
         }
-        else if("light".equals(Theme.theme_setting)) {
+        else if("light".equals(Appearance.mode_setting)) {
             desiredMode = AppCompatDelegate.MODE_NIGHT_NO;
         }
-        else {
+        else if("dark".equals(Appearance.mode_setting)) {
             desiredMode = AppCompatDelegate.MODE_NIGHT_YES;
         }
-
-        if(desiredMode != AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.setDefaultNightMode(desiredMode);
+        else {
+            throw new IllegalStateException("mode_setting = " + Appearance.mode_setting);
         }
+
+        AppCompatDelegate.setDefaultNightMode(desiredMode);
     }
 
-    // Needs activity, not Context
-    public static void setOrientation(Activity activity) {
-        if(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED != activity.getResources().getConfiguration().orientation) {
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
+    public static void applyOrientation(Activity activity) {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 }

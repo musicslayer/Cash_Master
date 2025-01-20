@@ -8,7 +8,7 @@ import com.musicslayer.cashmaster.util.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Color {
+public class Appearance {
     private final static HashMap<String, Integer> colorMap = new HashMap<>();
     static {
         colorMap.put("Earth", R.style.Theme_AppTheme_Earth);
@@ -19,6 +19,9 @@ public class Color {
         colorMap.put("Sky", R.style.Theme_AppTheme_Sky);
         colorMap.put("Sunset", R.style.Theme_AppTheme_Sunset);
     }
+
+    public static String color_setting; // Monochrome, etc...
+    public static String mode_setting; // auto, light, or dark
 
     public static ArrayList<String> getAllColors() {
         ArrayList<String> colors = new ArrayList<>(colorMap.keySet());
@@ -34,17 +37,35 @@ public class Color {
         return id;
     }
 
-    // Monochrome, etc...
-    public static String color_setting;
-
     public String getSharedPreferencesKey() {
-        return "color_data";
+        return "appearance_data";
     }
 
     public static void setColor(String name) {
         color_setting = name;
 
-        new Color().saveAllData();
+        new Appearance().saveAllData();
+    }
+
+    public static void cycleMode() {
+        if("auto".equals(mode_setting)) {
+            setMode("light");
+        }
+        else if("light".equals(mode_setting)) {
+            setMode("dark");
+        }
+        else if("dark".equals(mode_setting)) {
+            setMode("auto");
+        }
+        else {
+            throw new IllegalStateException("mode_setting = " + mode_setting);
+        }
+    }
+
+    public static void setMode(String mode) {
+        mode_setting = mode;
+
+        new Appearance().saveAllData();
     }
 
     public void saveAllData() {
@@ -53,11 +74,13 @@ public class Color {
 
         editor.clear();
         editor.putString("color_data", color_setting);
+        editor.putString("mode_data", mode_setting);
         editor.apply();
     }
 
     public void loadAllData() {
         SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
         color_setting = sharedPreferences.getString("color_data", "Monochrome");
+        mode_setting = sharedPreferences.getString("mode_data", "auto");
     }
 }

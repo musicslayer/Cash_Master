@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.musicslayer.cashmaster.app.App;
-import com.musicslayer.cashmaster.data.persistent.app.Color;
-import com.musicslayer.cashmaster.data.persistent.app.Theme;
+import com.musicslayer.cashmaster.data.persistent.app.Appearance;
 import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 
-// TODO Merge Theme/Appearance/Color
+// TODO Remove autobackup
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
@@ -26,8 +25,7 @@ public class InitialActivity extends BaseActivity {
         ToastUtil.initialize();
 
         // Load all the stored data into local memory.
-        new Color().loadAllData();
-        new Theme().loadAllData();
+        new Appearance().loadAllData();
         new YearLedgerList().loadAllData();
 
         // If there are no years, create a default one so the user can get started easily.
@@ -35,8 +33,7 @@ public class InitialActivity extends BaseActivity {
 
         // Save all the stored data right after loading it.
         // This makes sure the stored data is initialized and helps remove data with outdated versions.
-        new Color().saveAllData();
-        new Theme().saveAllData();
+        new Appearance().saveAllData();
         new YearLedgerList().saveAllData();
 
         App.isAppInitialized = true;

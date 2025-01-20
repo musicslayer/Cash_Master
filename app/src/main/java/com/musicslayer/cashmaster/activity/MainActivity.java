@@ -13,8 +13,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
-import com.musicslayer.cashmaster.data.persistent.app.Color;
-import com.musicslayer.cashmaster.data.persistent.app.Theme;
+import com.musicslayer.cashmaster.data.persistent.app.Appearance;
 import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 import com.musicslayer.cashmaster.dialog.AddYearDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
@@ -220,7 +219,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 colorPopup.getMenu().clear();
 
-                ArrayList<String> colors = Color.getAllColors();
+                ArrayList<String> colors = Appearance.getAllColors();
                 for(String color : colors) {
                     colorPopup.getMenu().add(color);
                 }
@@ -231,7 +230,7 @@ public class MainActivity extends BaseActivity {
 
         colorPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                Color.setColor(item.toString());
+                Appearance.setColor(item.toString());
                 recreate();
 
                 updateLayout();
@@ -239,12 +238,12 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        // Theme Button
-        AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
-        themeButton.setOnClickListener(new View.OnClickListener() {
+        // Mode Button
+        AppCompatImageButton modeButton = findViewById(R.id.main_modeButton);
+        modeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Theme.cycleTheme();
+                Appearance.cycleMode();
                 recreate();
 
                 updateLayout();
@@ -272,16 +271,19 @@ public class MainActivity extends BaseActivity {
             yearTextView.setTextColor(ColorUtil.getThemeFeature(this));
         }
 
-        // Theme Button - Icon matches current theme setting
-        AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
-        if("auto".equals(Theme.theme_setting)) {
-            themeButton.setImageResource(R.drawable.baseline_auto_mode_24);
+        // Mode Button - Icon matches current mode setting
+        AppCompatImageButton modeButton = findViewById(R.id.main_modeButton);
+        if("auto".equals(Appearance.mode_setting)) {
+            modeButton.setImageResource(R.drawable.baseline_auto_mode_24);
         }
-        else if("light".equals(Theme.theme_setting)) {
-            themeButton.setImageResource(R.drawable.baseline_light_mode_24);
+        else if("light".equals(Appearance.mode_setting)) {
+            modeButton.setImageResource(R.drawable.baseline_light_mode_24);
+        }
+        else if("dark".equals(Appearance.mode_setting)) {
+            modeButton.setImageResource(R.drawable.baseline_dark_mode_24);
         }
         else {
-            themeButton.setImageResource(R.drawable.baseline_dark_mode_24);
+            throw new IllegalStateException("mode_setting = " + Appearance.mode_setting);
         }
 
         // Year Ledger

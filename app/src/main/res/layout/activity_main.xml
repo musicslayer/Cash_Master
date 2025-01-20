@@ -64,7 +64,7 @@
                 app:srcCompat="@drawable/baseline_add_box_24" />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/main_themeButton"
+                android:id="@+id/main_modeButton"
                 android:layout_width="@dimen/icon_size"
                 android:layout_height="@dimen/icon_size"
                 android:scaleType="fitXY"
@@ -81,7 +81,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="fitXY"
-                app:layout_constraintEnd_toStartOf="@+id/main_themeButton"
+                app:layout_constraintEnd_toStartOf="@+id/main_modeButton"
                 app:layout_constraintTop_toBottomOf="@+id/main_deleteYearButton"
                 app:srcCompat="@drawable/baseline_color_lens_24" />
 
