@@ -75,11 +75,11 @@
         <!-- View Themes -->
         <item name="buttonStyle">@style/ButtonTheme</item>
         <item name="checkboxStyle">@style/CheckBoxTheme</item>
-        <!-- <item name="editTextStyle">@style/EditTextTheme</item> Doesn't have any effect -->
+        <!-- <item name="editTextStyle">@style/EditTextTheme</item> Doesn't have any effect! -->
         <item name="imageButtonStyle">@style/ImageButtonTheme</item>
         <item name="popupMenuStyle">@style/PopupMenuTheme</item>
         <item name="radioButtonStyle">@style/RadioButtonTheme</item>
-        <item name="toolbarStyle">@style/ToolbarTheme</item>
+        <item name="toolbarStyle">@style/ActivityToolbarTheme</item>
 
         <item name="android:dialogTheme">@style/DialogTheme</item>
         <item name="android:itemTextAppearance">@style/ItemTextTheme</item>
@@ -105,9 +105,26 @@
         <item name="android:windowLightStatusBar">@bool/isLightMode</item>
     </style>
 
+    <style name="ActivityToolbarTheme" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/ActivityToolbarTheme.Title</item>
+        <item name="subtitleTextAppearance">@style/ActivityToolbarTheme.Subtitle</item>
+    </style>
+
+    <style name="ActivityToolbarTheme.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:fontFamily">@string/font_family</item>
+        <item name="android:textSize">@dimen/font_size_activity_title</item>
+        <item name="android:textColor">?attr/theme_feature</item>
+    </style>
+
+    <style name="ActivityToolbarTheme.Subtitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:fontFamily">@string/font_family</item>
+        <item name="android:textSize">@dimen/font_size_activity_subtitle</item>
+        <item name="android:textColor">?attr/theme_feature</item>
+    </style>
+
     <style name="ButtonTheme" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
+        <item name="android:textSize">@dimen/font_size_text</item>
         <item name="android:textColor">?attr/theme_feature</item>
         <item name="strokeColor">?attr/theme_feature</item>
         <item name="strokeWidth">1dp</item>
@@ -124,13 +141,13 @@
 
     <style name="CheckBoxTheme" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
+        <item name="android:textSize">@dimen/font_size_text</item>
         <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="DialogTheme" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
+        <item name="android:textSize">@dimen/font_size_text</item>
         <item name="android:textColorPrimary">?attr/theme_feature</item>
         <item name="android:textColorSecondary">?attr/theme_feature</item>
         <item name="android:windowBackground">@drawable/dialog_background</item>
@@ -140,9 +157,26 @@
         <item name="imageButtonStyle">@style/ImageButtonTheme</item>
         <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
         <item name="radioButtonStyle">@style/RadioButtonTheme</item>
-        <item name="toolbarStyle">@style/ToolbarTheme</item>
+        <item name="toolbarStyle">@style/DialogToolbarTheme</item>
 
         <item name="android:textViewStyle">@style/TextViewTheme</item>
+    </style>
+
+    <style name="DialogToolbarTheme" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/DialogToolbarTheme.Title</item>
+        <item name="subtitleTextAppearance">@style/DialogToolbarTheme.Subtitle</item>
+    </style>
+
+    <style name="DialogToolbarTheme.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:fontFamily">@string/font_family</item>
+        <item name="android:textSize">@dimen/font_size_dialog_title</item>
+        <item name="android:textColor">?attr/theme_feature</item>
+    </style>
+
+    <style name="DialogToolbarTheme.Subtitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:fontFamily">@string/font_family</item>
+        <item name="android:textSize">@dimen/font_size_dialog_subtitle</item>
+        <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="EditTextTheme" parent="@style/Widget.AppCompat.EditText">
@@ -153,7 +187,7 @@
 
     <style name="ImageButtonTheme" parent="@style/Widget.AppCompat.ImageButton">
         <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
+        <item name="android:textSize">@dimen/font_size_text</item>
         <item name="android:textColor">?attr/theme_feature</item>
         <item name="strokeColor">?attr/theme_feature</item>
         <item name="android:insetTop">0dp</item>
@@ -170,13 +204,13 @@
 
     <style name="ItemTextTheme" parent="@style/TextAppearance.AppCompat">
         <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
+        <item name="android:textSize">@dimen/font_size_text</item>
         <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="MaterialButtonTheme" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
+        <item name="android:textSize">@dimen/font_size_text</item>
         <item name="android:textColor">?attr/theme_feature</item>
         <item name="strokeColor">?attr/theme_feature</item>
         <item name="strokeWidth">1dp</item>
@@ -191,30 +225,13 @@
     <style name="RadioButtonTheme" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:buttonTint">?attr/theme_feature</item>
         <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
+        <item name="android:textSize">@dimen/font_size_text</item>
         <item name="android:textColor">?attr/theme_feature</item>
     </style>
 
     <style name="TextViewTheme" parent="@style/Widget.MaterialComponents.TextView">
         <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">?attr/theme_feature</item>
-    </style>
-
-    <style name="ToolbarTheme" parent="@style/Widget.AppCompat.Toolbar">
-        <item name="titleTextAppearance">@style/ToolbarTheme.Title</item>
-        <item name="subtitleTextAppearance">@style/ToolbarTheme.Subtitle</item>
-    </style>
-
-    <style name="ToolbarTheme.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size_title</item>
-        <item name="android:textColor">?attr/theme_feature</item>
-    </style>
-
-    <style name="ToolbarTheme.Subtitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
-        <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size_subtitle</item>
+        <item name="android:textSize">@dimen/font_size_text</item>
         <item name="android:textColor">?attr/theme_feature</item>
     </style>
 </resources>

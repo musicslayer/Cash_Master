@@ -23,16 +23,16 @@ public class InitialActivity extends BaseActivity {
         ToastUtil.initialize();
 
         // Load all the stored data into local memory.
-        new Appearance().loadAllData();
-        new YearLedgerList().loadAllData();
+        Appearance.loadAllData();
+        YearLedgerList.loadAllData();
 
         // If there are no years, create a default one so the user can get started easily.
         YearLedger.createDefaultIfNeeded();
 
         // Save all the stored data right after loading it.
         // This makes sure the stored data is initialized and helps remove data with outdated versions.
-        new Appearance().saveAllData();
-        new YearLedgerList().saveAllData();
+        Appearance.saveAllData();
+        YearLedgerList.saveAllData();
 
         App.isAppInitialized = true;
     }

@@ -17,11 +17,11 @@ public class YearLedgerList implements DataBridge.ExportableToJSON {
     // Just pick something that would never actually be saved.
     public final static String DEFAULT = "!UNKNOWN!";
 
-    public String getSharedPreferencesKey() {
+    public static String getSharedPreferencesKey() {
         return "yearLedger_data";
     }
 
-    public void saveAllData() {
+    public static void saveAllData() {
         SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -42,7 +42,7 @@ public class YearLedgerList implements DataBridge.ExportableToJSON {
         editor.apply();
     }
 
-    public void loadAllData() {
+    public static void loadAllData() {
         YearLedger.map_yearLedgers = new HashMap<>();
 
         SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());

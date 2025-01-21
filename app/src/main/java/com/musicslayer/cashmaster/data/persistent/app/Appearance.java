@@ -37,14 +37,14 @@ public class Appearance {
         return id;
     }
 
-    public String getSharedPreferencesKey() {
+    public static String getSharedPreferencesKey() {
         return "appearance_data";
     }
 
     public static void setColor(String name) {
         color_setting = name;
 
-        new Appearance().saveAllData();
+        Appearance.saveAllData();
     }
 
     public static void cycleMode() {
@@ -65,10 +65,10 @@ public class Appearance {
     public static void setMode(String mode) {
         mode_setting = mode;
 
-        new Appearance().saveAllData();
+        Appearance.saveAllData();
     }
 
-    public void saveAllData() {
+    public static void saveAllData() {
         SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -78,7 +78,7 @@ public class Appearance {
         editor.apply();
     }
 
-    public void loadAllData() {
+    public static void loadAllData() {
         SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
         color_setting = sharedPreferences.getString("color_data", "Monochrome");
         mode_setting = sharedPreferences.getString("mode_data", "auto");

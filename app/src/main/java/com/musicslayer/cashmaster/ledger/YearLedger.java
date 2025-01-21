@@ -54,7 +54,7 @@ public class YearLedger implements DataBridge.SerializableToJSON {
             addYearLedgerNoSave(currentYear);
             currentYearLedger = getYearLedger(currentYear);
 
-            new YearLedgerList().saveAllData();
+            YearLedgerList.saveAllData();
         }
     }
 
@@ -80,19 +80,19 @@ public class YearLedger implements DataBridge.SerializableToJSON {
 
     public static void setCurrentYear(int year) {
         currentYearLedger = getYearLedger(year);
-        new YearLedgerList().saveAllData();
+        YearLedgerList.saveAllData();
     }
 
     public static void addYear(int year) {
         addYearLedgerNoSave(year);
 
-        new YearLedgerList().saveAllData();
+        YearLedgerList.saveAllData();
     }
 
     public static void removeYear(int year) {
         map_yearLedgers.remove(year);
 
-        new YearLedgerList().saveAllData();
+        YearLedgerList.saveAllData();
     }
 
     public static int getNearestYear(int year) {
@@ -127,7 +127,7 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         }
         monthLedger.addLineItem(year, month, name, amount, isIncome);
 
-        new YearLedgerList().saveAllData();
+        YearLedgerList.saveAllData();
     }
 
     public void removeLineItem(String month, String name) {
@@ -137,7 +137,7 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         }
         monthLedger.removeLineItem(name);
 
-        new YearLedgerList().saveAllData();
+        YearLedgerList.saveAllData();
     }
 
     public boolean hasLineItem(String month, String name) {

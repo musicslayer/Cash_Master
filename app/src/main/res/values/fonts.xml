@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="font_family">sans-serif-condensed-light</string>
-    <dimen name="font_size">14sp</dimen>
+    <dimen name="font_size_text">14sp</dimen>
     <dimen name="font_size_header">20sp</dimen>
-    <dimen name="font_size_title">24sp</dimen>
-    <dimen name="font_size_subtitle">20sp</dimen>
+    <dimen name="font_size_activity_title">24sp</dimen>
+    <dimen name="font_size_activity_subtitle">20sp</dimen>
+    <dimen name="font_size_dialog_title">18sp</dimen>
+    <dimen name="font_size_dialog_subtitle">14sp</dimen>
 </resources>
