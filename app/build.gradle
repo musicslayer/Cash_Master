@@ -33,13 +33,14 @@ android {
     defaultConfig {
         applicationId "com.musicslayer.cashmaster"
         minSdk 24 // Android 7.0 Nougat
-        targetSdkVersion 35
+        targetSdkVersion 35 // Android 15 Vanilla Ice Cream
         versionCode 1
         versionName "1.0"
     }
 
     buildTypes {
         // TEST
+        /*
         debug {
         }
         release {
@@ -47,8 +48,9 @@ android {
             debuggable true
         }
 
+         */
+
         // REAL
-        /*
         debug {
         }
         release {
@@ -60,8 +62,6 @@ android {
                 debugSymbolLevel "FULL"
             }
         }
-
-         */
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
