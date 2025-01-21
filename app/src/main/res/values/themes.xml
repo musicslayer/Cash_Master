@@ -180,6 +180,7 @@
     </style>
 
     <style name="EditTextTheme" parent="@style/Widget.AppCompat.EditText">
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:ems">10</item>
         <item name="android:textColorHint">?attr/theme_feature_faded</item>
         <item name="colorAccent">?attr/theme_accent</item>
