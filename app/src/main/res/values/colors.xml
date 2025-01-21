@@ -18,7 +18,7 @@
     <color name="mint_feature_faded">#4000C2B7</color>
     <color name="mint_red">#FFFF5F5F</color>
 
-    <color name="monochrome_accent">#FF000000</color>
+    <color name="monochrome_accent">#FFEEEE00</color>
     <color name="monochrome_background">#FFFFFFFF</color>
     <color name="monochrome_feature">#FF000000</color>
     <color name="monochrome_feature_faded">#40000000</color>
