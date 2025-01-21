@@ -3,4 +3,19 @@
     <string name="app_title">Cash Master</string>
     <string name="app_title_camel_case">CashMaster</string>
     <string name="app_package">com.musicslayer.cashmaster</string>
+
+    <string-array name="month_names">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 </resources>
