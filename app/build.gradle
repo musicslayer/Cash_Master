@@ -40,7 +40,6 @@ android {
 
     buildTypes {
         // TEST
-        /*
         debug {
         }
         release {
@@ -48,11 +47,10 @@ android {
             debuggable true
         }
 
-         */
-
 
 
         // REAL
+        /*
         debug {
         }
         release {
@@ -64,6 +62,8 @@ android {
                 debugSymbolLevel "FULL"
             }
         }
+
+         */
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
