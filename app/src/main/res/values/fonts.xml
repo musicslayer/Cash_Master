@@ -2,6 +2,7 @@
 <resources>
     <string name="font_family">sans-serif-condensed-light</string>
     <dimen name="font_size_text">14sp</dimen>
+    <dimen name="font_size_lineitem_text">10sp</dimen>
     <dimen name="font_size_header">20sp</dimen>
     <dimen name="font_size_activity_title">24sp</dimen>
     <dimen name="font_size_activity_subtitle">20sp</dimen>

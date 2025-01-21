@@ -2,6 +2,7 @@ package com.musicslayer.cashmaster.view.ledger;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -96,6 +97,7 @@ public class LineItemView extends TableRow {
             AppCompatTextView t0 = new AppCompatTextView(context);
             t0.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
             t0.setText(name);
+            t0.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_size_lineitem_text));
 
             AppCompatTextView t1 = new AppCompatTextView(context);
             t1.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
@@ -106,6 +108,7 @@ public class LineItemView extends TableRow {
             String amountStr = "$" + amount;
             t1.setText(amountStr);
             t1.setTextColor(color);
+            t1.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.font_size_lineitem_text));
 
             this.addView(B_EDIT);
             this.addView(t0);
