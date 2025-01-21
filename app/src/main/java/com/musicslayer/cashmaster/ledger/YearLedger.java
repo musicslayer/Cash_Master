@@ -1,5 +1,7 @@
 package com.musicslayer.cashmaster.ledger;
 
+import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.app.App;
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
 
@@ -63,7 +65,8 @@ public class YearLedger implements DataBridge.SerializableToJSON {
         yearLedger.year = year;
 
         // Add all 12 months up front.
-        for(String month : Month.ALL_MONTHS) {
+        String[] months = App.applicationContext.getResources().getStringArray(R.array.month_names);
+        for(String month : months) {
             MonthLedger monthLedger = new MonthLedger();
             monthLedger.year = year;
             monthLedger.month = month;
