@@ -17,7 +17,10 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.activity.BaseActivity;
 import com.musicslayer.cashmaster.util.PixelUtil;
+import com.musicslayer.cashmaster.util.ViewUtil;
 import com.musicslayer.cashmaster.util.WindowUtil;
+
+import java.util.ArrayList;
 
 abstract public class BaseDialog extends Dialog {
     final public BaseActivity activity;
@@ -98,9 +101,8 @@ abstract public class BaseDialog extends Dialog {
 
     private Toolbar findToolbar() {
         // The toolbar should be a direct child of the base view.
-        ViewGroup v = findViewById(getBaseViewID());
-        for(int i = 0; i < v.getChildCount(); i++) {
-            View child = v.getChildAt(i);
+        ArrayList<View> children = ViewUtil.getDirectChildren(findViewById(getBaseViewID()));
+        for(View child : children) {
             if(child instanceof Toolbar) {
                 return (Toolbar)child;
             }

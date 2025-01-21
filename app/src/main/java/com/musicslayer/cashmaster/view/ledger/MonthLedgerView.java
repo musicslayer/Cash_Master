@@ -2,35 +2,29 @@ package com.musicslayer.cashmaster.view.ledger;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
-import com.musicslayer.cashmaster.dialog.EditLineItemDialog;
 import com.musicslayer.cashmaster.ledger.LineItem;
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.PixelUtil;
+import com.musicslayer.cashmaster.util.ViewUtil;
 import com.musicslayer.cashmaster.view.HorizontalSplitView;
 import com.musicslayer.cashmaster.view.ImageButtonView;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.ArrayList;
 
 public class MonthLedgerView extends LinearLayout {
     public MonthLedger monthLedger;
-    private MonthLedgerView.OnLineItemChangeListener onLineItemChangeListener;
+    private YearLedgerView.OnLineItemChangeListener onLineItemChangeListener;
 
     public MonthLedgerView(Context context) {
         super(context);
@@ -81,7 +75,7 @@ public class MonthLedgerView extends LinearLayout {
             B_ADD.setImageSize(getResources().getDimensionPixelSize(R.dimen.icon_size));
             B_ADD.setTextSize(getResources().getDimension(R.dimen.font_size_header));
             B_ADD.setTextString(monthLedger.month);
-            B_ADD.setOnClickListener(new View.OnClickListener() {
+            B_ADD.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     addLineItemDialogFragment.updateArguments(AddLineItemDialog.class, monthLedger.year, monthLedger.month);
@@ -107,123 +101,22 @@ public class MonthLedgerView extends LinearLayout {
 
             this.addView(T_TOTAL);
 
-            // Edit Line Item Dialog
-            BaseDialogFragment editLineItemDialogFragment = BaseDialogFragment.newInstance(EditLineItemDialog.class, (Object) null);
-            editLineItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    if(((EditLineItemDialog)dialog).isComplete) {
-                        // Delete/Edit the line item, and then fire the listener.
-                        LineItem lineItem = ((EditLineItemDialog)dialog).lineItem;
-                        YearLedger yearLedger = YearLedger.getYearLedger(lineItem.year);
-
-                        boolean isDelete = ((EditLineItemDialog)dialog).user_ISDELETE;
-                        if(isDelete) {
-                            yearLedger.removeLineItem(lineItem.month, lineItem.name);
-                        }
-                        else {
-                            String name = ((EditLineItemDialog)dialog).user_NAME;
-                            BigDecimal amount = ((EditLineItemDialog)dialog).user_AMOUNT;
-                            boolean isIncome = ((EditLineItemDialog)dialog).user_ISINCOME;
-
-                            yearLedger.removeLineItem(lineItem.month, lineItem.name);
-                            yearLedger.addLineItem(lineItem.month, name, amount, isIncome);
-                        }
-
-                        onLineItemChangeListener.onChange();
-                    }
-                }
-            });
-            editLineItemDialogFragment.restoreListeners(context, "edit_line_item");
-
             HorizontalSplitView horizontalSplitView = new HorizontalSplitView(context);
             horizontalSplitView.setPadding(0, 0, 0, PixelUtil.dpToPx(30, context));
 
             // Incomes
             TableLayout ledgerTableA = new TableLayout(context);
             for(LineItem lineItem : monthLedger.getSortedIncomes()) {
-                String name = lineItem.name;
-                BigDecimal amount = lineItem.amount;
-                int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
-                int color = ColorUtil.getThemeFeature(context);
-
-                AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
-                B_EDIT.setImageResource(R.drawable.baseline_edit_24);
-                B_EDIT.setLayoutParams(new TableRow.LayoutParams(size, size));
-                B_EDIT.setScaleType(ImageView.ScaleType.FIT_XY);
-                B_EDIT.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        editLineItemDialogFragment.updateArguments(EditLineItemDialog.class, lineItem);
-                        editLineItemDialogFragment.show(context, "edit_line_item");
-                    }
-                });
-
-                AppCompatTextView t0 = new AppCompatTextView(context);
-                t0.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
-                t0.setText(name);
-
-                AppCompatTextView t1 = new AppCompatTextView(context);
-                t1.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
-
-                if(amount == null) {
-                    amount = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
-                }
-                String amountStr = "$" + amount;
-                t1.setText(amountStr);
-                t1.setTextColor(color);
-
-                TableRow row = new TableRow(context);
-                row.setGravity(Gravity.CENTER_VERTICAL);
-                row.addView(B_EDIT);
-                row.addView(t0);
-                row.addView(t1);
-
-                ledgerTableA.addView(row);
+                LineItemView lineItemView = new LineItemView(context, lineItem);
+                ledgerTableA.addView(lineItemView);
             }
             horizontalSplitView.addViewA(ledgerTableA);
 
             // Expenses
             TableLayout ledgerTableB = new TableLayout(context);
             for(LineItem lineItem : monthLedger.getSortedExpenses()) {
-                String name = lineItem.name;
-                BigDecimal amount = lineItem.amount;
-                int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
-                int color = ColorUtil.getThemeRed(context);
-
-                AppCompatImageButton B_EDIT = new AppCompatImageButton(context);
-                B_EDIT.setImageResource(R.drawable.baseline_edit_24);
-                B_EDIT.setLayoutParams(new TableRow.LayoutParams(size, size));
-                B_EDIT.setScaleType(ImageView.ScaleType.FIT_XY);
-                B_EDIT.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        editLineItemDialogFragment.updateArguments(EditLineItemDialog.class, lineItem);
-                        editLineItemDialogFragment.show(context, "edit_line_item");
-                    }
-                });
-
-                AppCompatTextView t0 = new AppCompatTextView(context);
-                t0.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
-                t0.setText(name);
-
-                AppCompatTextView t1 = new AppCompatTextView(context);
-                t1.setPadding(PixelUtil.dpToPx(10, context), 0, 0, 0);
-
-                if(amount == null) {
-                    amount = BigDecimal.ZERO.setScale(2, RoundingMode.UNNECESSARY);
-                }
-                String amountStr = "$" + amount;
-                t1.setText(amountStr);
-                t1.setTextColor(color);
-
-                TableRow row = new TableRow(context);
-                row.setGravity(Gravity.CENTER_VERTICAL);
-                row.addView(B_EDIT);
-                row.addView(t0);
-                row.addView(t1);
-
-                ledgerTableB.addView(row);
+                LineItemView lineItemView = new LineItemView(context, lineItem);
+                ledgerTableB.addView(lineItemView);
             }
             horizontalSplitView.addViewB(ledgerTableB);
 
@@ -231,11 +124,14 @@ public class MonthLedgerView extends LinearLayout {
         }
     }
 
-    public void setOnLineItemChangeListener(MonthLedgerView.OnLineItemChangeListener onLineItemChangeListener) {
+    public void setOnLineItemChangeListener(YearLedgerView.OnLineItemChangeListener onLineItemChangeListener) {
         this.onLineItemChangeListener = onLineItemChangeListener;
-    }
 
-    abstract public static class OnLineItemChangeListener {
-        abstract public void onChange();
+        ArrayList<View> children = ViewUtil.getAllChildren(this);
+        for(View child : children) {
+            if(child instanceof LineItemView) {
+                ((LineItemView) child).setOnLineItemChangeListener(onLineItemChangeListener);
+            }
+        }
     }
 }

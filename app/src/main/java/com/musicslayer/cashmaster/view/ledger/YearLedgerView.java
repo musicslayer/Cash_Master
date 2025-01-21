@@ -6,6 +6,9 @@ import android.widget.LinearLayout;
 
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.util.ViewUtil;
+
+import java.util.ArrayList;
 
 public class YearLedgerView extends LinearLayout {
     public YearLedger yearLedger;
@@ -38,12 +41,16 @@ public class YearLedgerView extends LinearLayout {
         }
     }
 
-    public void setOnLineItemChangeListener(MonthLedgerView.OnLineItemChangeListener onLineItemChangeListener) {
-        for(int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
+    public void setOnLineItemChangeListener(YearLedgerView.OnLineItemChangeListener onLineItemChangeListener) {
+        ArrayList<View> children = ViewUtil.getAllChildren(this);
+        for(View child : children) {
             if(child instanceof MonthLedgerView) {
                 ((MonthLedgerView) child).setOnLineItemChangeListener(onLineItemChangeListener);
             }
         }
+    }
+
+    abstract public static class OnLineItemChangeListener {
+        abstract public void onChange();
     }
 }

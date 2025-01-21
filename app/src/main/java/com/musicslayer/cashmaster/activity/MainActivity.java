@@ -26,7 +26,6 @@ import com.musicslayer.cashmaster.util.FileUtil;
 import com.musicslayer.cashmaster.util.JSONUtil;
 import com.musicslayer.cashmaster.util.MessageUtil;
 import com.musicslayer.cashmaster.util.ToastUtil;
-import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
 import java.io.File;
@@ -291,7 +290,7 @@ public class MainActivity extends BaseActivity {
         L.removeAllViews();
 
         YearLedgerView yearLedgerView = new YearLedgerView(this, YearLedger.currentYearLedger);
-        yearLedgerView.setOnLineItemChangeListener(new MonthLedgerView.OnLineItemChangeListener() {
+        yearLedgerView.setOnLineItemChangeListener(new YearLedgerView.OnLineItemChangeListener() {
             @Override
             public void onChange() {
                 updateLayout();
