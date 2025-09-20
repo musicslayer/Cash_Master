@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
@@ -12,6 +13,7 @@ import com.musicslayer.cashmaster.R;
 public class ConfirmDeleteYearDialog extends BaseDialog {
     public int year;
 
+    @Keep
     public ConfirmDeleteYearDialog(Activity activity, Integer year) {
         super(activity);
         this.year = year;

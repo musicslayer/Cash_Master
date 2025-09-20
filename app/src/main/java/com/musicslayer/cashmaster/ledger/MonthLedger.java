@@ -1,5 +1,7 @@
 package com.musicslayer.cashmaster.ledger;
 
+import androidx.annotation.Keep;
+
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 
 import java.io.IOException;
@@ -23,6 +25,7 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
             .endObject();
     }
 
+    @Keep
     public static MonthLedger deserializeFromJSON(DataBridge.Reader o) throws IOException {
         o.beginObject();
 

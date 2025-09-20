@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -27,6 +28,9 @@ public class BaseDialogFragment extends DialogFragment implements DialogInterfac
         fragment.setArguments(bundle);
         return fragment;
     }
+
+    @Keep
+    public BaseDialogFragment() {}
 
     @Override
     public void onShow(@NonNull DialogInterface dialog) {

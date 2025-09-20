@@ -6,6 +6,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -22,6 +23,7 @@ import java.util.HashMap;
 public class YearSumsDialog extends BaseDialog {
     public int year;
 
+    @Keep
     public YearSumsDialog(Activity activity, Integer year) {
         super(activity);
         this.year = year;

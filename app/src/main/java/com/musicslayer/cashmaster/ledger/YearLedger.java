@@ -1,5 +1,7 @@
 package com.musicslayer.cashmaster.ledger;
 
+import androidx.annotation.Keep;
+
 import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.app.App;
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
@@ -28,6 +30,7 @@ public class YearLedger implements DataBridge.SerializableToJSON {
             .endObject();
     }
 
+    @Keep
     public static YearLedger deserializeFromJSON(DataBridge.Reader o) throws IOException {
         o.beginObject();
 

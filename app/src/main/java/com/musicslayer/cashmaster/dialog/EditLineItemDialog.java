@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
@@ -27,6 +28,7 @@ public class EditLineItemDialog extends BaseDialog {
 
     public LineItem lineItem;
 
+    @Keep
     public EditLineItemDialog(Activity activity, LineItem lineItem) {
         super(activity);
         this.lineItem = lineItem;

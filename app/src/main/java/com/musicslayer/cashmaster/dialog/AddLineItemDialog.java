@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
@@ -26,6 +27,7 @@ public class AddLineItemDialog extends BaseDialog {
     public int year;
     public String month;
 
+    @Keep
     public AddLineItemDialog(Activity activity, Integer year, String month) {
         super(activity);
         this.year = year;

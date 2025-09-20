@@ -3,6 +3,8 @@ package com.musicslayer.cashmaster.ledger;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Keep;
+
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 
 import java.io.IOException;
@@ -27,6 +29,7 @@ public class LineItem implements DataBridge.SerializableToJSON, Parcelable {
             .endObject();
     }
 
+    @Keep
     public static LineItem deserializeFromJSON(DataBridge.Reader o) throws IOException {
         o.beginObject();
 

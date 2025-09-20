@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.musicslayer.cashmaster.R;
@@ -16,6 +17,7 @@ import java.math.BigInteger;
 public class AddYearDialog extends BaseDialog {
     public int user_YEAR;
 
+    @Keep
     public AddYearDialog(Activity activity) {
         super(activity);
     }

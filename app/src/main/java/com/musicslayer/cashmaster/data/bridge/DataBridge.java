@@ -4,6 +4,8 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.JsonWriter;
 
+import androidx.annotation.Keep;
+
 import com.musicslayer.cashmaster.util.ReflectUtil;
 import com.musicslayer.cashmaster.util.ThrowableUtil;
 
@@ -498,6 +500,7 @@ public class DataBridge {
             o.putString(obj);
         }
 
+        @Keep
         public static String deserializeFromJSON(Reader o) throws IOException {
             return o.getString();
         }
@@ -514,6 +517,7 @@ public class DataBridge {
             o.putString(Integer.toString(obj));
         }
 
+        @Keep
         public static int deserializeFromJSON(DataBridge.Reader o) throws IOException {
             return Integer.parseInt(o.getString());
         }
@@ -530,6 +534,7 @@ public class DataBridge {
             o.putString(Boolean.toString(obj));
         }
 
+        @Keep
         public static boolean deserializeFromJSON(Reader o) throws IOException {
             return Boolean.parseBoolean(o.getString());
         }
@@ -546,6 +551,7 @@ public class DataBridge {
             o.putString(obj.toString());
         }
 
+        @Keep
         public static BigDecimal deserializeFromJSON(DataBridge.Reader o) throws IOException {
             return new BigDecimal(o.getString());
         }
