@@ -8,7 +8,7 @@ import androidx.annotation.Keep;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.musicslayer.cashmaster.R;
-import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.data.persistent.app.LedgerData;
 import com.musicslayer.cashmaster.util.ToastUtil;
 import com.musicslayer.cashmaster.view.red.YearEditText;
 
@@ -42,7 +42,7 @@ public class AddYearDialog extends BaseDialog {
                 else {
                     int year = new BigInteger(E_YEAR.getTextString()).intValue();
 
-                    if (YearLedger.hasYear(year)) {
+                    if (LedgerData.ledger.hasYear(year)) {
                         ToastUtil.showToast("year_exists");
                     }
                     else {

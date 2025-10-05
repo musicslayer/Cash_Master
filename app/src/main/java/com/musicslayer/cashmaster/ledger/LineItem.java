@@ -3,14 +3,14 @@ package com.musicslayer.cashmaster.ledger;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-public class LineItem implements DataBridge.SerializableToJSON, Parcelable {
+public class LineItem implements Parcelable {
     public int year;
     public String month;
     public String name;
@@ -18,51 +18,11 @@ public class LineItem implements DataBridge.SerializableToJSON, Parcelable {
     public boolean isIncome;
 
     @Override
-    public void serializeToJSON(DataBridge.Writer o) throws IOException {
-        o.beginObject()
-            .serialize("!V!", "1", String.class)
-            .serialize("year", year, Integer.class)
-            .serialize("month", month, String.class)
-            .serialize("name", name, String.class)
-            .serialize("amount", amount, BigDecimal.class)
-            .serialize("isIncome", isIncome, Boolean.class)
-            .endObject();
-    }
-
-    @Keep
-    public static LineItem deserializeFromJSON(DataBridge.Reader o) throws IOException {
-        o.beginObject();
-
-        String version = o.deserialize("!V!", String.class);
-        LineItem lineItem = new LineItem();
-
-        if("1".equals(version)) {
-            int year = o.deserialize("year", Integer.class);
-            String month = o.deserialize("month", String.class);
-            String name = o.deserialize("name", String.class);
-            BigDecimal amount = o.deserialize("amount", BigDecimal.class);
-            boolean isIncome = o.deserialize("isIncome", Boolean.class);
-            o.endObject();
-
-            lineItem.year = year;
-            lineItem.month = month;
-            lineItem.name = name;
-            lineItem.amount = amount;
-            lineItem.isIncome = isIncome;
-        }
-        else {
-            throw new IllegalStateException("version = " + version);
-        }
-
-        return lineItem;
-    }
-
-    @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(year);
         out.writeString(month);
         out.writeString(name);
-        out.writeString(DataBridge.serializeValue(amount, BigDecimal.class));
+        out.writeString(DataBridge.serializeValue(amount, DataBridge.BigDecimalSerializable.SERIALIZER));
         out.writeString(Boolean.toString(isIncome)); // "writeBoolean" requires newer Android version.
     }
 
@@ -72,7 +32,7 @@ public class LineItem implements DataBridge.SerializableToJSON, Parcelable {
             int year = in.readInt();
             String month = in.readString();
             String name = in.readString();
-            BigDecimal amount = DataBridge.deserializeValue(in.readString(), BigDecimal.class);
+            BigDecimal amount = DataBridge.deserializeValue(in.readString(), DataBridge.BigDecimalSerializable.DESERIALIZER);
             boolean isIncome = Boolean.parseBoolean(in.readString());
 
             LineItem lineItem = new LineItem();
@@ -95,4 +55,49 @@ public class LineItem implements DataBridge.SerializableToJSON, Parcelable {
     public int describeContents() {
         return 0;
     }
+
+    public static final DataBridge.Serializer<LineItem> SERIALIZER = new DataBridge.Serializer<LineItem>() {
+        @Override
+        public void serialize(DataBridge.Writer writer, @NonNull LineItem obj) throws IOException {
+            writer.beginObject()
+                .serialize("!V!", "1", DataBridge.StringSerializable.SERIALIZER)
+                .serialize("year", obj.year, DataBridge.IntegerSerializable.SERIALIZER)
+                .serialize("month", obj.month, DataBridge.StringSerializable.SERIALIZER)
+                .serialize("name", obj.name, DataBridge.StringSerializable.SERIALIZER)
+                .serialize("amount", obj.amount, DataBridge.BigDecimalSerializable.SERIALIZER)
+                .serialize("isIncome", obj.isIncome, DataBridge.BooleanSerializable.SERIALIZER)
+                .endObject();
+        }
+    };
+
+    public static final DataBridge.Deserializer<LineItem> DESERIALIZER = new DataBridge.Deserializer<LineItem>() {
+        @NonNull
+        @Override
+        public LineItem deserialize(DataBridge.Reader reader) throws IOException {
+            reader.beginObject();
+
+            String version = reader.deserialize("!V!", DataBridge.StringSerializable.DESERIALIZER);
+            LineItem lineItem = new LineItem();
+
+            if("1".equals(version)) {
+                int year = reader.deserialize("year", DataBridge.IntegerSerializable.DESERIALIZER);
+                String month = reader.deserialize("month", DataBridge.StringSerializable.DESERIALIZER);
+                String name = reader.deserialize("name", DataBridge.StringSerializable.DESERIALIZER);
+                BigDecimal amount = reader.deserialize("amount", DataBridge.BigDecimalSerializable.DESERIALIZER);
+                boolean isIncome = reader.deserialize("isIncome", DataBridge.BooleanSerializable.DESERIALIZER);
+                reader.endObject();
+
+                lineItem.year = year;
+                lineItem.month = month;
+                lineItem.name = name;
+                lineItem.amount = amount;
+                lineItem.isIncome = isIncome;
+            }
+            else {
+                throw new IllegalStateException("version = " + version);
+            }
+
+            return lineItem;
+        }
+    };
 }

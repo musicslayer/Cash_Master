@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.data.persistent.app.LedgerData;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.dialog.EditLineItemDialog;
 import com.musicslayer.cashmaster.ledger.LineItem;
@@ -56,7 +57,7 @@ public class LineItemView extends TableRow {
                     if(((EditLineItemDialog)dialog).isComplete) {
                         // Delete/Edit the line item, and then fire the listener.
                         LineItem lineItem = ((EditLineItemDialog)dialog).lineItem;
-                        YearLedger yearLedger = YearLedger.getYearLedger(lineItem.year);
+                        YearLedger yearLedger = LedgerData.ledger.getYearLedger(lineItem.year);
 
                         boolean isDelete = ((EditLineItemDialog)dialog).user_ISDELETE;
                         if(isDelete) {

@@ -4,9 +4,8 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.JsonWriter;
 
-import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
-import com.musicslayer.cashmaster.util.ReflectUtil;
 import com.musicslayer.cashmaster.util.ThrowableUtil;
 
 import java.io.IOException;
@@ -17,14 +16,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DataBridge {
-    public interface SerializableToJSON {
-        void serializeToJSON(Writer o) throws IOException;
-        // Classes also need to implement static method "deserializeFromJSON".
+    public interface Serializer<T> {
+        void serialize(Writer writer, @NonNull T obj) throws IOException;
     }
 
-    public interface ExportableToJSON {
-        void exportDataToJSON(DataBridge.Writer o) throws IOException;
-        void importDataFromJSON(DataBridge.Reader o) throws IOException;
+    public interface Deserializer<T> {
+        @NonNull
+        T deserialize(Reader reader) throws IOException;
     }
 
     public static void safeFlushAndClose(Writer writer) {
@@ -48,7 +46,7 @@ public class DataBridge {
         }
     }
 
-    public static <T> String serializeValue(T obj, Class<T> clazzT) {
+    public static <T> String serializeValue(T obj, Serializer<T> serializerT) {
         // JSON doesn't allow direct Strings as top-level values, so directly handle value ourselves.
         if(obj == null) { return null; }
 
@@ -57,7 +55,7 @@ public class DataBridge {
 
         try {
             writer.beginArray();
-            writer.serialize(null, obj, clazzT);
+            writer.serialize(null, obj, serializerT);
             writer.endArray();
             safeFlushAndClose(writer);
 
@@ -77,13 +75,13 @@ public class DataBridge {
         }
     }
 
-    public static <T> String serialize(T obj, Class<T> clazzT) {
+    public static <T> String serialize(T obj, Serializer<T> serializerT) {
         if(obj == null) { return null; }
 
         Writer writer = new Writer();
 
         try {
-            writer.serialize(null, obj, clazzT);
+            writer.serialize(null, obj, serializerT);
             safeFlushAndClose(writer);
             return writer.stringWriter.toString();
         }
@@ -94,13 +92,13 @@ public class DataBridge {
         }
     }
 
-    public static <T> String exportData(T obj, Class<T> clazzT) {
-        if(obj == null) { return null; }
+    public static <T> String serializeArrayList(ArrayList<T> arrayList, Serializer<T> serializerT) {
+        if(arrayList == null) { return null; }
 
         Writer writer = new Writer();
 
         try {
-            writer.exportData(null, obj, clazzT);
+            writer.serializeArrayList(null, arrayList, serializerT);
             safeFlushAndClose(writer);
             return writer.stringWriter.toString();
         }
@@ -111,7 +109,24 @@ public class DataBridge {
         }
     }
 
-    public static <T> T deserializeValue(String s, Class<T> clazzT) {
+    public static <T, U> String serializeHashMap(HashMap<T, U> hashMap, Serializer<T> serializerT, Serializer<U> serializerU) {
+        if(hashMap == null) { return null; }
+
+        Writer writer = new Writer();
+
+        try {
+            writer.serializeHashMap(null, hashMap, serializerT, serializerU);
+            safeFlushAndClose(writer);
+            return writer.stringWriter.toString();
+        }
+        catch(Exception e) {
+            ThrowableUtil.processThrowable(e);
+            safeFlushAndClose(writer);
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static <T> T deserializeValue(String s, Deserializer<T> deserializerT) {
         // JSON doesn't allow direct Strings as top-level values, so directly handle value ourselves.
         if(s == null) { return null; }
 
@@ -126,7 +141,7 @@ public class DataBridge {
 
             reader = new Reader(writer.stringWriter.toString());
             reader.beginArray();
-            T obj = reader.deserialize(null, clazzT);
+            T obj = reader.deserialize(null, deserializerT);
             reader.endArray();
             safeClose(reader);
 
@@ -140,12 +155,12 @@ public class DataBridge {
         }
     }
 
-    public static <T> T deserialize(String s, Class<T> clazzT) {
+    public static <T> T deserialize(String s, Deserializer<T> deserializerT) {
         if(s == null) { return null; }
 
         Reader reader = new Reader(s);
         try {
-            T obj = reader.deserialize(null, clazzT);
+            T obj = reader.deserialize(null, deserializerT);
             safeClose(reader);
             return obj;
         }
@@ -156,13 +171,14 @@ public class DataBridge {
         }
     }
 
-    public static <T> void importData(T obj, String s, Class<T> clazzT) {
-        if(s == null) { return; }
+    public static <T> ArrayList<T> deserializeArrayList(String s, Deserializer<T> deserializerT) {
+        if(s == null) { return null; }
 
         Reader reader = new Reader(s);
         try {
-            reader.importData(null, obj, clazzT);
+            ArrayList<T> arrayList = reader.deserializeArrayList(null, deserializerT);
             safeClose(reader);
+            return arrayList;
         }
         catch(Exception e) {
             ThrowableUtil.processThrowable(e);
@@ -171,10 +187,20 @@ public class DataBridge {
         }
     }
 
-    public static <T> String cycleSerialization(String s, Class<T> clazzT) {
-        // Do a round trip of deserializing and serializing to make sure the string represents an object of the class.
-        T obj = deserialize(s, clazzT);
-        return serialize(obj, clazzT);
+    public static <T, U> HashMap<T, U> deserializeHashMap(String s, Deserializer<T> deserializerT, Deserializer<U> deserializerU) {
+        if(s == null) { return null; }
+
+        Reader reader = new Reader(s);
+        try {
+            HashMap<T, U> hashMap = reader.deserializeHashMap(null, deserializerT, deserializerU);
+            safeClose(reader);
+            return hashMap;
+        }
+        catch(Exception e) {
+            ThrowableUtil.processThrowable(e);
+            safeClose(reader);
+            throw new IllegalStateException(e);
+        }
     }
 
     public static class Writer {
@@ -221,7 +247,7 @@ public class DataBridge {
             return this;
         }
 
-        public <T> Writer serialize(String key, T obj, Class<T> clazzT) throws IOException {
+        public <T> Writer serialize(String key, T obj, Serializer<T> serializerT) throws IOException {
             if(key != null) {
                 putName(key);
             }
@@ -230,13 +256,13 @@ public class DataBridge {
                 putNull();
             }
             else {
-                wrapSerializableObj(obj).serializeToJSON(this);
+                serializerT.serialize(this, obj);
             }
 
             return this;
         }
 
-        public <T> Writer serializeArrayList(String key, ArrayList<T> arrayList, Class<T> clazzT) throws IOException {
+        public <T> Writer serializeArrayList(String key, ArrayList<T> arrayList, Serializer<T> serializerT) throws IOException {
             if(key != null) {
                 putName(key);
             }
@@ -247,7 +273,7 @@ public class DataBridge {
             else {
                 jsonWriter.beginArray();
                 for(T t : arrayList) {
-                    serialize(null, t, clazzT);
+                    serialize(null, t, serializerT);
                 }
                 jsonWriter.endArray();
             }
@@ -255,7 +281,7 @@ public class DataBridge {
             return this;
         }
 
-        public <T, U> Writer serializeHashMap(String key, HashMap<T, U> hashMap, Class<T> clazzT, Class<U> clazzU) throws IOException {
+        public <T, U> Writer serializeHashMap(String key, HashMap<T, U> hashMap, Serializer<T> serializerT, Serializer<U> serializerU) throws IOException {
             if(key != null) {
                 putName(key);
             }
@@ -271,24 +297,9 @@ public class DataBridge {
                 }
 
                 jsonWriter.beginObject();
-                serializeArrayList("keys", keyArrayList, clazzT);
-                serializeArrayList("values", valueArrayList, clazzU);
+                serializeArrayList("keys", keyArrayList, serializerT);
+                serializeArrayList("values", valueArrayList, serializerU);
                 jsonWriter.endObject();
-            }
-
-            return this;
-        }
-
-        public <T> Writer exportData(String key, T obj, Class<T> clazzT) throws IOException {
-            if(key != null) {
-                putName(key);
-            }
-
-            if(obj == null) {
-                putNull();
-            }
-            else {
-                wrapExportableObj(obj).exportDataToJSON(this);
             }
 
             return this;
@@ -337,12 +348,12 @@ public class DataBridge {
             return this;
         }
 
-        public <T> T deserialize(String key, Class<T> clazzT) throws IOException {
+        public <T> T deserialize(String key, Deserializer<T> deserializerT) throws IOException {
             if(key != null) {
                 String nextKey = getName();
                 if(!key.equals(nextKey)) {
                     // Expected key was not found.
-                    throw new IllegalStateException("class = " + clazzT.getSimpleName() + " key = " + key + " nextKey = " + nextKey);
+                    throw new IllegalStateException("key = " + key + " nextKey = " + nextKey);
                 }
             }
 
@@ -350,17 +361,16 @@ public class DataBridge {
                 return getNull();
             }
             else {
-                Class<? extends SerializableToJSON> wrappedClass = wrapSerializableClass(clazzT);
-                return ReflectUtil.callStaticMethod(wrappedClass, "deserializeFromJSON", this);
+                return deserializerT.deserialize(this);
             }
         }
 
-        public <T> ArrayList<T> deserializeArrayList(String key, Class<T> clazzT) throws IOException {
+        public <T> ArrayList<T> deserializeArrayList(String key, Deserializer<T> deserializerT) throws IOException {
             if(key != null) {
                 String nextKey = getName();
                 if(!key.equals(nextKey)) {
                     // Expected key was not found.
-                    throw new IllegalStateException("class = " + clazzT.getSimpleName() + " key = " + key + " nextKey = " + nextKey);
+                    throw new IllegalStateException("key = " + key + " nextKey = " + nextKey);
                 }
             }
 
@@ -372,7 +382,7 @@ public class DataBridge {
 
                 jsonReader.beginArray();
                 while(jsonReader.hasNext()) {
-                    arrayList.add(deserialize(null, clazzT));
+                    arrayList.add(deserialize(null, deserializerT));
                 }
                 jsonReader.endArray();
 
@@ -380,12 +390,12 @@ public class DataBridge {
             }
         }
 
-        public <T, U> HashMap<T, U> deserializeHashMap(String key, Class<T> clazzT, Class<U> clazzU) throws IOException {
+        public <T, U> HashMap<T, U> deserializeHashMap(String key, Deserializer<T> deserializerT, Deserializer<U> deserializerU) throws IOException {
             if(key != null) {
                 String nextKey = getName();
                 if(!key.equals(nextKey)) {
                     // Expected key was not found.
-                    throw new IllegalStateException("class = " + clazzT.getSimpleName() + " key = " + key + " nextKey = " + nextKey);
+                    throw new IllegalStateException("key = " + key + " nextKey = " + nextKey);
                 }
             }
 
@@ -394,8 +404,8 @@ public class DataBridge {
             }
             else {
                 jsonReader.beginObject();
-                ArrayList<T> arrayListT = deserializeArrayList("keys", clazzT);
-                ArrayList<U> arrayListU = deserializeArrayList("values", clazzU);
+                ArrayList<T> arrayListT = deserializeArrayList("keys", deserializerT);
+                ArrayList<U> arrayListU = deserializeArrayList("values", deserializerU);
                 jsonReader.endObject();
 
                 if(arrayListT == null || arrayListU == null || arrayListT.size() != arrayListU.size()) {
@@ -410,150 +420,73 @@ public class DataBridge {
                 return hashMap;
             }
         }
+    }
 
-        public <T> void importData(String key, T obj, Class<T> clazzT) throws IOException {
-            if(key != null) {
-                String nextKey = getName();
-                if(!key.equals(nextKey)) {
-                    // Expected key was not found.
-                    throw new IllegalStateException("class = " + clazzT.getSimpleName() + " key = " + key + " nextKey = " + nextKey);
-                }
+    public static class StringSerializable {
+        public static final DataBridge.Serializer<String> SERIALIZER = new DataBridge.Serializer<String>() {
+            @Override
+            public void serialize(DataBridge.Writer writer, @NonNull String obj) throws IOException {
+                writer.putString(obj);
             }
+        };
 
-            if(jsonReader.peek() == JsonToken.NULL) {
-                getNull();
+        public static final DataBridge.Deserializer<String> DESERIALIZER = new DataBridge.Deserializer<String>() {
+            @NonNull
+            @Override
+            public String deserialize(DataBridge.Reader reader) throws IOException {
+                return reader.getString();
             }
-            else {
-                wrapExportableObj(obj).importDataFromJSON(this);
+        };
+    }
+
+    public static class IntegerSerializable {
+        public static final DataBridge.Serializer<Integer> SERIALIZER = new DataBridge.Serializer<Integer>() {
+            @Override
+            public void serialize(DataBridge.Writer writer, @NonNull Integer obj) throws IOException {
+                writer.putString(Integer.toString(obj));
             }
-        }
+        };
+
+        public static final DataBridge.Deserializer<Integer> DESERIALIZER = new DataBridge.Deserializer<Integer>() {
+            @NonNull
+            @Override
+            public Integer deserialize(DataBridge.Reader reader) throws IOException {
+                return Integer.parseInt(reader.getString());
+            }
+        };
     }
 
-    public static SerializableToJSON wrapSerializableObj(Object obj) {
-        // Converts an arbitrary object into a SerializableToJSON subclass.
-        // Note that obj will always be non-null.
-        if(obj instanceof SerializableToJSON) {
-            return (SerializableToJSON)obj;
-        }
-        else if(obj instanceof String) {
-            return new StringSerializableToJSON((String)obj);
-        }
-        else if(obj instanceof Integer) {
-            return new IntegerSerializableToJSON((Integer)obj);
-        }
-        else if(obj instanceof Boolean) {
-            return new BooleanSerializableToJSON((Boolean)obj);
-        }
-        else if(obj instanceof BigDecimal) {
-            return new BigDecimalSerializableToJSON((BigDecimal)obj);
-        }
-        else {
-            // Anything else is unsupported.
-            throw new IllegalStateException("class = " + obj.getClass().getSimpleName() + " obj = " + obj);
-        }
+    public static class BooleanSerializable {
+        public static final DataBridge.Serializer<Boolean> SERIALIZER = new DataBridge.Serializer<Boolean>() {
+            @Override
+            public void serialize(DataBridge.Writer writer, @NonNull Boolean obj) throws IOException {
+                writer.putString(Boolean.toString(obj));
+            }
+        };
+
+        public static final DataBridge.Deserializer<Boolean> DESERIALIZER = new DataBridge.Deserializer<Boolean>() {
+            @NonNull
+            @Override
+            public Boolean deserialize(DataBridge.Reader reader) throws IOException {
+                return Boolean.parseBoolean(reader.getString());
+            }
+        };
     }
 
-    public static ExportableToJSON wrapExportableObj(Object obj) {
-        // Converts an arbitrary object into a ExportableToJSON subclass.
-        // Note that obj will always be non-null.
-        if(obj instanceof ExportableToJSON) {
-            return (ExportableToJSON)obj;
-        }
-        else {
-            // Anything else is unsupported.
-            throw new IllegalStateException("class = " + obj.getClass().getSimpleName() + " obj = " + obj);
-        }
-    }
+    public static class BigDecimalSerializable {
+        public static final DataBridge.Serializer<BigDecimal> SERIALIZER = new DataBridge.Serializer<BigDecimal>() {
+            @Override
+            public void serialize(DataBridge.Writer writer, @NonNull BigDecimal obj) throws IOException {
+                writer.putString(obj.toString());
+            }
+        };
 
-    @SuppressWarnings("unchecked")
-    public static Class<? extends SerializableToJSON> wrapSerializableClass(Class<?> clazz) {
-        // Converts an arbitrary class into a SerializableToJSON class.
-        if(SerializableToJSON.class.isAssignableFrom(clazz)) {
-            return (Class<? extends SerializableToJSON>)clazz;
-        }
-        else if(String.class.isAssignableFrom(clazz)) {
-            return StringSerializableToJSON.class;
-        }
-        else if(Integer.class.isAssignableFrom(clazz)) {
-            return IntegerSerializableToJSON.class;
-        }
-        else if(Boolean.class.isAssignableFrom(clazz)) {
-            return BooleanSerializableToJSON.class;
-        }
-        else if(BigDecimal.class.isAssignableFrom(clazz)) {
-            return BigDecimalSerializableToJSON.class;
-        }
-        else {
-            // Anything else is unsupported.
-            throw new IllegalStateException("class = " + clazz.getSimpleName());
-        }
-    }
-
-    private static class StringSerializableToJSON implements SerializableToJSON {
-        String obj;
-        private StringSerializableToJSON(String obj) {
-            this.obj = obj;
-        }
-
-        @Override
-        public void serializeToJSON(Writer o) throws IOException {
-            o.putString(obj);
-        }
-
-        @Keep
-        public static String deserializeFromJSON(Reader o) throws IOException {
-            return o.getString();
-        }
-    }
-
-    private static class IntegerSerializableToJSON implements SerializableToJSON {
-        int obj;
-        private IntegerSerializableToJSON(int obj) {
-            this.obj = obj;
-        }
-
-        @Override
-        public void serializeToJSON(DataBridge.Writer o) throws IOException {
-            o.putString(Integer.toString(obj));
-        }
-
-        @Keep
-        public static int deserializeFromJSON(DataBridge.Reader o) throws IOException {
-            return Integer.parseInt(o.getString());
-        }
-    }
-
-    private static class BooleanSerializableToJSON implements SerializableToJSON {
-        boolean obj;
-        private BooleanSerializableToJSON(boolean obj) {
-            this.obj = obj;
-        }
-
-        @Override
-        public void serializeToJSON(Writer o) throws IOException {
-            o.putString(Boolean.toString(obj));
-        }
-
-        @Keep
-        public static boolean deserializeFromJSON(Reader o) throws IOException {
-            return Boolean.parseBoolean(o.getString());
-        }
-    }
-
-    private static class BigDecimalSerializableToJSON implements SerializableToJSON {
-        BigDecimal obj;
-        private BigDecimalSerializableToJSON(BigDecimal obj) {
-            this.obj = obj;
-        }
-
-        @Override
-        public void serializeToJSON(DataBridge.Writer o) throws IOException {
-            o.putString(obj.toString());
-        }
-
-        @Keep
-        public static BigDecimal deserializeFromJSON(DataBridge.Reader o) throws IOException {
-            return new BigDecimal(o.getString());
-        }
+        public static final DataBridge.Deserializer<BigDecimal> DESERIALIZER = new DataBridge.Deserializer<BigDecimal>() {
+            @NonNull
+            @Override
+            public BigDecimal deserialize(DataBridge.Reader reader) throws IOException {
+                return new BigDecimal(reader.getString());
+            }
+        };
     }
 }

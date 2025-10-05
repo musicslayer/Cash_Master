@@ -8,6 +8,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.data.persistent.app.LedgerData;
 import com.musicslayer.cashmaster.dialog.AddLineItemDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.ledger.LineItem;
@@ -61,7 +62,7 @@ public class MonthLedgerView extends LinearLayout {
                         int year = ((AddLineItemDialog)dialog).year;
                         String month = ((AddLineItemDialog)dialog).month;
 
-                        YearLedger yearLedger = YearLedger.getYearLedger(year);
+                        YearLedger yearLedger = LedgerData.ledger.getYearLedger(year);
                         yearLedger.addLineItem(month, name, amount, isIncome);
 
                         onLineItemChangeListener.onChange();

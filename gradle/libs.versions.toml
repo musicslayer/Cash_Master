@@ -1,9 +1,9 @@
 [versions]
-gradle = "8.8.0"
+gradle = "8.8.2"
 
 commonsIo = "2.18.0"
-constraintlayout = "2.2.0"
-navigationUi = "2.8.5"
+constraintlayout = "2.2.1"
+navigationUi = "2.9.5"
 retoast = "1.7.0"
 
 [libraries]

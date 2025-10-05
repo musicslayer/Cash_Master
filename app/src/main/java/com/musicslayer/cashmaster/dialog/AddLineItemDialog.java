@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.data.persistent.app.LedgerData;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ToastUtil;
 import com.musicslayer.cashmaster.view.red.AmountEditText;
@@ -69,7 +70,7 @@ public class AddLineItemDialog extends BaseDialog {
                     name = name.trim();
                     name = name.toUpperCase();
 
-                    YearLedger yearLedger = YearLedger.getYearLedger(year);
+                    YearLedger yearLedger = LedgerData.ledger.getYearLedger(year);
 
                     if (yearLedger.hasLineItem(month, name)) {
                         ToastUtil.showToast("line_item_exists");

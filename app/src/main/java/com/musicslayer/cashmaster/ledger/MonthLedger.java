@@ -1,6 +1,6 @@
 package com.musicslayer.cashmaster.ledger;
 
-import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 
@@ -10,44 +10,10 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class MonthLedger implements DataBridge.SerializableToJSON {
+public class MonthLedger {
     public int year;
     public String month;
     public ArrayList<LineItem> lineItems = new ArrayList<>();
-
-    @Override
-    public void serializeToJSON(DataBridge.Writer o) throws IOException {
-        o.beginObject()
-            .serialize("!V!", "1", String.class)
-            .serialize("year", year, Integer.class)
-            .serialize("month", month, String.class)
-            .serializeArrayList("lineItems", lineItems, LineItem.class)
-            .endObject();
-    }
-
-    @Keep
-    public static MonthLedger deserializeFromJSON(DataBridge.Reader o) throws IOException {
-        o.beginObject();
-
-        String version = o.deserialize("!V!", String.class);
-        MonthLedger monthLedger = new MonthLedger();
-
-        if("1".equals(version)) {
-            int year = o.deserialize("year", Integer.class);
-            String month = o.deserialize("month", String.class);
-            ArrayList<LineItem> lineItems = o.deserializeArrayList("lineItems", LineItem.class);
-            o.endObject();
-
-            monthLedger.year = year;
-            monthLedger.month = month;
-            monthLedger.lineItems = lineItems;
-        }
-        else {
-            throw new IllegalStateException("version = " + version);
-        }
-
-        return monthLedger;
-    }
 
     public void addLineItem(int year, String month, String name, BigDecimal amount, boolean isIncome) {
         LineItem lineItem = new LineItem();
@@ -123,4 +89,43 @@ public class MonthLedger implements DataBridge.SerializableToJSON {
         });
         return expenses;
     }
+
+    public static final DataBridge.Serializer<MonthLedger> SERIALIZER = new DataBridge.Serializer<MonthLedger>() {
+        @Override
+        public void serialize(DataBridge.Writer writer, @NonNull MonthLedger obj) throws IOException {
+            writer.beginObject()
+                .serialize("!V!", "1", DataBridge.StringSerializable.SERIALIZER)
+                .serialize("year", obj.year, DataBridge.IntegerSerializable.SERIALIZER)
+                .serialize("month", obj.month, DataBridge.StringSerializable.SERIALIZER)
+                .serializeArrayList("lineItems", obj.lineItems, LineItem.SERIALIZER)
+                .endObject();
+        }
+    };
+
+    public static final DataBridge.Deserializer<MonthLedger> DESERIALIZER = new DataBridge.Deserializer<MonthLedger>() {
+        @NonNull
+        @Override
+        public MonthLedger deserialize(DataBridge.Reader reader) throws IOException {
+            reader.beginObject();
+
+            String version = reader.deserialize("!V!", DataBridge.StringSerializable.DESERIALIZER);
+            MonthLedger monthLedger = new MonthLedger();
+
+            if("1".equals(version)) {
+                int year = reader.deserialize("year", DataBridge.IntegerSerializable.DESERIALIZER);
+                String month = reader.deserialize("month", DataBridge.StringSerializable.DESERIALIZER);
+                ArrayList<LineItem> lineItems = reader.deserializeArrayList("lineItems", LineItem.DESERIALIZER);
+                reader.endObject();
+
+                monthLedger.year = year;
+                monthLedger.month = month;
+                monthLedger.lineItems = lineItems;
+            }
+            else {
+                throw new IllegalStateException("version = " + version);
+            }
+
+            return monthLedger;
+        }
+    };
 }

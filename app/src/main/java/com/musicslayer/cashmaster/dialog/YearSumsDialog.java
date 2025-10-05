@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.data.persistent.app.LedgerData;
 import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.PixelUtil;
@@ -39,7 +40,7 @@ public class YearSumsDialog extends BaseDialog {
         Toolbar toolbar = findViewById(R.id.year_sums_dialog_toolbar);
         toolbar.setSubtitle("" + year);
 
-        YearLedger yearLedger = YearLedger.getYearLedger(year);
+        YearLedger yearLedger = LedgerData.ledger.getYearLedger(year);
 
         // Current year total
         BigDecimal total = yearLedger.getTotal();

@@ -13,13 +13,14 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 
 import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.data.bridge.DataBridge;
 import com.musicslayer.cashmaster.data.persistent.app.Appearance;
-import com.musicslayer.cashmaster.data.persistent.app.YearLedgerList;
+import com.musicslayer.cashmaster.data.persistent.app.LedgerData;
 import com.musicslayer.cashmaster.dialog.AddYearDialog;
 import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
 import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
 import com.musicslayer.cashmaster.dialog.YearSumsDialog;
-import com.musicslayer.cashmaster.ledger.YearLedger;
+import com.musicslayer.cashmaster.ledger.Ledger;
 import com.musicslayer.cashmaster.util.ClipboardUtil;
 import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.FileUtil;
@@ -57,8 +58,8 @@ public class MainActivity extends BaseActivity {
                 if(((AddYearDialog)dialog).isComplete) {
                     // Add and then switch to the new year.
                     int newYear = ((AddYearDialog)dialog).user_YEAR;
-                    YearLedger.addYear(newYear);
-                    YearLedger.setCurrentYear(newYear);
+                    LedgerData.ledger.addYear(newYear);
+                    LedgerData.ledger.setCurrentYear(newYear);
 
                     updateLayout();
                 }
@@ -83,7 +84,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 yearPopup.getMenu().clear();
 
-                ArrayList<Integer> years = YearLedger.getAllYears();
+                ArrayList<Integer> years = LedgerData.ledger.getAllYears();
                 for(int year : years) {
                     yearPopup.getMenu().add("" + year);
                 }
@@ -95,7 +96,7 @@ public class MainActivity extends BaseActivity {
         yearPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 int newYear = Integer.parseInt(item.toString());
-                YearLedger.setCurrentYear(newYear);
+                LedgerData.ledger.setCurrentYear(newYear);
 
                 updateLayout();
                 return true;
@@ -110,10 +111,10 @@ public class MainActivity extends BaseActivity {
                 if(((ConfirmDeleteYearDialog)dialog).isComplete) {
                     // Set current year to something nearby and then remove the year.
                     int oldYear = ((ConfirmDeleteYearDialog)dialog).year;
-                    int newYear = YearLedger.getNearestYear(oldYear);
+                    int newYear = LedgerData.ledger.getNearestYear(oldYear);
 
-                    YearLedger.setCurrentYear(newYear);
-                    YearLedger.removeYear(oldYear);
+                    LedgerData.ledger.setCurrentYear(newYear);
+                    LedgerData.ledger.removeYear(oldYear);
 
                     updateLayout();
                 }
@@ -125,11 +126,11 @@ public class MainActivity extends BaseActivity {
         deleteYearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(YearLedger.map_yearLedgers.size() == 1) {
+                if(LedgerData.ledger.map_yearLedgers.size() == 1) {
                     ToastUtil.showToast("cannot_delete_only_year");
                 }
                 else {
-                    confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteYearDialog.class, YearLedger.currentYearLedger.year);
+                    confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteYearDialog.class, LedgerData.ledger.currentYearLedger.year);
                     confirmDeleteItemDialogFragment.show(MainActivity.this, "delete_year");
                 }
             }
@@ -140,7 +141,7 @@ public class MainActivity extends BaseActivity {
         yearSumsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BaseDialogFragment.newInstance(YearSumsDialog.class, YearLedger.currentYearLedger.year).show(MainActivity.this, "year_sums");
+                BaseDialogFragment.newInstance(YearSumsDialog.class, LedgerData.ledger.currentYearLedger.year).show(MainActivity.this, "year_sums");
             }
         });
 
@@ -168,7 +169,9 @@ public class MainActivity extends BaseActivity {
 
                         if(!"null".equals(clipboardText)) {
                             if(JSONUtil.isValidJSON(clipboardText)) {
-                                new YearLedgerList().doImport(clipboardText);
+                                LedgerData.ledger = DataBridge.deserialize(clipboardText, Ledger.DESERIALIZER);
+                                LedgerData.saveAllData();
+
                                 updateLayout();
                                 ToastUtil.showToast("import_clipboard_success");
                             }
@@ -180,13 +183,13 @@ public class MainActivity extends BaseActivity {
                         break;
                     case "Export (Clipboard)": {
                         // Export ledger data to clipboard.
-                        String json = new YearLedgerList().doExport();
+                        String json = DataBridge.serialize(LedgerData.ledger, Ledger.SERIALIZER);
                         ClipboardUtil.exportText("export_data", json, true);
                         break;
                     }
                     case "Export (Email)": {
                         // Export ledger data to email.
-                        String json = new YearLedgerList().doExport();
+                        String json = DataBridge.serialize(LedgerData.ledger, Ledger.SERIALIZER);
 
                         // Create temp file with exported data and email it.
                         ArrayList<File> fileArrayList = new ArrayList<>();
@@ -255,10 +258,10 @@ public class MainActivity extends BaseActivity {
     public void updateLayout() {
         // Current year
         Toolbar toolbar = findViewById(R.id.main_toolbar);
-        toolbar.setSubtitle("" + YearLedger.currentYearLedger.year);
+        toolbar.setSubtitle("" + LedgerData.ledger.currentYearLedger.year);
 
         // Current year total
-        BigDecimal total = YearLedger.currentYearLedger.getTotal();
+        BigDecimal total = LedgerData.ledger.currentYearLedger.getTotal();
         String yearTotalStr = "Total: $" + total.abs();
 
         TextView yearTextView = findViewById(R.id.main_yearTotalTextView);
@@ -289,7 +292,7 @@ public class MainActivity extends BaseActivity {
         LinearLayoutCompat L = findViewById(R.id.main_todoLinearLayout);
         L.removeAllViews();
 
-        YearLedgerView yearLedgerView = new YearLedgerView(this, YearLedger.currentYearLedger);
+        YearLedgerView yearLedgerView = new YearLedgerView(this, LedgerData.ledger.currentYearLedger);
         yearLedgerView.setOnLineItemChangeListener(new YearLedgerView.OnLineItemChangeListener() {
             @Override
             public void onChange() {
