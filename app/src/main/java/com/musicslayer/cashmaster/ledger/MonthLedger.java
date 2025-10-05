@@ -93,12 +93,12 @@ public class MonthLedger {
     public static final DataBridge.Serializer<MonthLedger> SERIALIZER = new DataBridge.Serializer<MonthLedger>() {
         @Override
         public void serialize(DataBridge.Writer writer, @NonNull MonthLedger obj) throws IOException {
-            writer.beginObject()
-                .serialize("!V!", "1", DataBridge.StringSerializable.SERIALIZER)
-                .serialize("year", obj.year, DataBridge.IntegerSerializable.SERIALIZER)
-                .serialize("month", obj.month, DataBridge.StringSerializable.SERIALIZER)
-                .serializeArrayList("lineItems", obj.lineItems, LineItem.SERIALIZER)
-                .endObject();
+            writer.beginObject();
+            writer.serialize("!V!", "1", DataBridge.StringSerializable.SERIALIZER);
+            writer.serialize("year", obj.year, DataBridge.IntegerSerializable.SERIALIZER);
+            writer.serialize("month", obj.month, DataBridge.StringSerializable.SERIALIZER);
+            writer.serializeArrayList("lineItems", obj.lineItems, LineItem.SERIALIZER);
+            writer.endObject();
         }
     };
 

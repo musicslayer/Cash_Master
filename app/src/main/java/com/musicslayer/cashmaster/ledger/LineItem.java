@@ -59,14 +59,14 @@ public class LineItem implements Parcelable {
     public static final DataBridge.Serializer<LineItem> SERIALIZER = new DataBridge.Serializer<LineItem>() {
         @Override
         public void serialize(DataBridge.Writer writer, @NonNull LineItem obj) throws IOException {
-            writer.beginObject()
-                .serialize("!V!", "1", DataBridge.StringSerializable.SERIALIZER)
-                .serialize("year", obj.year, DataBridge.IntegerSerializable.SERIALIZER)
-                .serialize("month", obj.month, DataBridge.StringSerializable.SERIALIZER)
-                .serialize("name", obj.name, DataBridge.StringSerializable.SERIALIZER)
-                .serialize("amount", obj.amount, DataBridge.BigDecimalSerializable.SERIALIZER)
-                .serialize("isIncome", obj.isIncome, DataBridge.BooleanSerializable.SERIALIZER)
-                .endObject();
+            writer.beginObject();
+            writer.serialize("!V!", "1", DataBridge.StringSerializable.SERIALIZER);
+            writer.serialize("year", obj.year, DataBridge.IntegerSerializable.SERIALIZER);
+            writer.serialize("month", obj.month, DataBridge.StringSerializable.SERIALIZER);
+            writer.serialize("name", obj.name, DataBridge.StringSerializable.SERIALIZER);
+            writer.serialize("amount", obj.amount, DataBridge.BigDecimalSerializable.SERIALIZER);
+            writer.serialize("isIncome", obj.isIncome, DataBridge.BooleanSerializable.SERIALIZER);
+            writer.endObject();
         }
     };
 

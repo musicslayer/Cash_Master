@@ -87,11 +87,11 @@ public class YearLedger {
     public static final DataBridge.Serializer<YearLedger> SERIALIZER = new DataBridge.Serializer<YearLedger>() {
         @Override
         public void serialize(DataBridge.Writer writer, @NonNull YearLedger obj) throws IOException {
-            writer.beginObject()
-                .serialize("!V!", "1", DataBridge.StringSerializable.SERIALIZER)
-                .serialize("year", obj.year, DataBridge.IntegerSerializable.SERIALIZER)
-                .serializeArrayList("monthLedgers", obj.monthLedgers, MonthLedger.SERIALIZER)
-                .endObject();
+            writer.beginObject();
+            writer.serialize("!V!", "1", DataBridge.StringSerializable.SERIALIZER);
+            writer.serialize("year", obj.year, DataBridge.IntegerSerializable.SERIALIZER);
+            writer.serializeArrayList("monthLedgers", obj.monthLedgers, MonthLedger.SERIALIZER);
+            writer.endObject();
         }
     };
 

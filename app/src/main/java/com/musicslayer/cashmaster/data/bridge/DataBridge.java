@@ -212,42 +212,35 @@ public class DataBridge {
             jsonWriter = new JsonWriter(stringWriter);
         }
 
-        public Writer putName(String s) throws IOException {
+        public void putName(String s) throws IOException {
             jsonWriter.name(s);
-            return this;
         }
 
-        public Writer putString(String s) throws IOException {
+        public void putString(String s) throws IOException {
             jsonWriter.value(s);
-            return this;
         }
 
-        public Writer putNull() throws IOException {
+        public void putNull() throws IOException {
             jsonWriter.nullValue();
-            return this;
         }
 
-        public Writer beginObject() throws IOException {
+        public void beginObject() throws IOException {
             jsonWriter.beginObject();
-            return this;
         }
 
-        public Writer endObject() throws IOException {
+        public void endObject() throws IOException {
             jsonWriter.endObject();
-            return this;
         }
 
-        public Writer beginArray() throws IOException {
+        public void beginArray() throws IOException {
             jsonWriter.beginArray();
-            return this;
         }
 
-        public Writer endArray() throws IOException {
+        public void endArray() throws IOException {
             jsonWriter.endArray();
-            return this;
         }
 
-        public <T> Writer serialize(String key, T obj, Serializer<T> serializerT) throws IOException {
+        public <T> void serialize(String key, T obj, Serializer<T> serializerT) throws IOException {
             if(key != null) {
                 putName(key);
             }
@@ -258,11 +251,9 @@ public class DataBridge {
             else {
                 serializerT.serialize(this, obj);
             }
-
-            return this;
         }
 
-        public <T> Writer serializeArrayList(String key, ArrayList<T> arrayList, Serializer<T> serializerT) throws IOException {
+        public <T> void serializeArrayList(String key, ArrayList<T> arrayList, Serializer<T> serializerT) throws IOException {
             if(key != null) {
                 putName(key);
             }
@@ -277,11 +268,9 @@ public class DataBridge {
                 }
                 jsonWriter.endArray();
             }
-
-            return this;
         }
 
-        public <T, U> Writer serializeHashMap(String key, HashMap<T, U> hashMap, Serializer<T> serializerT, Serializer<U> serializerU) throws IOException {
+        public <T, U> void serializeHashMap(String key, HashMap<T, U> hashMap, Serializer<T> serializerT, Serializer<U> serializerU) throws IOException {
             if(key != null) {
                 putName(key);
             }
@@ -301,8 +290,6 @@ public class DataBridge {
                 serializeArrayList("values", valueArrayList, serializerU);
                 jsonWriter.endObject();
             }
-
-            return this;
         }
     }
 
@@ -328,24 +315,20 @@ public class DataBridge {
             return null;
         }
 
-        public Reader beginObject() throws IOException {
+        public void beginObject() throws IOException {
             jsonReader.beginObject();
-            return this;
         }
 
-        public Reader endObject() throws IOException {
+        public void endObject() throws IOException {
             jsonReader.endObject();
-            return this;
         }
 
-        public Reader beginArray() throws IOException {
+        public void beginArray() throws IOException {
             jsonReader.beginArray();
-            return this;
         }
 
-        public Reader endArray() throws IOException {
+        public void endArray() throws IOException {
             jsonReader.endArray();
-            return this;
         }
 
         public <T> T deserialize(String key, Deserializer<T> deserializerT) throws IOException {

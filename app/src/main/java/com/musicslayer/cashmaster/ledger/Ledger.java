@@ -93,11 +93,11 @@ public class Ledger {
     public static final DataBridge.Serializer<Ledger> SERIALIZER = new DataBridge.Serializer<Ledger>() {
         @Override
         public void serialize(DataBridge.Writer writer, @NonNull Ledger obj) throws IOException {
-            writer.beginObject()
-                .serialize("!V!", "2", DataBridge.StringSerializable.SERIALIZER)
-                .serializeHashMap("yearLedgers", obj.map_yearLedgers, DataBridge.IntegerSerializable.SERIALIZER, YearLedger.SERIALIZER)
-                .serialize("currentYear", obj.currentYearLedger.year, DataBridge.IntegerSerializable.SERIALIZER)
-                .endObject();
+            writer.beginObject();
+            writer.serialize("!V!", "2", DataBridge.StringSerializable.SERIALIZER);
+            writer.serializeHashMap("yearLedgers", obj.map_yearLedgers, DataBridge.IntegerSerializable.SERIALIZER, YearLedger.SERIALIZER);
+            writer.serialize("currentYear", obj.currentYearLedger.year, DataBridge.IntegerSerializable.SERIALIZER);
+            writer.endObject();
         }
     };
 
