@@ -9,17 +9,10 @@ import com.musicslayer.cashmaster.app.App;
 import com.musicslayer.cashmaster.util.AppearanceUtil;
 
 abstract public class BaseActivity extends AppCompatActivity {
-    // Needed when the current activity is different than the activity captured in a closure.
-    private static BaseActivity activity;
-
     abstract public void createLayout(Bundle savedInstanceState);
 
     // An optional method that updates the activity's layout. This can be called by dialogs started from the activity.
     public void updateLayout() {}
-
-    public static void setCurrentActivity(BaseActivity activity) {
-        BaseActivity.activity = activity;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +41,6 @@ abstract public class BaseActivity extends AppCompatActivity {
             }
         }
 
-        setCurrentActivity(this);
         AppearanceUtil.applyAppearance(this);
 
         createLayout(savedInstanceState);

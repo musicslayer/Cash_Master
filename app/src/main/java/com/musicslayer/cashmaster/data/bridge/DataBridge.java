@@ -204,8 +204,8 @@ public class DataBridge {
     }
 
     public static class Writer {
-        public JsonWriter jsonWriter;
-        public StringWriter stringWriter;
+        final public JsonWriter jsonWriter;
+        final public StringWriter stringWriter;
 
         public Writer() {
             stringWriter = new StringWriter();
@@ -294,8 +294,8 @@ public class DataBridge {
     }
 
     public static class Reader {
-        public JsonReader jsonReader;
-        public StringReader stringReader;
+        final public JsonReader jsonReader;
+        final public StringReader stringReader;
 
         public Reader(String s) {
             stringReader = new StringReader(s);

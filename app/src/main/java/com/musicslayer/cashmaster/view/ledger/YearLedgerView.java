@@ -1,14 +1,10 @@
 package com.musicslayer.cashmaster.view.ledger;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.musicslayer.cashmaster.ledger.MonthLedger;
 import com.musicslayer.cashmaster.ledger.YearLedger;
-import com.musicslayer.cashmaster.util.ViewUtil;
-
-import java.util.ArrayList;
 
 public class YearLedgerView extends LinearLayout {
     public YearLedger yearLedger;
@@ -36,21 +32,9 @@ public class YearLedgerView extends LinearLayout {
 
             for(MonthLedger monthLedger : yearLedger.monthLedgers) {
                 MonthLedgerView monthLedgerView = new MonthLedgerView(context, monthLedger);
+                monthLedgerView.setOnAddButtonClickListener((MonthLedgerView.OnAddButtonClickListener)context);
                 this.addView(monthLedgerView);
             }
         }
-    }
-
-    public void setOnLineItemChangeListener(YearLedgerView.OnLineItemChangeListener onLineItemChangeListener) {
-        ArrayList<View> children = ViewUtil.getAllChildren(this);
-        for(View child : children) {
-            if(child instanceof MonthLedgerView) {
-                ((MonthLedgerView) child).setOnLineItemChangeListener(onLineItemChangeListener);
-            }
-        }
-    }
-
-    abstract public static class OnLineItemChangeListener {
-        abstract public void onChange();
     }
 }

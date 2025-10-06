@@ -1,7 +1,6 @@
 package com.musicslayer.cashmaster.activity;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,17 +15,22 @@ import com.musicslayer.cashmaster.R;
 import com.musicslayer.cashmaster.data.bridge.DataBridge;
 import com.musicslayer.cashmaster.data.persistent.app.Appearance;
 import com.musicslayer.cashmaster.data.persistent.app.LedgerData;
-import com.musicslayer.cashmaster.dialog.AddYearDialog;
-import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
-import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialog;
-import com.musicslayer.cashmaster.dialog.YearSumsDialog;
+import com.musicslayer.cashmaster.dialog.AddLineItemDialogFragment;
+import com.musicslayer.cashmaster.dialog.AddYearDialogFragment;
+import com.musicslayer.cashmaster.dialog.ConfirmDeleteYearDialogFragment;
+import com.musicslayer.cashmaster.dialog.EditLineItemDialogFragment;
+import com.musicslayer.cashmaster.dialog.YearSumsDialogFragment;
 import com.musicslayer.cashmaster.ledger.Ledger;
+import com.musicslayer.cashmaster.ledger.LineItem;
+import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ClipboardUtil;
 import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.FileUtil;
 import com.musicslayer.cashmaster.util.JSONUtil;
 import com.musicslayer.cashmaster.util.MessageUtil;
 import com.musicslayer.cashmaster.util.ToastUtil;
+import com.musicslayer.cashmaster.view.ledger.LineItemView;
+import com.musicslayer.cashmaster.view.ledger.MonthLedgerView;
 import com.musicslayer.cashmaster.view.ledger.YearLedgerView;
 
 import java.io.File;
@@ -36,7 +40,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements
+        MonthLedgerView.OnAddButtonClickListener,
+        LineItemView.OnEditButtonClickListener,
+        AddLineItemDialogFragment.AddLineItemDialogFragmentListener,
+        AddYearDialogFragment.AddYearDialogFragmentListener,
+        ConfirmDeleteYearDialogFragment.ConfirmDeleteYearDialogFragmentListener,
+        EditLineItemDialogFragment.EditLineItemDialogFragmentListener {
+
     @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
@@ -51,27 +62,12 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         // Add Year Button
-        BaseDialogFragment addYearDialogFragment = BaseDialogFragment.newInstance(AddYearDialog.class);
-        addYearDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if(((AddYearDialog)dialog).isComplete) {
-                    // Add and then switch to the new year.
-                    int newYear = ((AddYearDialog)dialog).user_YEAR;
-                    LedgerData.ledger.addYear(newYear);
-                    LedgerData.ledger.setCurrentYear(newYear);
-
-                    updateLayout();
-                }
-            }
-        });
-        addYearDialogFragment.restoreListeners(this, "add_year");
-
         AppCompatImageButton addYearButton = findViewById(R.id.main_addYearButton);
         addYearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addYearDialogFragment.show(MainActivity.this, "add_year");
+                AddYearDialogFragment addYearDialogFragment = AddYearDialogFragment.newInstance();
+                addYearDialogFragment.show(getSupportFragmentManager(),"AddYearDialogFragment");
             }
         });
 
@@ -103,25 +99,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        // Confirm Delete Button
-        BaseDialogFragment confirmDeleteItemDialogFragment = BaseDialogFragment.newInstance(ConfirmDeleteYearDialog.class, -1);
-        confirmDeleteItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if(((ConfirmDeleteYearDialog)dialog).isComplete) {
-                    // Set current year to something nearby and then remove the year.
-                    int oldYear = ((ConfirmDeleteYearDialog)dialog).year;
-                    int newYear = LedgerData.ledger.getNearestYear(oldYear);
-
-                    LedgerData.ledger.setCurrentYear(newYear);
-                    LedgerData.ledger.removeYear(oldYear);
-
-                    updateLayout();
-                }
-            }
-        });
-        confirmDeleteItemDialogFragment.restoreListeners(this, "delete_year");
-
+        // Delete Year Button
         AppCompatImageButton deleteYearButton = findViewById(R.id.main_deleteYearButton);
         deleteYearButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,8 +108,8 @@ public class MainActivity extends BaseActivity {
                     ToastUtil.showToast("cannot_delete_only_year");
                 }
                 else {
-                    confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteYearDialog.class, LedgerData.ledger.currentYearLedger.year);
-                    confirmDeleteItemDialogFragment.show(MainActivity.this, "delete_year");
+                    ConfirmDeleteYearDialogFragment confirmDeleteItemDialogFragment = ConfirmDeleteYearDialogFragment.newInstance(LedgerData.ledger.currentYearLedger.year);
+                    confirmDeleteItemDialogFragment.show(getSupportFragmentManager(), "ConfirmDeleteYearDialogFragment");
                 }
             }
         });
@@ -141,7 +119,8 @@ public class MainActivity extends BaseActivity {
         yearSumsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BaseDialogFragment.newInstance(YearSumsDialog.class, LedgerData.ledger.currentYearLedger.year).show(MainActivity.this, "year_sums");
+                YearSumsDialogFragment yearSumsDialogFragment = YearSumsDialogFragment.newInstance(LedgerData.ledger.currentYearLedger.year);
+                yearSumsDialogFragment.show(getSupportFragmentManager(), "YearSumsDialogFragment");
             }
         });
 
@@ -293,12 +272,68 @@ public class MainActivity extends BaseActivity {
         L.removeAllViews();
 
         YearLedgerView yearLedgerView = new YearLedgerView(this, LedgerData.ledger.currentYearLedger);
-        yearLedgerView.setOnLineItemChangeListener(new YearLedgerView.OnLineItemChangeListener() {
-            @Override
-            public void onChange() {
-                updateLayout();
-            }
-        });
         L.addView(yearLedgerView);
+    }
+
+    @Override
+    public void onAddButtonClick(int year, String month) {
+        AddLineItemDialogFragment addLineItemDialogFragment = AddLineItemDialogFragment.newInstance(year, month);
+        addLineItemDialogFragment.show(getSupportFragmentManager(), "AddLineItemDialogFragment");
+    }
+
+    @Override
+    public void onEditButtonClick(LineItem lineItem) {
+        EditLineItemDialogFragment editLineItemDialogFragment = EditLineItemDialogFragment.newInstance(lineItem);
+        editLineItemDialogFragment.show(getSupportFragmentManager(), "EditLineItemDialogFragment");
+    }
+
+    @Override
+    public void onAddLineItemDialogFragmentComplete(Boolean isComplete, int year, String month, String name, BigDecimal amount, boolean isIncome) {
+        if(isComplete) {
+            // Add the new line item.
+            YearLedger yearLedger = LedgerData.ledger.getYearLedger(year);
+            yearLedger.addLineItem(month, name, amount, isIncome);
+
+            updateLayout();
+        }
+    }
+
+    @Override
+    public void onAddYearDialogFragmentComplete(boolean isComplete, int newYear) {
+        if(isComplete) {
+            // Add and then switch to the new year.
+            LedgerData.ledger.addYear(newYear);
+            LedgerData.ledger.setCurrentYear(newYear);
+
+            updateLayout();
+        }
+    }
+
+    @Override
+    public void onConfirmDeleteYearDialogFragmentComplete(boolean isComplete, int yearToDelete) {
+        if(isComplete) {
+            // Set the current year to something nearby and then remove the year.
+            int newYear = LedgerData.ledger.getNearestYear(yearToDelete);
+
+            LedgerData.ledger.setCurrentYear(newYear);
+            LedgerData.ledger.removeYear(yearToDelete);
+
+            updateLayout();
+        }
+    }
+
+    @Override
+    public void onEditLineItemDialogFragmentComplete(boolean isComplete, LineItem lineItem, boolean isDelete, String newName, BigDecimal newAmount, boolean newIsIncome) {
+        if(isComplete) {
+            // Delete/Edit the line item, and then fire the listener.
+            YearLedger yearLedger = LedgerData.ledger.getYearLedger(lineItem.year);
+
+            yearLedger.removeLineItem(lineItem.month, lineItem.name);
+            if(!isDelete) {
+                yearLedger.addLineItem(lineItem.month, newName, newAmount, newIsIncome);
+            }
+
+            updateLayout();
+        }
     }
 }

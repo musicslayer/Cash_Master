@@ -2,11 +2,15 @@ package com.musicslayer.cashmaster.dialog;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -21,32 +25,47 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class YearSumsDialog extends BaseDialog {
-    public int year;
+public class YearSumsDialogFragment extends BaseDialogFragment {
+    private int input_year;
 
-    @Keep
-    public YearSumsDialog(Activity activity, Integer year) {
-        super(activity);
-        this.year = year;
+    public static YearSumsDialogFragment newInstance(int year) {
+        Bundle args = new Bundle();
+        args.putInt("year", year);
+
+        YearSumsDialogFragment fragment = new YearSumsDialogFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
-    public int getBaseViewID() {
-        return R.id.year_sums_dialog;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            input_year = getArguments().getInt("year");
+        }
     }
 
-    public void createLayout(Bundle savedInstanceState) {
-        setContentView(R.layout.dialog_year_sums);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return null;
+        }
 
-        Toolbar toolbar = findViewById(R.id.year_sums_dialog_toolbar);
-        toolbar.setSubtitle("" + year);
+        View view = inflater.inflate(R.layout.dialog_year_sums, container, false);
 
-        YearLedger yearLedger = LedgerData.ledger.getYearLedger(year);
+        toolbar = view.findViewById(R.id.year_sums_dialog_toolbar);
+
+        toolbar.setSubtitle("" + input_year);
+
+        YearLedger yearLedger = LedgerData.ledger.getYearLedger(input_year);
 
         // Current year total
         BigDecimal total = yearLedger.getTotal();
         String yearTotalStr = "Total: $" + total.abs();
 
-        TextView yearTextView = findViewById(R.id.year_sums_dialog_yearTextView);
+        TextView yearTextView = view.findViewById(R.id.year_sums_dialog_yearTextView);
         yearTextView.setText(yearTotalStr);
         if(total.compareTo(BigDecimal.ZERO) < 0) {
             yearTextView.setTextColor(ColorUtil.getThemeRed(activity));
@@ -60,7 +79,7 @@ public class YearSumsDialog extends BaseDialog {
         ArrayList<String> names = new ArrayList<>(sums.keySet());
         names.sort(null);
 
-        TableLayout ledgerTable = findViewById(R.id.year_sums_dialog_yearSumsLedgerTable);
+        TableLayout ledgerTable = view.findViewById(R.id.year_sums_dialog_yearSumsLedgerTable);
         for(String name : names) {
             BigDecimal amount = sums.get(name);
 
@@ -89,5 +108,13 @@ public class YearSumsDialog extends BaseDialog {
 
             ledgerTable.addView(row);
         }
+
+        return view;
+    }
+
+    private Toolbar toolbar;
+    @Override
+    public Toolbar getToolbar() {
+        return toolbar;
     }
 }

@@ -1,110 +1,116 @@
 package com.musicslayer.cashmaster.dialog;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import com.musicslayer.cashmaster.util.ContextUtil;
-import com.musicslayer.cashmaster.util.ReflectUtil;
+import com.musicslayer.cashmaster.R;
+import com.musicslayer.cashmaster.util.PixelUtil;
 
-public class BaseDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
-    public DialogInterface.OnShowListener SL;
-    public DialogInterface.OnDismissListener DL;
+public abstract class BaseDialogFragment extends DialogFragment {
+    abstract public Toolbar getToolbar();
 
-    public static BaseDialogFragment newInstance(Class<?> clazz, Object... args) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("class", clazz);
-        bundle.putSerializable("args", args);
-
-        BaseDialogFragment fragment = new BaseDialogFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    @Keep
-    public BaseDialogFragment() {}
+    public boolean isComplete = false;
 
     @Override
-    public void onShow(@NonNull DialogInterface dialog) {
-        if(SL != null) {
-            SL.onShow(this.getDialog());
-        }
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setCancelable(false);
+        setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
 
     @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
+    public void onStart() {
+        super.onStart();
 
-        doDismiss(dialog);
+        adjustDialog();
+        wrapInScrollView();
+        addCancelButton();
     }
 
-    public void doDismiss(@NonNull DialogInterface dialog) {
-        if(DL != null) {
-            DL.onDismiss(dialog);
+    private void wrapInScrollView() {
+        View dialogRootView = getView();
+        if (dialogRootView == null) {
+            return;
         }
-    }
 
-    public void setOnShowListener(DialogInterface.OnShowListener sl) {
-        SL = sl;
-    }
-
-    public void setOnDismissListener(DialogInterface.OnDismissListener dl) {
-        DL = dl;
-    }
-
-    @NonNull
-    @SuppressWarnings("unchecked")
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        assert bundle != null;
-
-        Class<Dialog> clazz = (Class<Dialog>)bundle.getSerializable("class");
-        Object[] argArray = (Object[])bundle.getSerializable("args");
-
-        Dialog dialog = ReflectUtil.constructDialogInstance(clazz, getActivity(), argArray);
-        dialog.setOnShowListener(this);
-
-        return dialog;
-    }
-
-    public void show(Context context, String tag) {
-        if(!isAdded()) {
-            FragmentManager fm = getFragmentManager(context);
-            this.show(fm, tag);
-            fm.executePendingTransactions();
+        ViewGroup parent = (ViewGroup) dialogRootView.getParent();
+        if (parent == null) {
+            return;
         }
+
+        ScrollView scrollView = new ScrollView(requireContext());
+        scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        parent.removeView(dialogRootView);
+        scrollView.addView(dialogRootView);
+        parent.addView(scrollView);
     }
 
-    public void restoreListeners(Context context, String tag) {
-        BaseDialogFragment bdf = (BaseDialogFragment)getFragmentByTag(context, tag);
-        if (bdf != null) {
-            bdf.setOnShowListener(SL);
-            bdf.setOnDismissListener(DL);
+    public void adjustDialog() {
+        Dialog dialog = getDialog();
+        if(dialog == null) {
+            return;
         }
+
+        Window window = dialog.getWindow();
+        if(window == null) {
+            return;
+        }
+
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        int dialogWidth = (int) (screenWidth * 0.9);
+        window.setLayout(dialogWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
-    public void updateArguments(Class<?> clazz, Object... args) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("class", clazz);
-        bundle.putSerializable("args", args);
+    public void addCancelButton() {
+        Toolbar toolbar = getToolbar();
+        if (toolbar == null) {
+            return;
+        }
 
-        this.setArguments(bundle);
-    }
+        View dialogRootView = getView();
+        if (!(dialogRootView instanceof ConstraintLayout)) {
+            // Root view must be a ConstraintLayout for the following logic to work.
+            return;
+        }
 
-    public static FragmentManager getFragmentManager(Context context) {
-        return ((AppCompatActivity)ContextUtil.getActivityFromContext(context)).getSupportFragmentManager();
-    }
+        ConstraintLayout constraintLayout = (ConstraintLayout) dialogRootView;
+        ConstraintSet constraintSet = new ConstraintSet();
 
-    public static Fragment getFragmentByTag(Context context, String tag) {
-        return getFragmentManager(context).findFragmentByTag(tag);
+        AppCompatImageButton cancelButton = new AppCompatImageButton(requireContext());
+        int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
+        cancelButton.setLayoutParams(new ViewGroup.LayoutParams(size, size));
+        cancelButton.setImageResource(R.drawable.baseline_cancel_24);
+        cancelButton.setScaleType(ImageView.ScaleType.FIT_XY);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+        // Add the button to the layout
+        cancelButton.setId(View.generateViewId());
+        constraintLayout.addView(cancelButton);
+
+        // Apply constraints to position the button
+        constraintSet.clone(constraintLayout);
+        constraintSet.connect(cancelButton.getId(), ConstraintSet.TOP, toolbar.getId(), ConstraintSet.TOP, 0);
+        constraintSet.connect(cancelButton.getId(), ConstraintSet.BOTTOM, toolbar.getId(), ConstraintSet.BOTTOM, 0);
+        constraintSet.connect(cancelButton.getId(), ConstraintSet.END, toolbar.getId(), ConstraintSet.END, PixelUtil.dpToPx(16, requireActivity()));
+        constraintSet.applyTo(constraintLayout);
     }
 }

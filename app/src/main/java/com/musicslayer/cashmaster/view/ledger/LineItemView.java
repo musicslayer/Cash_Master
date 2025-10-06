@@ -1,7 +1,6 @@
 package com.musicslayer.cashmaster.view.ledger;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -12,11 +11,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.musicslayer.cashmaster.R;
-import com.musicslayer.cashmaster.data.persistent.app.LedgerData;
-import com.musicslayer.cashmaster.dialog.BaseDialogFragment;
-import com.musicslayer.cashmaster.dialog.EditLineItemDialog;
 import com.musicslayer.cashmaster.ledger.LineItem;
-import com.musicslayer.cashmaster.ledger.YearLedger;
 import com.musicslayer.cashmaster.util.ColorUtil;
 import com.musicslayer.cashmaster.util.PixelUtil;
 
@@ -25,7 +20,6 @@ import java.math.RoundingMode;
 
 public class LineItemView extends TableRow {
     public LineItem lineItem;
-    private YearLedgerView.OnLineItemChangeListener onLineItemChangeListener;
 
     public LineItemView(Context context) {
         super(context);
@@ -49,35 +43,6 @@ public class LineItemView extends TableRow {
         else {
             setVisibility(VISIBLE);
 
-            // Edit Line Item Dialog
-            BaseDialogFragment editLineItemDialogFragment = BaseDialogFragment.newInstance(EditLineItemDialog.class, (Object) null);
-            editLineItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    if(((EditLineItemDialog)dialog).isComplete) {
-                        // Delete/Edit the line item, and then fire the listener.
-                        LineItem lineItem = ((EditLineItemDialog)dialog).lineItem;
-                        YearLedger yearLedger = LedgerData.ledger.getYearLedger(lineItem.year);
-
-                        boolean isDelete = ((EditLineItemDialog)dialog).user_ISDELETE;
-                        if(isDelete) {
-                            yearLedger.removeLineItem(lineItem.month, lineItem.name);
-                        }
-                        else {
-                            String name = ((EditLineItemDialog)dialog).user_NAME;
-                            BigDecimal amount = ((EditLineItemDialog)dialog).user_AMOUNT;
-                            boolean isIncome = ((EditLineItemDialog)dialog).user_ISINCOME;
-
-                            yearLedger.removeLineItem(lineItem.month, lineItem.name);
-                            yearLedger.addLineItem(lineItem.month, name, amount, isIncome);
-                        }
-
-                        onLineItemChangeListener.onChange();
-                    }
-                }
-            });
-            editLineItemDialogFragment.restoreListeners(context, "edit_line_item");
-
             String name = lineItem.name;
             BigDecimal amount = lineItem.amount;
             int size = getResources().getDimensionPixelSize(R.dimen.icon_size);
@@ -90,8 +55,9 @@ public class LineItemView extends TableRow {
             B_EDIT.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    editLineItemDialogFragment.updateArguments(EditLineItemDialog.class, lineItem);
-                    editLineItemDialogFragment.show(context, "edit_line_item");
+                    if(onEditButtonClickListener != null) {
+                        onEditButtonClickListener.onEditButtonClick(lineItem);
+                    }
                 }
             });
 
@@ -117,7 +83,11 @@ public class LineItemView extends TableRow {
         }
     }
 
-    public void setOnLineItemChangeListener(YearLedgerView.OnLineItemChangeListener onLineItemChangeListener) {
-        this.onLineItemChangeListener = onLineItemChangeListener;
+    private LineItemView.OnEditButtonClickListener onEditButtonClickListener;
+    public interface OnEditButtonClickListener {
+        void onEditButtonClick(LineItem lineItem);
+    }
+    public void setOnEditButtonClickListener(LineItemView.OnEditButtonClickListener listener) {
+        this.onEditButtonClickListener = listener;
     }
 }
