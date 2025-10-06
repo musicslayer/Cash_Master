@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -26,6 +27,9 @@ public class ConfirmDeleteYearDialogFragment extends BaseDialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Keep
+    public ConfirmDeleteYearDialogFragment() {};
 
     @Override
     public void onAttach(@NonNull Context context) {

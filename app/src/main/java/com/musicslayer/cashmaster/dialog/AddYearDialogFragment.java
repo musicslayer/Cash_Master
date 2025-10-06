@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -26,6 +27,9 @@ public class AddYearDialogFragment extends BaseDialogFragment {
     public static AddYearDialogFragment newInstance() {
         return new AddYearDialogFragment();
     }
+
+    @Keep
+    public AddYearDialogFragment() {};
 
     @Override
     public void onAttach(@NonNull Context context) {

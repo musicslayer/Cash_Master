@@ -9,6 +9,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -36,6 +37,9 @@ public class YearSumsDialogFragment extends BaseDialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Keep
+    public YearSumsDialogFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

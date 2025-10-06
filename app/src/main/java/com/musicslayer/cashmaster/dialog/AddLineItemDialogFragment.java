@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
@@ -42,6 +43,9 @@ public class AddLineItemDialogFragment extends BaseDialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Keep
+    public AddLineItemDialogFragment() {};
 
     @Override
     public void onAttach(@NonNull Context context) {

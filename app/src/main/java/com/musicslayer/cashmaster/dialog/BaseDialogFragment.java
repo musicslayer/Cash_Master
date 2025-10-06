@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
+import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +23,9 @@ public abstract class BaseDialogFragment extends DialogFragment {
     abstract public Toolbar getToolbar();
 
     public boolean isComplete = false;
+
+    @Keep
+    public BaseDialogFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
